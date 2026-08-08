@@ -1,0 +1,42 @@
+[project]
+name = "fiscal-mcp"
+version = "0.1.0"
+description = "Servidor MCP para o fiscal brasileiro — validação e leitura de NF-e, offline e sem certificado"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "José Torquato", email = "jltorquato12@gmail.com" }]
+keywords = ["mcp", "nfe", "nota-fiscal", "sefaz", "fiscal", "brasil", "ibs", "cbs"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: Portuguese (Brazilian)",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Office/Business :: Financial :: Accounting",
+]
+dependencies = ["lxml>=5.0", "pyyaml>=6.0"]
+
+[project.optional-dependencies]
+# O núcleo (validação, chave, rejeições) funciona sem o SDK. Só o servidor precisa.
+servidor = ["mcp>=2.0"]
+
+[project.urls]
+Homepage = "https://josetorquato.dev/fiscal-mcp/"
+Source = "https://github.com/JoseTorquato/fiscal-mcp"
+
+[project.scripts]
+fiscal-mcp = "fiscal_mcp.cli:main"
+fiscal-mcp-servidor = "fiscal_mcp.servidor:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fiscal_mcp"]
+
+# As regras vivem fora do pacote no repositório, mas precisam viajar dentro dele
+# quando instalado — senão `pip install` entrega um validador sem nenhuma regra.
+[tool.hatch.build.targets.wheel.force-include]
+"regras" = "fiscal_mcp/regras"

@@ -1,0 +1,67 @@
+grupo: estrutura
+# Elementos que precisam existir em qualquer NF-e. Não substitui a validação
+# por XSD oficial — pega o que quebra na prática antes de gastar uma transmissão.
+
+regras:
+  - id: est-ide-presente
+    tipo: existe
+    severidade: erro
+    campos: [ide/cUF, ide/natOp, ide/mod, ide/serie, ide/nNF, ide/dhEmi, ide/tpNF, ide/tpAmb]
+    mensagem: Grupo de identificação incompleto
+    acao: O grupo ide precisa de cUF, natOp, mod, serie, nNF, dhEmi, tpNF e tpAmb.
+
+  - id: est-emitente-presente
+    tipo: existe
+    severidade: erro
+    campos: [emit/CNPJ, emit/xNome, emit/enderEmit/UF]
+    mensagem: Dados do emitente incompletos
+    acao: O emitente precisa de CNPJ, razão social e UF.
+
+  - id: est-tem-item
+    tipo: existe
+    severidade: erro
+    campo: det
+    mensagem: A nota não tem nenhum item
+    acao: Toda NF-e precisa de ao menos um grupo det com prod.
+
+  - id: est-totais-presentes
+    tipo: existe
+    severidade: erro
+    campos: [total/ICMSTot/vProd, total/ICMSTot/vNF]
+    mensagem: Grupo de totais incompleto
+    acao: O grupo total/ICMSTot precisa de vProd e vNF.
+
+  - id: est-modelo-conhecido
+    tipo: valor_em
+    severidade: erro
+    campo: ide/mod
+    valores: ["55", "65"]
+    mensagem: Modelo de documento inesperado
+    acao: 55 é NF-e e 65 é NFC-e. Outro modelo não é validado por estas regras.
+
+  - id: est-ambiente-declarado
+    tipo: valor_em
+    severidade: erro
+    campo: ide/tpAmb
+    valores: ["1", "2"]
+    mensagem: Ambiente inválido
+    acao: tpAmb deve ser 1 (produção) ou 2 (homologação).
+
+  - id: est-cnpj-emitente-formato
+    tipo: formato
+    severidade: erro
+    campo: emit/CNPJ
+    padrao: "[0-9]{14}"
+    mensagem: CNPJ do emitente fora do formato
+    acao: O CNPJ vai no XML só com dígitos, sem ponto, barra ou traço.
+
+  - id: est-homologacao-razao-social
+    tipo: condicional
+    severidade: aviso
+    quando_campo: ide/tpAmb
+    quando_valor: ["2"]
+    campo: dest/xNome
+    mensagem: Nota de homologação sem o nome de destinatário exigido
+    acao: >
+      Em homologação a SEFAZ exige que o destinatário use a razão social de
+      teste prevista na legislação. Sem isso a nota é rejeitada.

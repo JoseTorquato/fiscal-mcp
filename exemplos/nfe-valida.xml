@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NF-e sintética para teste. NÃO é um documento real: os dados são fictícios e
+  o XML não tem assinatura nem protocolo de autorização.
+  A chave de acesso tem dígito verificador correto, para exercitar a validação.
+-->
+<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+  <infNFe versao="4.00" Id="NFe43260812345678000195550010000012341123456786">
+    <ide>
+      <cUF>43</cUF>
+      <cNF>12345678</cNF>
+      <natOp>Venda de mercadoria</natOp>
+      <mod>55</mod>
+      <serie>1</serie>
+      <nNF>1234</nNF>
+      <dhEmi>2026-08-08T10:00:00-03:00</dhEmi>
+      <tpNF>1</tpNF>
+      <idDest>1</idDest>
+      <cMunFG>4304606</cMunFG>
+      <tpImp>1</tpImp>
+      <tpEmis>1</tpEmis>
+      <cDV>6</cDV>
+      <tpAmb>2</tpAmb>
+      <finNFe>1</finNFe>
+      <indFinal>1</indFinal>
+      <indPres>1</indPres>
+      <procEmi>0</procEmi>
+      <verProc>fiscal-mcp-exemplo</verProc>
+    </ide>
+    <emit>
+      <CNPJ>12345678000195</CNPJ>
+      <xNome>Empresa Exemplo Ltda</xNome>
+      <enderEmit>
+        <xLgr>Rua Exemplo</xLgr>
+        <nro>100</nro>
+        <xBairro>Centro</xBairro>
+        <cMun>4304606</cMun>
+        <xMun>Canoas</xMun>
+        <UF>RS</UF>
+        <CEP>92000000</CEP>
+      </enderEmit>
+      <IE>1234567890</IE>
+      <CRT>3</CRT>
+    </emit>
+    <dest>
+      <CNPJ>98765432000188</CNPJ>
+      <xNome>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <enderDest>
+        <xLgr>Avenida Teste</xLgr>
+        <nro>200</nro>
+        <xBairro>Centro</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>Sao Paulo</xMun>
+        <UF>SP</UF>
+        <CEP>01000000</CEP>
+      </enderDest>
+      <indIEDest>9</indIEDest>
+    </dest>
+    <det nItem="1">
+      <prod>
+        <cProd>P001</cProd>
+        <xProd>Produto de exemplo A</xProd>
+        <NCM>84713012</NCM>
+        <CFOP>5102</CFOP>
+        <uCom>UN</uCom>
+        <qCom>2.0000</qCom>
+        <vUnCom>100.00</vUnCom>
+        <vProd>200.00</vProd>
+        <indTot>1</indTot>
+      </prod>
+    </det>
+    <det nItem="2">
+      <prod>
+        <cProd>P002</cProd>
+        <xProd>Produto de exemplo B</xProd>
+        <NCM>84713012</NCM>
+        <CFOP>5102</CFOP>
+        <uCom>UN</uCom>
+        <qCom>1.0000</qCom>
+        <vUnCom>50.00</vUnCom>
+        <vProd>50.00</vProd>
+        <indTot>1</indTot>
+      </prod>
+    </det>
+    <total>
+      <ICMSTot>
+        <vProd>250.00</vProd>
+        <vDesc>0.00</vDesc>
+        <vFrete>0.00</vFrete>
+        <vICMS>0.00</vICMS>
+        <vNF>250.00</vNF>
+      </ICMSTot>
+    </total>
+  </infNFe>
+</NFe>

@@ -1,0 +1,31 @@
+grupo: totais
+# Coerência aritmética. É a família de erro mais comum em integração nova, e a
+# SEFAZ rejeita por ela — mas só depois de gastar a transmissão.
+
+regras:
+  - id: tot-produtos-confere
+    tipo: soma_itens
+    severidade: erro
+    campo_item: prod/vProd
+    campo_total: total/ICMSTot/vProd
+    tolerancia: "0.01"
+    mensagem: O total de produtos não bate com a soma dos itens
+    acao: >
+      Some o vProd de cada item e compare com total/ICMSTot/vProd. Diferença de
+      centavos costuma ser arredondamento item a item.
+
+  - id: tot-nota-nao-negativa
+    tipo: formato
+    severidade: erro
+    campo: total/ICMSTot/vNF
+    padrao: "[0-9]+\\.[0-9]{2}"
+    mensagem: Valor total da nota fora do formato
+    acao: "Valores monetários vão com ponto decimal e duas casas, ex.: 1234.56."
+
+  - id: tot-produtos-formato
+    tipo: formato
+    severidade: erro
+    campo: total/ICMSTot/vProd
+    padrao: "[0-9]+\\.[0-9]{2}"
+    mensagem: Valor total de produtos fora do formato
+    acao: Valores monetários vão com ponto decimal e duas casas.

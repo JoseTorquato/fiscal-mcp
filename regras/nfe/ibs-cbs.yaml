@@ -1,0 +1,44 @@
+grupo: ibs-cbs
+#
+# ⚠️  ARQUIVO PENDENTE DE CONFIRMAÇÃO CONTRA A NOTA TÉCNICA OFICIAL
+#
+# Contexto: desde 03/08/2026 o preenchimento dos campos de IBS e CBS é
+# obrigatório nos documentos fiscais do regime regular, e notas sem eles podem
+# ser rejeitadas. 2026 é ano de transição assistida, com alíquota-teste de 1%
+# (0,1% IBS + 0,9% CBS) sem recolhimento.
+#
+# O que se sabe: os totais de IBS, CBS e Imposto Seletivo entram no grupo W03,
+# dentro do grupo de totais da NF-e.
+#
+# O que FALTA confirmar antes de marcar estas regras como vigentes:
+#   1. os nomes exatos das tags XML do grupo e de cada campo;
+#   2. em quais situações o grupo é obrigatório e em quais é dispensado;
+#   3. se há campos por item (além dos totais) e quais;
+#   4. a versão de leiaute a partir da qual valem.
+#
+# Fonte a consultar: Portal da NF-e (nfe.fazenda.gov.br), seção de notas
+# técnicas, e os atos do Comitê Gestor do IBS.
+#
+# Enquanto não confirmado, as regras ficam com severidade "aviso" e
+# status "pendente_confirmacao" — aparecem no laudo sinalizadas, mas não
+# reprovam a nota. Acusar erradamente é pior que não acusar; ver a mesma
+# postura no README, seção de limites.
+#
+# Este arquivo é, de propósito, o exemplo vivo da tese do projeto: absorver uma
+# mudança fiscal deveria ser editar dados, não código. Ver docs/spec/04-manutencao.md.
+
+regras:
+  - id: ibs-cbs-grupo-totais-presente
+    tipo: existe
+    severidade: aviso
+    status: pendente_confirmacao
+    # TODO(NT): substituir pelo caminho real do grupo W03 quando confirmado
+    campo: total/IBSCBSTot
+    mensagem: Grupo de totais de IBS/CBS não encontrado
+    referencia: Obrigatório desde 03/08/2026 para o regime regular
+    acao: >
+      A partir de 03/08/2026 os documentos fiscais do regime regular precisam
+      trazer os campos de IBS e CBS, e a nota pode ser rejeitada sem eles.
+      Confirme o leiaute exato na nota técnica vigente no Portal da NF-e.
+      ATENÇÃO: esta regra ainda não foi confirmada contra a nota técnica —
+      trate como lembrete, não como veredito.

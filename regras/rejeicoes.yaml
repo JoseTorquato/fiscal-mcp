@@ -1,0 +1,93 @@
+# Catálogo de rejeições da SEFAZ.
+#
+# O código sozinho não ajuda ninguém: "Rejeicao 539" não diz o que fazer. O que
+# o agente precisa é significado + ação, no mesmo formato de erro definido em
+# docs/spec/02-contrato-de-ferramentas.md.
+#
+# Cobertura atual: as rejeições mais frequentes em integração nova. Longe de ser
+# a lista completa — cresce conforme aparecem em uso real, e essa é justamente a
+# telemetria que vira vantagem (ver docs/spec/04-manutencao.md).
+
+rejeicoes:
+  "204":
+    significa: Duplicidade de NF-e — já existe nota autorizada com essa chave de acesso.
+    acao: >
+      Consulte a nota existente antes de tentar de novo. NÃO reemita com o mesmo
+      número e série: isso gera nova tentativa de duplicidade.
+    reversivel: true
+
+  "217":
+    significa: NF-e não consta na base de dados da SEFAZ.
+    acao: >
+      A chave consultada não existe. Confira o dígito verificador e se a nota
+      chegou a ser transmitida.
+    reversivel: true
+
+  "225":
+    significa: Falha no schema XML — o arquivo não obedece ao leiaute.
+    acao: >
+      Valide o XML contra o XSD da versão declarada antes de transmitir. A
+      mensagem completa da SEFAZ costuma indicar o elemento culpado.
+    reversivel: true
+
+  "228":
+    significa: Data de emissão muito atrasada.
+    acao: Reemita com a data corrente. Há prazo entre emissão e transmissão.
+    reversivel: true
+
+  "233":
+    significa: Inscrição estadual do destinatário não informada.
+    acao: >
+      Para contribuinte, informe a IE. Se o destinatário é isento, use o
+      indicador de IE correspondente em vez de omitir.
+    reversivel: true
+
+  "236":
+    significa: Chave de acesso com dígito verificador inválido.
+    acao: >
+      O cDV não confere com os 43 primeiros dígitos. Recalcule por módulo 11 —
+      a ferramenta validar_chave_acesso faz essa conta.
+    reversivel: true
+
+  "266":
+    significa: Série da NF-e diferente da série informada na chave de acesso.
+    acao: A série em ide/serie precisa ser a mesma codificada na chave.
+    reversivel: true
+
+  "301":
+    significa: Uso denegado — irregularidade fiscal do emitente.
+    acao: >
+      Não é erro de integração. A situação cadastral do emitente precisa ser
+      regularizada junto à SEFAZ. Nota denegada não pode ser reemitida.
+    reversivel: false
+
+  "302":
+    significa: Uso denegado — irregularidade fiscal do destinatário.
+    acao: >
+      Confira a situação cadastral do destinatário. Nota denegada fica
+      registrada e não pode ser cancelada nem reemitida para o mesmo destinatário
+      sem regularização.
+    reversivel: false
+
+  "539":
+    significa: >
+      Duplicidade de NF-e com diferença na chave de acesso — mesmo número e
+      série já autorizados, mas com chave diferente.
+    acao: >
+      Costuma indicar reemissão com código numérico (cNF) diferente. Consulte a
+      nota já autorizada e use-a; não tente forçar nova emissão.
+    reversivel: true
+
+  "610":
+    significa: Total da NF-e diferente do somatório dos itens.
+    acao: >
+      Some os vProd de todos os itens e compare com total/ICMSTot/vProd. A regra
+      tot-produtos-confere pega isso antes de transmitir.
+    reversivel: true
+
+  "999":
+    significa: Erro não catalogado no processamento da SEFAZ.
+    acao: >
+      Erro genérico do lado da SEFAZ. Tente novamente depois; se persistir,
+      verifique o status do serviço antes de investigar o seu documento.
+    reversivel: true

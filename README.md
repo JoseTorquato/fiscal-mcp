@@ -4,9 +4,47 @@
 ferramentas que um agente de IA consegue usar — com certificado digital,
 homologação e as notas técnicas da SEFAZ tratadas por baixo.
 
-> ⚠️ **Status: especificação.** Ainda não há código. Este repositório contém a
-> visão de produto, as decisões de arquitetura (ADRs) e o backlog. Se você chegou
-> aqui procurando algo instalável, ainda não é hoje.
+> **Status: fatia zero.** Já dá para validar e ler NF-e — offline, sem
+> certificado, sem transmitir nada. Emissão, cancelamento e comunicação com a
+> SEFAZ **ainda não existem** e estão condicionadas à validação de mercado
+> descrita no [ADR-0008](docs/adr/0008-validar-antes-de-construir.md).
+
+```bash
+pip install fiscal-mcp
+fiscal-mcp validar nota.xml
+```
+
+```
+  [erro] tot-produtos-confere
+      O total de produtos não bate com a soma dos itens
+      soma dos itens = 250.00, total/ICMSTot/vProd = 999.00, diferença de 749.00
+      → Some o vProd de cada item e compare com total/ICMSTot/vProd.
+
+  [aviso] ibs-cbs-grupo-totais-presente
+      Grupo de totais de IBS/CBS não encontrado
+      → Obrigatório desde 03/08/2026 para o regime regular.
+
+  1 erro(s), 1 aviso(s)
+```
+
+## O que já funciona
+
+| Ferramenta | O que faz |
+|---|---|
+| `validar_nfe` | estrutura, coerência de totais, formato e chave — com o que fazer em cada achado |
+| `explicar_nfe` | resumo estruturado do XML, em vez do documento inteiro |
+| `explicar_rejeicao` | código da SEFAZ → significado → ação, e se é reversível |
+| `validar_chave_acesso` | decompõe os 44 dígitos e confere o dígito verificador |
+
+Todas são **somente leitura e offline**: nenhuma assina, transmite, emite ou
+cancela documento. Não há como causar efeito fiscal com esta versão.
+
+Como servidor MCP:
+
+```bash
+pip install "fiscal-mcp[servidor]"
+fiscal-mcp-servidor
+```
 
 ---
 
