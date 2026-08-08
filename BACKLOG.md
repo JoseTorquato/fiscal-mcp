@@ -72,6 +72,7 @@ um fim de semana ou é incerta demais para estimar.
 | D2 | Publicar no PyPI | P | `pip install fiscal-mcp` funciona |
 | D3 | Registrar nos registries MCP | P | aparece na busca |
 | D4 | Exemplo de configuração para cliente MCP popular | P | copiar, colar, funcionar |
+| D5 | Falar com o mantenedor do `Mcp-Brasil/mcp-brasil` propondo complementaridade e listagem mútua | P | conversa feita; resposta registrada |
 
 ---
 

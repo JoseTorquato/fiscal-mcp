@@ -43,7 +43,21 @@ Por isso o produto não é o servidor. É o servidor **mantido**.
 
 ## O que existe hoje no ecossistema
 
-Pesquisa de 06/08/2026 — três projetos tocam o tema:
+Pesquisa de 06/08/2026.
+
+**O espaço de dados públicos já tem dono, e é bom.** O
+[`Mcp-Brasil/mcp-brasil`](https://github.com/Mcp-Brasil/mcp-brasil) tem 1.713
+estrelas e 533 ferramentas cobrindo 70 APIs governamentais — economia,
+legislativo, transparência, judiciário, compras públicas, saúde. É o BrasilAPI do
+mundo MCP, e é referência de higiene: política de uso aceitável, licenciamento de
+fonte por fonte, avisos de LGPD.
+
+**Ele não é concorrente — é vizinho.** Cobre *leitura de dado público*. Este
+projeto cobre *operação com efeito fiscal*: escrita, certificado ICP-Brasil,
+SEFAZ, homologação. A única menção a NF-e lá é a leitura de um campo de nota em
+API de compras públicas.
+
+Quem tenta o fiscal de verdade:
 
 | Projeto | Estrelas | Abordagem |
 |---|---|---|
@@ -53,6 +67,11 @@ Pesquisa de 06/08/2026 — três projetos tocam o tema:
 
 **Ninguém entregou integração real com SEFAZ.** Ninguém encosta em NFS-e
 municipal. A parte difícil continua aberta — e é exatamente ela que vale.
+
+Por que a diferença é estrutural: dado público é `GET` sem credencial. Emitir
+nota é escrita com efeito jurídico, exige certificado digital, assinatura XML e
+sobreviver a nota técnica. Um serve para o agente **saber**; o outro para o
+agente **fazer** — e é aí que mora o risco, o valor e o preço.
 
 ## Escopo
 

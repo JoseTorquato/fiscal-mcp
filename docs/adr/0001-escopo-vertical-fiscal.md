@@ -28,10 +28,20 @@ padrões municipais. IA gera o esqueleto; não gera a operação.
 obrigatórios nos documentos fiscais do regime regular. Isso é forcing function —
 o cliente não compra quando acha bonito, compra quando tem prazo.
 
-**3. A concorrência parou na parte fácil.** Pesquisa de 06/08/2026: três projetos
-MCP tocam nota fiscal, o melhor com 1 estrela. Um envelopa API paga de terceiro,
-outro tem SEFAZ "planejado". **Ninguém entregou integração real e ninguém encosta
-em NFS-e municipal.**
+**3. O espaço amplo já tem dono; o vertical difícil não.** Pesquisa de
+06/08/2026: o `Mcp-Brasil/mcp-brasil` tem **1.713 estrelas e 533 ferramentas**
+sobre 70 APIs públicas brasileiras. Tentar ser "o MCP do Brasil" seria disputar
+posição ocupada por um projeto maduro e com vantagem de tempo — briga perdida.
+
+Mas ele cobre **leitura de dado público**, e não toca em emissão fiscal: a única
+menção a NF-e é ler um campo de nota em API de compras públicas. Nas tentativas
+de fiscal de verdade, o melhor projeto tem 1 estrela — um envelopa API paga de
+terceiro, outro tem SEFAZ "planejado". **Ninguém entregou integração real e
+ninguém encosta em NFS-e municipal.**
+
+A fronteira é estrutural, não de esforço: dado público é `GET` sem credencial;
+emitir nota é escrita com efeito jurídico, certificado ICP-Brasil e nota técnica.
+Um faz o agente **saber**, o outro faz o agente **fazer**.
 
 **4. Disposição a pagar comprovada.** O mercado de emissores e integradores
 fiscais já existe e já cobra. Não é preciso criar categoria.
@@ -60,6 +70,7 @@ concorrente fora.
 | Catálogo amplo | commodity gerável com IA; sem forcing function |
 | Só pagamento/cobrança (Asaas, Pix) | valida mais rápido, mas APIs REST documentadas = fosso menor |
 | Registry curado de MCPs brasileiros | vira diretório; não resolve dor de ninguém |
+| Ser "o MCP Brasil" guarda-chuva | posição já ocupada pelo `Mcp-Brasil/mcp-brasil` (1.7k ⭐). Melhor ser complementar e ser listado por ele do que disputar de frente |
 
 ## Revisão
 
