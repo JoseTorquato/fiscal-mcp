@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.DS_Store
+
+# NUNCA versionar certificado digital nem senha
+*.pfx
+*.p12
+*.cer
+*.key
+.env
+.env.*
+
+# documentos internos
+_negocio/
