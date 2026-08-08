@@ -7,7 +7,7 @@ servidor de propósito — o núcleo precisa ser testável sem o SDK de MCP.
 from __future__ import annotations
 
 from . import chave as mod_chave
-from .documento import Documento, XmlInvalido
+from .documento import Documento, DocumentoNaoSuportado, XmlInvalido
 from .regras import aplica, carrega
 
 
@@ -15,6 +15,14 @@ def valida_nfe(xml: str, incluir_resumo: bool = True) -> dict:
     """Valida um XML de NF-e localmente. Não assina, não transmite, não emite."""
     try:
         doc = Documento.de_texto(xml)
+    except DocumentoNaoSuportado as exc:
+        # já sabemos qual documento é; a ação genérica só atrapalharia
+        return {
+            "ok": False,
+            "erro": str(exc),
+            "documento_identificado": exc.sigla,
+            "acao": "Acompanhe o roadmap para saber quando este documento passa a ser suportado.",
+        }
     except XmlInvalido as exc:
         return {
             "ok": False,

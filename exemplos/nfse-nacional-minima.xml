@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NFS-e sintética do padrão nacional, reduzida ao mínimo. Serve só para o
+  teste que verifica se o validador RECONHECE o documento e explica que ainda
+  não o suporta. Dados fictícios.
+-->
+<NFSe xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.01">
+  <infNFSe Id="NFS00000000000000000000000000000000000000000000000">
+    <nNFSe>1</nNFSe>
+    <cStat>100</cStat>
+    <emit>
+      <CNPJ>00000000000000</CNPJ>
+      <xNome>Prestador Exemplo</xNome>
+    </emit>
+    <valores><vLiq>100.00</vLiq></valores>
+  </infNFSe>
+</NFSe>

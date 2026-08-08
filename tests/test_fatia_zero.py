@@ -160,6 +160,25 @@ def test_comentario_no_meio_do_xml_nao_quebra():
     assert r["ok"], f"comentário no XML quebrou a validação: {ids_dos_erros(r)}"
 
 
+def test_reconhece_nfse_em_vez_de_dizer_so_que_nao_e_nfe():
+    """Erro precisa dizer QUAL documento é — descoberto ao rodar numa NFS-e real."""
+    nfse = (Path(__file__).resolve().parent.parent / "exemplos" /
+            "nfse-nacional-minima.xml").read_text(encoding="utf-8")
+    r = valida_nfe(nfse)
+    assert not r["ok"]
+    assert "NFS-e" in r["erro"], f"não identificou o documento: {r['erro']}"
+    assert "DANFE" not in r.get("acao", ""), "ação genérica contradiz o diagnóstico"
+
+
+def test_chave_de_50_digitos_e_reconhecida_como_nfse():
+    r = chave.analisa("43046062200000000000000000000000000000000000000000")
+    assert not r["ok"]
+    assert "NFS-e" in r.get("documento", "")
+    assert r.get("uf") == "RS", "deveria derivar a UF do código do município"
+    assert "completa" in r["acao"], "não pode sugerir que a chave está truncada"
+
+
+
 # ---- resumo ---------------------------------------------------------------
 
 def test_resumo_nao_vaza_documento_do_destinatario():

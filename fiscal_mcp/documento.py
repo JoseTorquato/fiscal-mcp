@@ -18,7 +18,48 @@ NS = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
 
 
 class XmlInvalido(Exception):
-    """XML malformado ou que não parece um documento fiscal."""
+    """XML malformado ou que não é o documento fiscal esperado."""
+
+
+class DocumentoNaoSuportado(XmlInvalido):
+    """É um documento fiscal reconhecível, mas de um tipo ainda não suportado.
+
+    Existe como tipo próprio para quem chama não precisar casar mensagem de
+    erro por texto — o que já quebrou uma vez.
+    """
+
+    def __init__(self, mensagem: str, sigla: str) -> None:
+        super().__init__(mensagem)
+        self.sigla = sigla
+
+
+# Outros documentos fiscais que chegam aqui por engano. Dizer "não é NF-e" é
+# tecnicamente certo e inútil: quem mandou um XML fiscal merece saber o que
+# mandou e o que esperar.
+OUTROS_DOCUMENTOS = {
+    "NFSe": ("NFS-e", "nota fiscal de serviço, padrão nacional"),
+    "infNFSe": ("NFS-e", "nota fiscal de serviço, padrão nacional"),
+    "DPS": ("DPS", "declaração de prestação de serviços, que origina a NFS-e"),
+    "CTe": ("CT-e", "conhecimento de transporte eletrônico"),
+    "infCte": ("CT-e", "conhecimento de transporte eletrônico"),
+    "MDFe": ("MDF-e", "manifesto eletrônico de documentos fiscais"),
+    "infMDFe": ("MDF-e", "manifesto eletrônico de documentos fiscais"),
+    "ConsultaNFSeResposta": ("NFS-e", "resposta de consulta de NFS-e"),
+}
+
+
+def _levanta_diagnostico(arvore: etree._Element) -> None:
+    """Levanta o erro mais informativo possível sobre o que o arquivo é."""
+    nomes = {_sem_ns(e.tag) for e in arvore.iter() if isinstance(e.tag, str)}
+    for marcador, (sigla, descricao) in OUTROS_DOCUMENTOS.items():
+        if marcador in nomes:
+            raise DocumentoNaoSuportado(
+                f"este arquivo é um {sigla} ({descricao}), não uma NF-e. "
+                f"O fiscal-mcp ainda valida apenas NF-e e NFC-e (modelos 55 e 65) — "
+                f"suporte a {sigla} está no roadmap.",
+                sigla=sigla,
+            )
+    raise XmlInvalido("não encontrei o elemento infNFe — isto não parece um XML de NF-e")
 
 
 def _sem_ns(tag) -> str:
@@ -54,9 +95,7 @@ class Documento:
         if raiz is None:  # sem namespace declarado
             raiz = next((e for e in arvore.iter() if _sem_ns(e.tag) == "infNFe"), None)
         if raiz is None:
-            raise XmlInvalido(
-                "não encontrei o elemento infNFe — isto não parece um XML de NF-e"
-            )
+            _levanta_diagnostico(arvore)
         return cls(arvore=arvore, raiz=raiz)
 
     # ---- acesso a valores -------------------------------------------------

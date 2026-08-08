@@ -27,6 +27,9 @@ UFS = {
 MODELOS = {"55": "NF-e", "65": "NFC-e", "57": "CT-e", "58": "MDF-e"}
 
 TAMANHO = 44
+TAMANHO_NFSE = 50
+"""A NFS-e do padrão nacional usa chave de 50 dígitos, começando pelo código
+IBGE do município. Reconhecemos para dar erro útil, mas ainda não validamos."""
 
 
 def calcula_dv(chave43: str) -> int:
@@ -119,6 +122,22 @@ def analisa(texto: str) -> dict:
     v = limpa(texto)
     if not v:
         return {"ok": False, "erro": "nenhum dígito encontrado no texto informado"}
+    if len(v) == TAMANHO_NFSE:
+        # A chave da NFS-e nacional começa pelo código IBGE do município (7
+        # dígitos), cujos dois primeiros são o código da UF.
+        municipio = v[:7]
+        return {
+            "ok": False,
+            "documento": "NFS-e (padrão nacional)",
+            "erro": f"esta chave tem {TAMANHO_NFSE} dígitos: é de NFS-e, não de NF-e",
+            "codigo_municipio": municipio,
+            "uf": UFS.get(municipio[:2]),
+            "acao": (
+                "A chave está completa — só é de outro documento. A NF-e usa 44 dígitos "
+                "e a NFS-e nacional usa 50. Validação de NFS-e ainda não está "
+                "implementada; está no roadmap."
+            ),
+        }
     if len(v) != TAMANHO:
         return {
             "ok": False,
