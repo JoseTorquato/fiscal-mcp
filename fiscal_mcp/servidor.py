@@ -19,8 +19,11 @@ from mcp.types import ToolAnnotations
 
 from . import __version__, rejeicoes
 from .chave import analisa as _analisa_chave
+from .nfse import analisa_chave as _analisa_chave_nfse
 from .validador import explica_nfe as _explica_nfe
+from .validador import explica_nfse as _explica_nfse
 from .validador import valida_nfe as _valida_nfe
+from .validador import valida_nfse as _valida_nfse
 
 mcp = MCPServer(
     name="fiscal-mcp",
@@ -79,6 +82,61 @@ def explicar_nfe(xml: str) -> str:
         xml: conteúdo do XML da NF-e.
     """
     return _json(_explica_nfe(xml))
+
+
+@mcp.tool(annotations=SO_LEITURA)
+def validar_nfse(xml: str, incluir_resumo: bool = True) -> str:
+    """Valida uma NFS-e do padrão nacional localmente, sem transmitir nada.
+
+    Somente leitura. Sem efeito fiscal.
+
+    Cobre a NFS-e do padrão nacional (namespace sped.fazenda.gov.br/nfse):
+    estrutura, campos obrigatórios da DPS embutida, dados do prestador, código
+    de tributação e composição da chave de 50 dígitos.
+
+    NÃO cobre padrões municipais próprios. Não verifica dígito verificador — o
+    algoritmo da NFS-e nacional ainda não foi confirmado — nem valida a
+    assinatura digital.
+
+    Args:
+        xml: conteúdo do XML da NFS-e.
+        incluir_resumo: inclui o resumo do documento junto do resultado.
+    """
+    return _json(_valida_nfse(xml, incluir_resumo=incluir_resumo))
+
+
+@mcp.tool(annotations=SO_LEITURA)
+def explicar_nfse(xml: str) -> str:
+    """Interpreta uma NFS-e do padrão nacional e devolve resumo estruturado.
+
+    Somente leitura. Sem efeito fiscal.
+
+    Traz identificação, locais de emissão e incidência, prestador, serviço e
+    valores. Documento e nome do tomador são omitidos por minimização de dado
+    pessoal; o resumo informa apenas se há tomador identificado.
+
+    Args:
+        xml: conteúdo do XML da NFS-e.
+    """
+    return _json(_explica_nfse(xml))
+
+
+@mcp.tool(annotations=SO_LEITURA)
+def validar_chave_nfse(chave: str) -> str:
+    """Analisa a chave de 50 dígitos de uma NFS-e do padrão nacional.
+
+    Somente leitura. Sem efeito fiscal.
+
+    Decompõe as posições confirmadas contra documento real: código IBGE do
+    município emissor, CNPJ do prestador, número e mês de emissão. NÃO verifica
+    dígito verificador, porque o algoritmo ainda não foi confirmado.
+
+    Para chave de NF-e (44 dígitos), use validar_chave_acesso.
+
+    Args:
+        chave: os 50 dígitos, com ou sem separadores.
+    """
+    return _json(_analisa_chave_nfse(chave))
 
 
 @mcp.tool(annotations=SO_LEITURA)

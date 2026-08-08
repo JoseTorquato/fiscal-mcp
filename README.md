@@ -33,8 +33,15 @@ fiscal-mcp validar nota.xml
 |---|---|
 | `validar_nfe` | estrutura, coerência de totais, formato e chave — com o que fazer em cada achado |
 | `explicar_nfe` | resumo estruturado do XML, em vez do documento inteiro |
+| `validar_nfse` | NFS-e do padrão nacional: estrutura, DPS embutida, prestador, serviço |
+| `explicar_nfse` | resumo estruturado da NFS-e |
 | `explicar_rejeicao` | código da SEFAZ → significado → ação, e se é reversível |
-| `validar_chave_acesso` | decompõe os 44 dígitos e confere o dígito verificador |
+| `validar_chave_acesso` | decompõe os 44 dígitos da NF-e e confere o dígito verificador |
+| `validar_chave_nfse` | decompõe os 50 dígitos da NFS-e nacional |
+
+A NFS-e cobre **apenas o padrão nacional** (namespace `sped.fazenda.gov.br/nfse`).
+Padrão municipal próprio não é reconhecido — ver
+[ADR-0006](docs/adr/0006-estrategia-nfse-municipal.md).
 
 Todas são **somente leitura e offline**: nenhuma assina, transmite, emite ou
 cancela documento. Não há como causar efeito fiscal com esta versão.

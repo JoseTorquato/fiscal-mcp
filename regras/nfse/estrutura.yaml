@@ -1,0 +1,86 @@
+grupo: estrutura
+# Regras da NFS-e do padrão nacional, derivadas de documento real (versão 1.01).
+#
+# A NFS-e é aninhada: infNFSe envolve a DPS que o prestador enviou. Os caminhos
+# abaixo são relativos ao infNFSe.
+
+regras:
+  - id: nfse-identificacao-presente
+    tipo: existe
+    severidade: erro
+    campos: [nNFSe, cStat, dhProc, verAplic]
+    mensagem: Identificação da NFS-e incompleta
+    acao: O infNFSe precisa de nNFSe, cStat, dhProc e verAplic.
+
+  - id: nfse-emitente-presente
+    tipo: existe
+    severidade: erro
+    campos: [emit/CNPJ, emit/xNome]
+    mensagem: Dados do emitente incompletos
+    acao: O grupo emit precisa de CNPJ e razão social.
+
+  - id: nfse-dps-presente
+    tipo: existe
+    severidade: erro
+    campo: DPS/infDPS
+    mensagem: A NFS-e não traz a DPS que a originou
+    acao: >
+      Toda NFS-e do padrão nacional embute a DPS declarada pelo prestador, em
+      DPS/infDPS.
+
+  - id: nfse-prestador-presente
+    tipo: existe
+    severidade: erro
+    campo: DPS/infDPS/prest/CNPJ
+    mensagem: CNPJ do prestador ausente
+    acao: O prestador é identificado em DPS/infDPS/prest.
+
+  - id: nfse-servico-descrito
+    tipo: nao_vazio
+    severidade: erro
+    campos: [DPS/infDPS/serv/cServ/cTribNac, DPS/infDPS/serv/cServ/xDescServ]
+    mensagem: Serviço sem código de tributação ou sem descrição
+    acao: >
+      O serviço precisa do código de tributação nacional (cTribNac) e da
+      descrição (xDescServ).
+
+  - id: nfse-valor-servico-presente
+    tipo: existe
+    severidade: erro
+    campo: DPS/infDPS/valores/vServPrest/vServ
+    mensagem: Valor do serviço ausente
+    acao: O valor prestado fica em DPS/infDPS/valores/vServPrest/vServ.
+
+  - id: nfse-cnpj-prestador-formato
+    tipo: formato
+    severidade: erro
+    campo: DPS/infDPS/prest/CNPJ
+    padrao: "[0-9]{14}"
+    mensagem: CNPJ do prestador fora do formato
+    acao: O CNPJ vai só com dígitos, sem ponto, barra ou traço.
+
+  - id: nfse-ambiente-declarado
+    tipo: valor_em
+    severidade: erro
+    campo: DPS/infDPS/tpAmb
+    valores: ["1", "2"]
+    mensagem: Ambiente da DPS inválido
+    acao: tpAmb deve ser 1 (produção) ou 2 (homologação).
+
+  - id: nfse-competencia-presente
+    tipo: existe
+    severidade: aviso
+    campo: DPS/infDPS/dCompet
+    mensagem: Competência não informada
+    acao: >
+      dCompet indica o mês de competência do serviço e é o que define o período
+      de apuração do ISSQN.
+
+  - id: nfse-local-incidencia
+    tipo: existe
+    severidade: aviso
+    campo: cLocIncid
+    mensagem: Município de incidência do ISSQN não informado
+    acao: >
+      O local de incidência define para qual município o ISSQN é devido — é a
+      origem mais comum de disputa entre prefeituras.

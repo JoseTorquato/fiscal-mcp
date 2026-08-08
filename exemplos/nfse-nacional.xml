@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NFS-e sintética do padrão nacional (versão 1.01). Todos os dados são
+  fictícios; a estrutura segue a de um documento real. Não tem assinatura.
+  Chave: município 4304606 (Canoas/RS), CNPJ fictício, número 1.
+-->
+<NFSe xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.01">
+  <infNFSe Id="NFS43046062200000000000001000000000000012608000000">
+    <xLocEmi>Canoas</xLocEmi>
+    <xLocPrestacao>Canoas</xLocPrestacao>
+    <nNFSe>1</nNFSe>
+    <cLocIncid>4304606</cLocIncid>
+    <xLocIncid>Canoas</xLocIncid>
+    <xTribNac>Servico de exemplo</xTribNac>
+    <verAplic>exemplo-1.0</verAplic>
+    <ambGer>2</ambGer>
+    <tpEmis>1</tpEmis>
+    <procEmi>1</procEmi>
+    <cStat>100</cStat>
+    <dhProc>2026-08-08T10:00:00-03:00</dhProc>
+    <nDFSe>1</nDFSe>
+    <emit>
+      <CNPJ>00000000000000</CNPJ>
+      <xNome>Prestador Exemplo Ltda</xNome>
+      <enderNac>
+        <xLgr>Rua Exemplo</xLgr>
+        <nro>100</nro>
+        <xBairro>Centro</xBairro>
+        <cMun>4304606</cMun>
+        <UF>RS</UF>
+        <CEP>92000000</CEP>
+      </enderNac>
+    </emit>
+    <valores>
+      <vLiq>1000.00</vLiq>
+    </valores>
+    <DPS>
+      <infDPS Id="DPS430460622000000000000010000000000001">
+        <tpAmb>2</tpAmb>
+        <dhEmi>2026-08-08T09:00:00-03:00</dhEmi>
+        <verAplic>exemplo-1.0</verAplic>
+        <serie>00001</serie>
+        <nDPS>1</nDPS>
+        <dCompet>2026-08-01</dCompet>
+        <tpEmit>1</tpEmit>
+        <cLocEmi>4304606</cLocEmi>
+        <prest>
+          <CNPJ>00000000000000</CNPJ>
+          <regTrib>
+            <opSimpNac>2</opSimpNac>
+            <regEspTrib>0</regEspTrib>
+          </regTrib>
+        </prest>
+        <toma>
+          <CNPJ>11111111000111</CNPJ>
+          <xNome>Tomador Exemplo Ltda</xNome>
+          <end>
+            <endNac>
+              <cMun>3550308</cMun>
+              <CEP>01000000</CEP>
+            </endNac>
+            <xLgr>Avenida Exemplo</xLgr>
+            <nro>200</nro>
+            <xBairro>Centro</xBairro>
+          </end>
+        </toma>
+        <serv>
+          <locPrest>
+            <cLocPrestacao>4304606</cLocPrestacao>
+          </locPrest>
+          <cServ>
+            <cTribNac>010101</cTribNac>
+            <xDescServ>Servico de exemplo para teste</xDescServ>
+          </cServ>
+        </serv>
+        <valores>
+          <vServPrest>
+            <vServ>1000.00</vServ>
+          </vServPrest>
+          <trib>
+            <tribMun>
+              <tribISSQN>1</tribISSQN>
+              <tpRetISSQN>1</tpRetISSQN>
+            </tribMun>
+            <totTrib>
+              <indTotTrib>0</indTotTrib>
+            </totTrib>
+          </trib>
+        </valores>
+      </infDPS>
+    </DPS>
+  </infNFSe>
+</NFSe>

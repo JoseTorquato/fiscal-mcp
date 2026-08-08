@@ -13,7 +13,8 @@ from pathlib import Path
 
 from . import __version__, rejeicoes
 from .chave import analisa as analisa_chave
-from .validador import explica_nfe, valida_nfe
+from .nfse import analisa_chave as analisa_chave_nfse
+from .validador import explica_nfe, explica_nfse, valida_nfe, valida_nfse
 
 VERM, AMAR, CIANO, CINZA, ZERA = "\033[31m", "\033[33m", "\033[36m", "\033[90m", "\033[0m"
 
@@ -45,13 +46,23 @@ def _mostra_validacao(r: dict) -> None:
     print(f"  {_cor(veredito, cor)}, {r['avisos']} aviso(s)")
 
     if doc := r.get("documento"):
-        ident = doc["identificacao"]
-        print(_cor(
-            f"  {doc['emitente']['nome']} · nota {ident['numero']}/{ident['serie']} · "
-            f"{doc['quantidade_itens']} itens · R$ {doc['totais']['nota']} · {ident['ambiente']}",
-            CINZA,
-        ))
+        print(_cor(f"  {_uma_linha(doc)}", CINZA))
     print(_cor(f"  {r['nota']}\n", CINZA))
+
+
+def _uma_linha(doc: dict) -> str:
+    """Resumo de uma linha. NF-e e NFS-e têm formatos diferentes."""
+    ident = doc.get("identificacao", {})
+    if doc.get("documento") == "NFS-e":
+        return (
+            f"{doc['prestador']['nome']} · NFS-e {ident['numero_nfse']} · "
+            f"{doc['servico']['descricao']} · R$ {doc['valores']['liquido']} · "
+            f"{ident['ambiente']}"
+        )
+    return (
+        f"{doc['emitente']['nome']} · nota {ident['numero']}/{ident['serie']} · "
+        f"{doc['quantidade_itens']} itens · R$ {doc['totais']['nota']} · {ident['ambiente']}"
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -66,14 +77,14 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--version", action="version", version=f"fiscal-mcp {__version__}")
     sub = p.add_subparsers(dest="comando", required=True)
 
-    v = sub.add_parser("validar", help="valida um XML de NF-e localmente")
+    v = sub.add_parser("validar", help="valida um XML de NF-e ou NFS-e localmente")
     v.add_argument("arquivo", help="caminho do XML")
     v.add_argument("--json", action="store_true", help="saída em JSON")
 
-    e = sub.add_parser("explicar", help="resume um XML de NF-e")
+    e = sub.add_parser("explicar", help="resume um XML de NF-e ou NFS-e")
     e.add_argument("arquivo")
 
-    c = sub.add_parser("chave", help="analisa uma chave de acesso")
+    c = sub.add_parser("chave", help="analisa uma chave de acesso (44 ou 50 dígitos)")
     c.add_argument("chave")
 
     r = sub.add_parser("rejeicao", help="traduz um código de rejeição da SEFAZ")
@@ -88,11 +99,15 @@ def main(argv: list[str] | None = None) -> int:
             return 2
         xml = caminho.read_text(encoding="utf-8", errors="replace")
 
+        # detecta o documento: pedir ao usuário para escolher seria atrito à toa
+        e_nfse = "infNFSe" in xml or "sped.fazenda.gov.br/nfse" in xml
+
         if args.comando == "explicar":
-            print(json.dumps(explica_nfe(xml), ensure_ascii=False, indent=2))
+            explica = explica_nfse if e_nfse else explica_nfe
+            print(json.dumps(explica(xml), ensure_ascii=False, indent=2))
             return 0
 
-        resultado = valida_nfe(xml)
+        resultado = (valida_nfse if e_nfse else valida_nfe)(xml)
         if args.json:
             print(json.dumps(resultado, ensure_ascii=False, indent=2))
         else:
@@ -100,7 +115,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if resultado["ok"] else 1
 
     if args.comando == "chave":
-        resultado = analisa_chave(args.chave)
+        # 50 dígitos é NFS-e; 44 é NF-e. Descobrir sozinho evita atrito.
+        digitos = sum(c.isdigit() for c in args.chave)
+        resultado = (analisa_chave_nfse if digitos == 50 else analisa_chave)(args.chave)
         print(json.dumps(resultado, ensure_ascii=False, indent=2))
         return 0 if resultado.get("ok") else 1
 

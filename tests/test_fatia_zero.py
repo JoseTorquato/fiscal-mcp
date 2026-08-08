@@ -17,11 +17,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from fiscal_mcp import chave, rejeicoes  # noqa: E402
 from fiscal_mcp.regras import carrega  # noqa: E402
-from fiscal_mcp.validador import explica_nfe, valida_nfe  # noqa: E402
+from fiscal_mcp import nfse as mod_nfse  # noqa: E402
+from fiscal_mcp.validador import explica_nfe, explica_nfse, valida_nfe, valida_nfse  # noqa: E402
 
-EXEMPLO = (Path(__file__).resolve().parent.parent / "exemplos" / "nfe-valida.xml").read_text(
-    encoding="utf-8"
-)
+RAIZ = Path(__file__).resolve().parent.parent
+EXEMPLO = (RAIZ / "exemplos" / "nfe-valida.xml").read_text(encoding="utf-8")
+EXEMPLO_NFSE = (RAIZ / "exemplos" / "nfse-nacional.xml").read_text(encoding="utf-8")
 
 
 def ids_dos_erros(resultado: dict) -> set[str]:
@@ -176,6 +177,76 @@ def test_chave_de_50_digitos_e_reconhecida_como_nfse():
     assert "NFS-e" in r.get("documento", "")
     assert r.get("uf") == "RS", "deveria derivar a UF do código do município"
     assert "completa" in r["acao"], "não pode sugerir que a chave está truncada"
+
+
+
+# ---- NFS-e ----------------------------------------------------------------
+
+def test_nfse_valida_passa_sem_erro():
+    r = valida_nfse(EXEMPLO_NFSE)
+    assert r["ok"], f"reprovou NFS-e correta: {ids_dos_erros(r)}"
+
+
+def test_nfse_sem_dps_e_pega():
+    """A DPS embutida é o coração da NFS-e nacional."""
+    quebrada = re.sub(r"<DPS>.*?</DPS>", "", EXEMPLO_NFSE, flags=re.S)
+    assert "nfse-dps-presente" in ids_dos_erros(valida_nfse(quebrada))
+
+
+def test_nfse_sem_codigo_de_tributacao_e_pega():
+    quebrada = EXEMPLO_NFSE.replace("<cTribNac>010101</cTribNac>", "<cTribNac></cTribNac>")
+    assert "nfse-servico-descrito" in ids_dos_erros(valida_nfse(quebrada))
+
+
+def test_nfse_cnpj_prestador_formatado_e_pego():
+    """CNPJ do prestador com máscara: precisa ser pego pelo formato."""
+    import re as _re
+    # troca só o CNPJ dentro do bloco <prest>, não o do <emit>
+    quebrada = _re.sub(
+        r"(<prest>\s*<CNPJ>)(\d{14})(</CNPJ>)",
+        r"\g<1>00.000.000/0000-00\g<3>",
+        EXEMPLO_NFSE,
+    )
+    assert quebrada != EXEMPLO_NFSE, "a substituição não pegou o CNPJ do prestador"
+    assert "nfse-cnpj-prestador-formato" in ids_dos_erros(valida_nfse(quebrada))
+
+
+def test_nfe_no_validador_de_nfse_da_erro_claro():
+    r = valida_nfse(EXEMPLO)
+    assert not r["ok"] and "infNFSe" in r["erro"]
+
+
+def test_resumo_nfse_nao_vaza_documento_do_tomador():
+    r = explica_nfse(EXEMPLO_NFSE)
+    assert r["tomador"]["identificado"] is True
+    assert "11111111000111" not in str(r["tomador"])
+
+
+def test_chave_nfse_decompoe_posicoes_confirmadas():
+    """Posições verificadas contra NFS-e real: município, número, AAMM."""
+    # município 4304606 (Canoas/RS), número 39, emissão 08/2026
+    chave = "4304606" + "22" + "0" * 14 + "0000" + "000000039" + "2608" + "0" * 10
+    r = mod_nfse.analisa_chave(chave)
+    assert r["ok"], r.get("problemas")
+    assert r["codigo_municipio"] == "4304606"
+    assert r["uf"] == "RS"
+    assert r["numero"] == 39
+    assert r["emissao"] == "08/2026"
+
+
+def test_chave_nfse_com_mes_impossivel_e_acusada():
+    """Mês 60 passava sem reclamação — achado ao rodar numa chave sintética."""
+    chave = "4304606" + "22" + "0" * 14 + "0000" + "000000001" + "2660" + "0" * 10
+    r = mod_nfse.analisa_chave(chave)
+    assert not r["ok"]
+    assert any(p["campo"] == "AAMM" for p in r["problemas"])
+
+
+def test_chave_nfse_nao_finge_verificar_digito():
+    """Honestidade: sem algoritmo confirmado, não se promete verificação."""
+    chave = "4304606" + "22" + "0" * 14 + "0000" + "000000001" + "2608" + "0" * 10
+    r = mod_nfse.analisa_chave(chave)
+    assert "dígito verificador" in r["nota"]
 
 
 

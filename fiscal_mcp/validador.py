@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from . import chave as mod_chave
 from .documento import Documento, DocumentoNaoSuportado, XmlInvalido
+from .nfse import DocumentoNFSe
+from .nfse import analisa_chave as _analisa_chave_nfse
 from .regras import aplica, carrega
 
 
@@ -78,6 +80,73 @@ def explica_nfe(xml: str) -> dict:
     """Interpreta o XML e devolve estrutura resumida, sem julgar."""
     try:
         doc = Documento.de_texto(xml)
+    except XmlInvalido as exc:
+        return {"ok": False, "erro": str(exc)}
+    return {"ok": True, **doc.resumo()}
+
+
+def valida_nfse(xml: str, incluir_resumo: bool = True) -> dict:
+    """Valida uma NFS-e do padrão nacional. Offline, sem certificado.
+
+    Cobre apenas o padrão nacional (namespace sped.fazenda.gov.br/nfse).
+    Padrões municipais próprios não são reconhecidos — ver ADR-0006.
+    """
+    try:
+        doc = DocumentoNFSe.de_texto(xml)
+    except XmlInvalido as exc:
+        return {
+            "ok": False,
+            "erro": str(exc),
+            "acao": (
+                "Esta ferramenta cobre a NFS-e do padrão nacional. Se o seu município "
+                "usa padrão próprio, o suporte ainda não existe."
+            ),
+        }
+
+    achados = [a.para_dict() for a in aplica(doc, carrega(documento="nfse"))]
+
+    if doc.chave:
+        analise = _analisa_chave_nfse(doc.chave)
+        for p in analise.get("problemas", []):
+            achados.append({
+                "id": f"chave-{p['campo']}",
+                "severidade": "erro",
+                "grupo": "chave-de-acesso",
+                "problema": p["problema"],
+                "acao": p["acao"],
+            })
+    else:
+        achados.append({
+            "id": "chave-ausente",
+            "severidade": "erro",
+            "grupo": "chave-de-acesso",
+            "problema": "o atributo Id do infNFSe não traz a chave de acesso",
+            "acao": "O Id deve conter os 50 dígitos da chave da NFS-e.",
+        })
+
+    erros = [a for a in achados if a["severidade"] == "erro"]
+    saida = {
+        "ok": not erros,
+        "erros": len(erros),
+        "avisos": len([a for a in achados if a["severidade"] == "aviso"]),
+        "achados": achados,
+        "verificado_localmente": True,
+        "nota": (
+            "Validação local da NFS-e do padrão nacional: estrutura, campos "
+            "obrigatórios e composição da chave. Não verifica dígito verificador "
+            "(algoritmo não confirmado) nem assinatura digital, e não substitui a "
+            "validação do sistema emissor."
+        ),
+    }
+    if incluir_resumo:
+        saida["documento"] = doc.resumo()
+    return saida
+
+
+def explica_nfse(xml: str) -> dict:
+    """Interpreta uma NFS-e e devolve resumo estruturado."""
+    try:
+        doc = DocumentoNFSe.de_texto(xml)
     except XmlInvalido as exc:
         return {"ok": False, "erro": str(exc)}
     return {"ok": True, **doc.resumo()}

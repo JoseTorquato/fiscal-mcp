@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
+from typing import ClassVar
 
 from lxml import etree
 
@@ -74,47 +75,45 @@ def _sem_ns(tag) -> str:
 
 
 @dataclass
-class Documento:
-    """Um documento fiscal carregado. `raiz` é o elemento `infNFe`."""
+class Navegavel:
+    """Navegação genérica sobre XML fiscal, compartilhada por NF-e e NFS-e.
+
+    Só sabe andar na árvore e ler valor. Não conhece regra fiscal nem leiaute
+    de documento — quem conhece são as subclasses e o motor de regras.
+    """
 
     arvore: etree._Element
     raiz: etree._Element
 
-    @classmethod
-    def de_texto(cls, xml: str | bytes) -> "Documento":
+    # atributos de classe, não campos: cada documento fixa o seu namespace
+    ns: ClassVar[dict[str, str]] = {}
+    prefixo: ClassVar[str] = ""
+
+    @staticmethod
+    def _parse(xml: str | bytes) -> etree._Element:
         if isinstance(xml, str):
             xml = xml.encode("utf-8")
         try:
             # resolve_entities=False evita XXE — XML fiscal vem de terceiro
             parser = etree.XMLParser(resolve_entities=False, no_network=True, huge_tree=False)
-            arvore = etree.fromstring(xml, parser=parser)
+            return etree.fromstring(xml, parser=parser)
         except etree.XMLSyntaxError as exc:
             raise XmlInvalido(f"XML malformado: {exc}") from exc
-
-        raiz = arvore.find(".//nfe:infNFe", NS)
-        if raiz is None:  # sem namespace declarado
-            raiz = next((e for e in arvore.iter() if _sem_ns(e.tag) == "infNFe"), None)
-        if raiz is None:
-            _levanta_diagnostico(arvore)
-        return cls(arvore=arvore, raiz=raiz)
-
-    # ---- acesso a valores -------------------------------------------------
-
-    def texto(self, caminho: str, de: etree._Element | None = None) -> str | None:
-        """Valor de um caminho relativo ao infNFe, ex.: 'ide/mod' ou 'total/ICMSTot/vNF'."""
-        elemento = self.elemento(caminho, de)
-        return elemento.text.strip() if elemento is not None and elemento.text else None
 
     def elemento(self, caminho: str, de: etree._Element | None = None) -> etree._Element | None:
         atual = de if de is not None else self.raiz
         for parte in caminho.split("/"):
             if atual is None:
                 return None
-            achado = atual.find(f"nfe:{parte}", NS)
+            achado = atual.find(f"{self.prefixo}:{parte}", self.ns)
             if achado is None:
                 achado = next((f for f in atual if _sem_ns(f.tag) == parte), None)
             atual = achado
         return atual
+
+    def texto(self, caminho: str, de: etree._Element | None = None) -> str | None:
+        elemento = self.elemento(caminho, de)
+        return elemento.text.strip() if elemento is not None and elemento.text else None
 
     def existe(self, caminho: str, de: etree._Element | None = None) -> bool:
         return self.elemento(caminho, de) is not None
@@ -127,6 +126,24 @@ class Documento:
             return Decimal(bruto)
         except InvalidOperation:
             return None
+
+
+@dataclass
+class Documento(Navegavel):
+    """Um documento fiscal carregado. `raiz` é o elemento `infNFe`."""
+
+    ns: ClassVar[dict[str, str]] = NS
+    prefixo: ClassVar[str] = "nfe"
+
+    @classmethod
+    def de_texto(cls, xml: str | bytes) -> "Documento":
+        arvore = cls._parse(xml)
+        raiz = arvore.find(".//nfe:infNFe", NS)
+        if raiz is None:  # sem namespace declarado
+            raiz = next((e for e in arvore.iter() if _sem_ns(e.tag) == "infNFe"), None)
+        if raiz is None:
+            _levanta_diagnostico(arvore)
+        return cls(arvore=arvore, raiz=raiz)
 
     @property
     def itens(self) -> list[etree._Element]:
