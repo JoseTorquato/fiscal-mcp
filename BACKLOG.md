@@ -22,6 +22,26 @@ um fim de semana ou é incerta demais para estimar.
 
 ---
 
+## Fase 0.5 — Fatia zero · *sem credencial, sem efeito fiscal*
+
+| # | Tarefa | Tam. | Pronto quando |
+|---|---|---|---|
+| Z1 | Estrutura do pacote e servidor MCP mínimo | P | agente lista as ferramentas |
+| Z2 | Obter os schemas XSD vigentes da NF-e e entender o grupo IBS/CBS | M | schema carregado e grupo mapeado |
+| Z3 | `validar_nfe` — validação por schema | M | XML inválido é reprovado com o motivo |
+| Z4 | Regras de negócio além do schema (totais, dígito verificador, coerência) | M | pega erro que o XSD deixa passar |
+| Z5 | Validação específica do grupo IBS/CBS | M | aponta ausência e inconsistência dos campos novos |
+| Z6 | `explicar_nfe` — resumo estruturado em vez do XML inteiro | M | resposta cabe em contexto sem truncar |
+| Z7 | Catálogo de rejeições e `explicar_rejeicao` | M | os códigos mais comuns com campo `acao` |
+| Z8 | `validar_chave_acesso` | P | valida composição e dígito |
+| Z9 | Publicar no PyPI e nos registries MCP | P | `pip install fiscal-mcp` funciona |
+| Z10 | Landing com a pergunta da validação | M | no ar, com o convite à conversa |
+
+> Todas offline. Nenhuma assina, transmite ou emite —
+> [ADR-0010](docs/adr/0010-fatia-zero-sem-credencial.md).
+
+---
+
 ## Fase 1 — Spike técnico
 
 | # | Tarefa | Tam. | Pronto quando |

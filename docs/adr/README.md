@@ -18,6 +18,7 @@ para cada uma deixar de valer.
 | [0007](0007-homologacao-por-padrao.md) | Homologação por padrão; produção exige opt-in explícito | aceita |
 | [0008](0008-validar-antes-de-construir.md) | Validar a hipótese antes de escrever código de produção | aceita |
 | [0009](0009-nome-do-projeto.md) | Nome: `fiscal-mcp` | aceita |
+| [0010](0010-fatia-zero-sem-credencial.md) | Fatia zero: construir o que não exige credencial nem tem efeito fiscal | aceita · refina 0008 |
 
 ## As três que mais doem se forem ignoradas
 

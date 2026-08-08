@@ -29,6 +29,28 @@ autoridade, e voltar para as outras frentes. Perda: dias.
 
 ---
 
+## Fase 0.5 — Fatia zero · *roda em paralelo com a fase 0*
+
+**Objetivo:** ter algo que funciona hoje, sem certificado e sem efeito fiscal —
+tanto para valer por si só quanto para tornar as dez conversas concretas
+([ADR-0010](docs/adr/0010-fatia-zero-sem-credencial.md)).
+
+- [ ] `validar_nfe` — schema e regras, **incluindo o grupo IBS/CBS**
+- [ ] `explicar_nfe` — XML em estrutura resumida, que cabe em contexto de agente
+- [ ] `explicar_rejeicao` — código → significado → ação
+- [ ] `validar_chave_acesso`
+- [ ] Publicar no PyPI e nos registries
+- [ ] Landing com a pergunta da validação, não com promessa de produto
+
+**Critério de saída:** alguém de fora valida um XML real e relata o resultado.
+
+**Regra:** esta fase **não pode terminar depois da fase 0**. Se as conversas
+pararem porque construir é mais agradável, o gate do
+[ADR-0008](docs/adr/0008-validar-antes-de-construir.md) foi furado na prática,
+ainda que não no papel.
+
+---
+
 ## Fase 1 — Provar que a parte difícil é possível · *spike técnico*
 
 **Objetivo:** eliminar o risco técnico antes de prometer qualquer coisa. Não é
