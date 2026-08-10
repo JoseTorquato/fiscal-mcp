@@ -1,4 +1,4 @@
-<img src="docs/logo.svg" width="72" alt="fiscal-mcp">
+<img src="https://raw.githubusercontent.com/JoseTorquato/fiscal-mcp/main/docs/logo.svg" width="72" alt="fiscal-mcp">
 
 # fiscal-mcp
 
@@ -6,9 +6,9 @@
 antes de transmitir — sem certificado, sem cadastro, sem enviar nada para lugar
 nenhum.
 
-[![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](LICENSE)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](pyproject.toml)
-[![41 testes](https://img.shields.io/badge/testes-41-22C55E)](tests/)
+[![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/pyproject.toml)
+[![41 testes](https://img.shields.io/badge/testes-41-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
 
 ```bash
 pip install fiscal-mcp
@@ -100,7 +100,7 @@ perder a confiança de quem trabalha com fiscal:
 - **Passar aqui não garante autorização.** É validação local: pega o erro
   previsível, não substitui a SEFAZ nem o XSD oficial.
 - **NFS-e só no padrão nacional.** Município com padrão próprio não é
-  reconhecido ([ADR-0006](docs/adr/0006-estrategia-nfse-municipal.md)).
+  reconhecido ([ADR-0006](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/0006-estrategia-nfse-municipal.md)).
 - **Não verifica dígito verificador de NFS-e** — o algoritmo não foi
   confirmado, e chutar produziria acusação falsa.
 - **Não valida assinatura digital.**
@@ -162,16 +162,16 @@ está escrito:
 
 | Documento | Para quê |
 |---|---|
-| [ROADMAP.md](ROADMAP.md) | as fases e o critério de saída de cada uma |
-| [BACKLOG.md](BACKLOG.md) | as tarefas, priorizadas |
-| [docs/adr/](docs/adr/) | as decisões e por que foram tomadas assim |
-| [docs/spec/](docs/spec/) | o produto em detalhe |
+| [ROADMAP.md](https://github.com/JoseTorquato/fiscal-mcp/blob/main/ROADMAP.md) | as fases e o critério de saída de cada uma |
+| [BACKLOG.md](https://github.com/JoseTorquato/fiscal-mcp/blob/main/BACKLOG.md) | as tarefas, priorizadas |
+| [docs/adr/](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/) | as decisões e por que foram tomadas assim |
+| [docs/spec/](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/spec/) | o produto em detalhe |
 
 Duas decisões que explicam o resto:
 
-- **[ADR-0008](docs/adr/0008-validar-antes-de-construir.md)** — não escrevo
+- **[ADR-0008](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/0008-validar-antes-de-construir.md)** — não escrevo
   integração com SEFAZ antes de saber que existe quem pague pela manutenção.
-- **[ADR-0005](docs/adr/0005-certificado-nunca-transita.md)** — certificado
+- **[ADR-0005](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/0005-certificado-nunca-transita.md)** — certificado
   digital de cliente não passa pela minha infra. O A1 é a identidade jurídica da
   empresa.
 
