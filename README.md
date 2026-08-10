@@ -1,13 +1,14 @@
+<img src="docs/logo.svg" width="72" alt="fiscal-mcp">
+
 # fiscal-mcp
 
-**Servidores MCP para o fiscal brasileiro.** NF-e, NFS-e e SPED expostos como
-ferramentas que um agente de IA consegue usar — com certificado digital,
-homologação e as notas técnicas da SEFAZ tratadas por baixo.
+**Documento fiscal brasileiro como ferramenta de agente.** Valide NF-e e NFS-e
+antes de transmitir — sem certificado, sem cadastro, sem enviar nada para lugar
+nenhum.
 
-> **Status: fatia zero.** Já dá para validar e ler NF-e — offline, sem
-> certificado, sem transmitir nada. Emissão, cancelamento e comunicação com a
-> SEFAZ **ainda não existem** e estão condicionadas à validação de mercado
-> descrita no [ADR-0008](docs/adr/0008-validar-antes-de-construir.md).
+[![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](pyproject.toml)
+[![41 testes](https://img.shields.io/badge/testes-41-22C55E)](tests/)
 
 ```bash
 pip install fiscal-mcp
@@ -27,127 +28,158 @@ fiscal-mcp validar nota.xml
   1 erro(s), 1 aviso(s)
 ```
 
-## O que já funciona
+---
+
+## Por que existe
+
+Rejeição da SEFAZ chega tarde, custa uma transmissão e vem com mensagem
+críptica. Boa parte dos motivos é aritmética simples ou campo fora de formato —
+coisa que dá para pegar **antes** de enviar, na sua própria máquina.
+
+E agora tem prazo: desde **3 de agosto de 2026**, documentos fiscais do regime
+regular precisam trazer os campos de IBS e CBS, e notas sem eles podem ser
+rejeitadas ([CGIBS](https://www.cgibs.gov.br/novo-marco-da-reforma-tributaria-inicia-em-03-de-agosto-com-preenchimento-obrigatorio-dos-campos-relativos-ao-ibs-e-a-cbs)).
+
+Enquanto isso, um agente de IA consegue mexer no seu Notion e no seu GitHub, mas
+não sabe ler uma nota fiscal.
+
+## O que ele faz
 
 | Ferramenta | O que faz |
 |---|---|
-| `validar_nfe` | estrutura, coerência de totais, formato e chave — com o que fazer em cada achado |
+| `validar_nfe` | estrutura, coerência dos totais, formato e chave — com **o que fazer** em cada achado |
 | `explicar_nfe` | resumo estruturado do XML, em vez do documento inteiro |
 | `validar_nfse` | NFS-e do padrão nacional: estrutura, DPS embutida, prestador, serviço |
 | `explicar_nfse` | resumo estruturado da NFS-e |
 | `explicar_rejeicao` | código da SEFAZ → significado → ação, e se é reversível |
 | `validar_chave_acesso` | decompõe os 44 dígitos da NF-e e confere o dígito verificador |
 | `validar_chave_nfse` | decompõe os 50 dígitos da NFS-e nacional |
+| `listar_rejeicoes_conhecidas` | o que o catálogo cobre |
 
-A NFS-e cobre **apenas o padrão nacional** (namespace `sped.fazenda.gov.br/nfse`).
-Padrão municipal próprio não é reconhecido — ver
-[ADR-0006](docs/adr/0006-estrategia-nfse-municipal.md).
+**Nenhuma delas assina, transmite, emite ou cancela documento.** Não existe
+caminho, nesta versão, para causar efeito fiscal — e um teste verifica isso a
+cada mudança.
 
-Todas são **somente leitura e offline**: nenhuma assina, transmite, emite ou
-cancela documento. Não há como causar efeito fiscal com esta versão.
+## Como usar
 
-Como servidor MCP:
+### Na linha de comando
+
+```bash
+fiscal-mcp validar nota.xml          # NF-e ou NFS-e, ele descobre sozinho
+fiscal-mcp validar nota.xml --json   # para script e CI
+fiscal-mcp explicar nota.xml         # resumo estruturado
+fiscal-mcp chave 4326081234...       # 44 dígitos (NF-e) ou 50 (NFS-e)
+fiscal-mcp rejeicao 539              # traduz o código da SEFAZ
+fiscal-mcp rejeicao                  # lista o catálogo
+```
+
+Sai com código 1 quando encontra erro, então serve direto em CI.
+
+### Como servidor MCP
 
 ```bash
 pip install "fiscal-mcp[servidor]"
-fiscal-mcp-servidor
 ```
 
----
+```json
+{
+  "mcpServers": {
+    "fiscal": { "command": "fiscal-mcp-servidor" }
+  }
+}
+```
 
-## O problema
+Aí é só perguntar ao agente: *"esse XML está pronto para transmitir?"*
 
-Integrar com o fiscal brasileiro é caro e ninguém quer fazer. Não porque é
-intelectualmente difícil, mas porque é **hostil e instável**:
+## O que ele não faz
 
-- A NF-e tem leiaute definido por notas técnicas que mudam com prazo curto.
-- A NFS-e é municipal: são milhares de prefeituras, cada uma com schema,
-  autenticação e ambiente de homologação próprios. O padrão nacional existe e
-  avança, mas a adoção é parcial.
-- Autenticação depende de **certificado digital ICP-Brasil** — A1 em arquivo,
-  A3 em token físico.
-- Homologação e produção são ambientes separados, e o de homologação cai.
+Escrito antes das perguntas, porque prometer demais é o jeito mais rápido de
+perder a confiança de quem trabalha com fiscal:
 
-E agora tem prazo: desde **3 de agosto de 2026** o preenchimento dos campos de
-IBS e CBS é obrigatório nos documentos fiscais do regime regular, e notas sem
-eles podem ser rejeitadas ([CGIBS](https://www.cgibs.gov.br/novo-marco-da-reforma-tributaria-inicia-em-03-de-agosto-com-preenchimento-obrigatorio-dos-campos-relativos-ao-ibs-e-a-cbs)).
+- **Não emite, não assina, não transmite.** Sem certificado digital envolvido.
+- **Passar aqui não garante autorização.** É validação local: pega o erro
+  previsível, não substitui a SEFAZ nem o XSD oficial.
+- **NFS-e só no padrão nacional.** Município com padrão próprio não é
+  reconhecido ([ADR-0006](docs/adr/0006-estrategia-nfse-municipal.md)).
+- **Não verifica dígito verificador de NFS-e** — o algoritmo não foi
+  confirmado, e chutar produziria acusação falsa.
+- **Não valida assinatura digital.**
+- **Não dá conselho tributário.** CFOP, CST e alíquota são do seu contador.
 
-Enquanto isso, o ecossistema MCP explodiu — e não tem camada Brasil. Um agente
-consegue mexer no seu Notion, no seu GitHub e no seu Slack, mas não consegue
-consultar uma nota fiscal.
+### Estado da validação, por documento
 
-## A tese
-
-O código de uma integração é commodity: um dev competente gera o esqueleto de um
-servidor MCP numa tarde usando IA. **O que não se gera com IA é a manutenção** —
-acompanhar nota técnica, sobreviver a mudança de leiaute, saber que a SEFAZ do
-estado X responde diferente da do estado Y, e ter isso testado contra homologação
-todo dia.
-
-Por isso o produto não é o servidor. É o servidor **mantido**.
-
-## O que existe hoje no ecossistema
-
-Pesquisa de 06/08/2026.
-
-**O espaço de dados públicos já tem dono, e é bom.** O
-[`Mcp-Brasil/mcp-brasil`](https://github.com/Mcp-Brasil/mcp-brasil) tem 1.713
-estrelas e 533 ferramentas cobrindo 70 APIs governamentais — economia,
-legislativo, transparência, judiciário, compras públicas, saúde. É o BrasilAPI do
-mundo MCP, e é referência de higiene: política de uso aceitável, licenciamento de
-fonte por fonte, avisos de LGPD.
-
-**Ele não é concorrente — é vizinho.** Cobre *leitura de dado público*. Este
-projeto cobre *operação com efeito fiscal*: escrita, certificado ICP-Brasil,
-SEFAZ, homologação. A única menção a NF-e lá é a leitura de um campo de nota em
-API de compras públicas.
-
-Quem tenta o fiscal de verdade:
-
-| Projeto | Estrelas | Abordagem |
+| | Regras | Testado contra documento real |
 |---|---|---|
-| `rodrigo-do-carmo/mcp-nota-fiscal` | 1 | wrapper de API paga de terceiro |
-| `cmendezs/mcp-nfe-br` | 0 | validação de CPF/CNPJ; integração SEFAZ *planejada* |
-| `davi713albano-coder/mcp-server-brasil` | 0 | APIs simples (CNPJ, CEP, cotação) |
+| NFS-e nacional | 10 | ✅ sim, uma nota autorizada |
+| NF-e / NFC-e | 12 | ⚠️ **apenas contra XML sintético** |
 
-**Ninguém entregou integração real com SEFAZ.** Ninguém encosta em NFS-e
-municipal. A parte difícil continua aberta — e é exatamente ela que vale.
+A regra de IBS/CBS está marcada como `pendente_confirmacao` e só emite **aviso**:
+o leiaute exato ainda não foi conferido contra a nota técnica oficial. Acusar
+errado é pior que não acusar.
 
-Por que a diferença é estrutural: dado público é `GET` sem credencial. Emitir
-nota é escrita com efeito jurídico, exige certificado digital, assinatura XML e
-sobreviver a nota técnica. Um serve para o agente **saber**; o outro para o
-agente **fazer** — e é aí que mora o risco, o valor e o preço.
+**Tem um XML real que pode compartilhar?** É a contribuição mais valiosa
+possível agora — abra uma issue com os dados trocados por fictícios.
 
-## Escopo
+## Escrever uma regra
 
-Vertical fiscal, nesta ordem:
+Regras são dados, não código. Absorver uma nota técnica deveria ser editar um
+YAML — e é:
 
+```yaml
+- id: tot-produtos-confere
+  tipo: soma_itens
+  severidade: erro          # erro | aviso | informacao
+  campo_item: prod/vProd
+  campo_total: total/ICMSTot/vProd
+  tolerancia: "0.01"
+  mensagem: O total de produtos não bate com a soma dos itens
+  acao: >
+    Some o vProd de cada item e compare com total/ICMSTot/vProd.
 ```
-nfe/     NF-e e NFC-e (modelos 55 e 65) — emissão, consulta, cancelamento, CC-e
-nfse/    NFS-e — padrão nacional primeiro, adapters municipais depois
-sped/    EFD ICMS/IPI, EFD-Contribuições, ECD, ECF — leitura e validação
-```
 
-Fora de escopo por enquanto: CT-e, MDF-e, e qualquer coisa que não seja fiscal.
-A tentação de virar "catálogo de integrações brasileiras" está registrada e
-recusada no [ADR-0001](docs/adr/0001-escopo-vertical-fiscal.md).
+Tipos disponíveis: `existe`, `nao_vazio`, `valor_em`, `formato`, `soma_itens`,
+`condicional`.
 
-## Como ler este repositório
+**Todo achado precisa de `acao`.** Quem lê é um agente que vai tentar de novo —
+erro sem ação vira loop de retry ou nota duplicada. Um teste falha se alguma
+regra não tiver.
+
+## Contribuir
+
+O que mais ajuda, em ordem:
+
+1. **XML real anonimizado** — principalmente NF-e, e municípios de NFS-e
+   diferentes.
+2. **Código de rejeição que você levou** e não está no catálogo.
+3. **Regra nova** em `regras/`, com teste.
+4. **Confirmação do leiaute de IBS/CBS** contra a nota técnica oficial.
+
+## Como isso vai crescer
+
+Este projeto é a **fatia zero** de algo maior: servidores MCP mantidos para o
+fiscal brasileiro, incluindo emissão. O que vem depois, e por que nesta ordem,
+está escrito:
 
 | Documento | Para quê |
 |---|---|
 | [ROADMAP.md](ROADMAP.md) | as fases e o critério de saída de cada uma |
 | [BACKLOG.md](BACKLOG.md) | as tarefas, priorizadas |
-| [docs/spec/](docs/spec/) | o que o produto é, em detalhe |
 | [docs/adr/](docs/adr/) | as decisões e por que foram tomadas assim |
+| [docs/spec/](docs/spec/) | o produto em detalhe |
 
-Comece por [docs/spec/00-produto.md](docs/spec/00-produto.md).
+Duas decisões que explicam o resto:
+
+- **[ADR-0008](docs/adr/0008-validar-antes-de-construir.md)** — não escrevo
+  integração com SEFAZ antes de saber que existe quem pague pela manutenção.
+- **[ADR-0005](docs/adr/0005-certificado-nunca-transita.md)** — certificado
+  digital de cliente não passa pela minha infra. O A1 é a identidade jurídica da
+  empresa.
 
 ## Licença
 
-MIT para os servidores. O serviço hospedado é separado — ver
-[ADR-0002](docs/adr/0002-open-core.md).
+MIT — código e regras.
 
 ---
 
-Feito por [José Torquato](https://josetorquato.dev).
+Feito por [José Torquato](https://josetorquato.dev), que também mantém o
+[Cilada](https://josetorquato.dev/cilada/).
