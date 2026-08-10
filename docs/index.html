@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>fiscal-mcp — valide NF-e e NFS-e antes de transmitir</title>
+<meta name="description" content="Documento fiscal brasileiro como ferramenta de agente. Valide NF-e e NFS-e localmente, sem certificado e sem cadastro. Open source, MIT.">
+<link rel="canonical" href="https://josetorquato.dev/fiscal-mcp/">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="fiscal-mcp — valide NF-e e NFS-e antes de transmitir">
+<meta property="og:description" content="Rejeição da SEFAZ chega tarde e vem críptica. Boa parte dá para pegar antes, na sua máquina. Sem certificado, sem cadastro.">
+<meta property="og:url" content="https://josetorquato.dev/fiscal-mcp/">
+<style>
+:root{
+  --base:#0A0A0A;--panel:#0D0D0D;--dot:#141414;--rule:#1C1C1C;--line:#2A2A2A;
+  --title:#fff;--text:#C8C8C8;--body:#8A8A8A;--dim:#5A5A5A;
+  --verde:#22C55E;--deep:#14532D;--tag:#14532D;--alerta:#F87171;--atencao:#FBBF24;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--base);color:var(--body);font-family:var(--mono);
+  font-size:14px;line-height:1.85;-webkit-font-smoothing:antialiased}
+a{color:var(--verde);text-decoration:none;transition:color .16s var(--ease)}
+a:hover{color:var(--title)}
+::selection{background:var(--verde);color:var(--base)}
+h1,h2,h3{color:var(--title);letter-spacing:-.03em;line-height:1.15}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.dotted{background-image:radial-gradient(var(--dot) 1px,transparent 1px);background-size:26px 26px}
+.kicker{color:var(--verde);font-size:12px;margin-bottom:22px}
+
+header{border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:9;
+  background:rgba(10,10,10,.94);backdrop-filter:blur(8px)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--title);font-weight:700}
+.brand img{width:26px;height:26px;display:block}
+.brand .suf{color:var(--verde)}
+nav{display:flex;gap:24px;font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+nav a{color:var(--body)}
+
+.hero{padding:96px 0 60px}
+.hero h1{font-size:clamp(28px,4.4vw,50px);font-weight:700;margin-bottom:24px;text-wrap:balance}
+.hero .lede{font-size:16px;line-height:1.85;color:var(--text);max-width:60ch;margin-bottom:32px}
+.acoes{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.btn{display:inline-flex;align-items:center;font-size:12.5px;padding:13px 22px;transition:all .16s var(--ease)}
+.btn-p{background:var(--verde);color:var(--base);font-weight:600}
+.btn-p:hover{background:var(--title)}
+.btn-g{border:1px solid var(--line);color:var(--title)}
+.btn-g:hover{border-color:var(--verde);color:var(--verde)}
+
+section{padding:72px 0;border-top:1px solid var(--rule)}
+.painel{background:var(--panel)}
+.shead{display:flex;align-items:baseline;gap:18px;margin-bottom:32px}
+.snum{font-size:32px;font-weight:700;color:var(--deep);letter-spacing:-.03em}
+.stitle{font-size:23px;font-weight:600;letter-spacing:-.02em}
+.texto{max-width:68ch}
+p+p{margin-top:16px}
+
+pre{background:var(--panel);border:1px solid var(--rule);padding:22px;overflow-x:auto;
+  font-size:12.5px;line-height:1.9;color:var(--text);margin:20px 0}
+pre .c{color:var(--dim)}pre .g{color:var(--verde)}pre .r{color:var(--alerta)}pre .a{color:var(--atencao)}
+
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--dim);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:400}
+td code{color:var(--verde)}
+.tw{overflow-x:auto}
+
+ul{padding-left:0}
+li{list-style:none;padding-left:20px;position:relative;margin-bottom:11px;font-size:13.5px;line-height:1.8}
+li::before{content:'—';position:absolute;left:0;color:var(--deep)}
+
+.aviso{border:1px solid var(--rule);border-left:2px solid var(--atencao);
+  background:var(--panel);padding:22px 24px;margin-top:26px}
+.aviso h3{font-size:14px;margin-bottom:10px}
+.aviso li{font-size:12.5px}
+
+.cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:30px}
+.cta h2{font-size:24px;font-weight:600;margin-bottom:10px}
+
+footer{border-top:1px solid var(--rule);padding:40px 0 52px;font-size:11.5px;color:var(--dim)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
+
+@media(max-width:720px){
+  .hero{padding:56px 0 44px}section{padding:52px 0}
+  header{position:static}header .wrap{height:auto;padding:14px 24px;flex-direction:column;align-items:flex-start}
+  .shead{flex-direction:column;gap:4px;margin-bottom:24px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+    <nav>
+      <a href="#usar">Usar</a>
+      <a href="#cobertura">Cobertura</a>
+      <a href="#ajudar">Ajudar</a>
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="dotted">
+  <div class="wrap hero">
+    <p class="kicker">// documento fiscal como ferramenta de agente</p>
+    <h1>Descubra o erro na sua nota<br>antes da SEFAZ descobrir.</h1>
+    <p class="lede">
+      Rejeição chega tarde, custa uma transmissão e vem com mensagem críptica.
+      Boa parte dos motivos é aritmética simples ou campo fora de formato — dá
+      para pegar antes, na sua máquina. Sem certificado, sem cadastro, sem enviar
+      nada para lugar nenhum.
+    </p>
+    <div class="acoes">
+      <a class="btn btn-p" href="#usar">Instalar →</a>
+      <a class="btn btn-g" href="https://github.com/JoseTorquato/fiscal-mcp">Ver o código</a>
+    </div>
+  </div>
+</div>
+
+<section id="usar">
+  <div class="wrap">
+    <div class="shead"><span class="snum">01<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">Dois comandos</h2></div>
+<pre><span class="c"># instala</span>
+pip install fiscal-mcp
+
+<span class="c"># valida — NF-e ou NFS-e, ele descobre sozinho</span>
+fiscal-mcp validar nota.xml
+
+  <span class="r">[erro]</span> tot-produtos-confere
+      O total de produtos não bate com a soma dos itens
+      soma dos itens = 250.00, total/ICMSTot/vProd = 999.00, diferença de 749.00
+      <span class="c">→ Some o vProd de cada item e compare com total/ICMSTot/vProd.</span>
+
+  <span class="a">[aviso]</span> ibs-cbs-grupo-totais-presente
+      Grupo de totais de IBS/CBS não encontrado
+      <span class="c">→ Obrigatório desde 03/08/2026 para o regime regular.</span>
+
+  <span class="r">1 erro(s)</span>, 1 aviso(s)</pre>
+    <div class="texto">
+      <p>Sai com código 1 quando encontra erro, então serve direto no seu CI.
+      E como servidor MCP, o agente passa a conseguir ler nota fiscal:</p>
+    </div>
+<pre>pip install "fiscal-mcp[servidor]"
+
+<span class="c">// no cliente MCP</span>
+{ "mcpServers": { "fiscal": { "command": "fiscal-mcp-servidor" } } }</pre>
+    <div class="texto">
+      <p>Aí é só perguntar: <em style="color:var(--text)">"esse XML está pronto
+      para transmitir?"</em></p>
+    </div>
+  </div>
+</section>
+
+<section id="cobertura" class="painel">
+  <div class="wrap">
+    <div class="shead"><span class="snum">02<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O que ele faz — e o que não faz</h2></div>
+    <div class="tw">
+    <table>
+      <thead><tr><th>ferramenta</th><th>o que faz</th></tr></thead>
+      <tbody>
+        <tr><td><code>validar_nfe</code></td><td>estrutura, coerência dos totais, formato e chave — com <strong style="color:var(--title)">o que fazer</strong> em cada achado</td></tr>
+        <tr><td><code>validar_nfse</code></td><td>NFS-e do padrão nacional: estrutura, DPS embutida, prestador, serviço</td></tr>
+        <tr><td><code>explicar_nfe</code><br><code>explicar_nfse</code></td><td>resumo estruturado, em vez do XML inteiro estourando o contexto</td></tr>
+        <tr><td><code>explicar_rejeicao</code></td><td>código da SEFAZ → significado → ação, e se é reversível</td></tr>
+        <tr><td><code>validar_chave_acesso</code><br><code>validar_chave_nfse</code></td><td>decompõe 44 ou 50 dígitos e confere o que dá para conferir</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="texto" style="margin-top:28px">
+      <p><strong style="color:var(--title)">Nenhuma delas assina, transmite,
+      emite ou cancela documento.</strong> Não existe caminho, nesta versão, para
+      causar efeito fiscal — e um teste verifica isso a cada mudança.</p>
+    </div>
+
+    <div class="aviso">
+      <h3>Estado da validação, sem maquiagem</h3>
+      <ul>
+        <li><strong style="color:var(--title)">NFS-e nacional</strong> — 10 regras,
+          testado contra uma nota autorizada de verdade.</li>
+        <li><strong style="color:var(--title)">NF-e / NFC-e</strong> — 12 regras,
+          mas testado <strong style="color:var(--atencao)">apenas contra XML
+          sintético</strong>. Ainda não passou por uma nota real.</li>
+        <li>A regra de <strong style="color:var(--title)">IBS/CBS</strong> emite só
+          aviso: o leiaute exato ainda não foi conferido contra a nota técnica
+          oficial. Acusar errado é pior que não acusar.</li>
+        <li>Passar aqui <strong style="color:var(--title)">não garante
+          autorização</strong>. É validação local — pega o erro previsível, não
+          substitui a SEFAZ.</li>
+        <li>NFS-e cobre só o padrão nacional. Município com padrão próprio não é
+          reconhecido.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="ajudar">
+  <div class="wrap">
+    <div class="shead"><span class="snum">03<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">Como você pode ajudar</h2></div>
+    <div class="texto">
+      <p>O buraco maior é conhecido e está escrito acima: <strong
+      style="color:var(--title)">a NF-e nunca foi testada contra uma nota
+      real.</strong> Isso não se resolve escrevendo mais código — se resolve com
+      documento de verdade na mão.</p>
+      <ul style="margin-top:18px">
+        <li><strong style="color:var(--title)">XML real anonimizado</strong> —
+          principalmente NF-e, e municípios de NFS-e diferentes. É a contribuição
+          mais valiosa que existe agora.</li>
+        <li><strong style="color:var(--title)">Código de rejeição</strong> que você
+          levou e não está no catálogo.</li>
+        <li><strong style="color:var(--title)">Confirmação do leiaute de IBS/CBS</strong>
+          contra a nota técnica oficial.</li>
+      </ul>
+      <p style="margin-top:20px">Regras são dados, não código: absorver uma nota
+      técnica é editar um YAML. Contribuir não exige entender o projeto inteiro
+      — só conhecer o golpe que a SEFAZ aplicou em você.</p>
+    </div>
+  </div>
+</section>
+
+<section class="painel">
+  <div class="wrap cta">
+    <div>
+      <p class="kicker">// e se você mantém integração fiscal</p>
+      <h2>Quanto do seu ano foi para isso?</h2>
+      <p style="max-width:56ch">Estou conversando com quem mantém integração
+      fiscal para entender onde dói mais — nota técnica, homologação, cobertura
+      municipal. Se você vive isso, quero ouvir. São 15 minutos e não é pitch.</p>
+    </div>
+    <a class="btn btn-p" href="mailto:jltorquato12@gmail.com?subject=fiscal-mcp%20—%20integração%20fiscal">Falar comigo →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="./"><img src="logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+      <div style="margin-top:10px">MIT · feito por
+        <a href="https://josetorquato.dev">José Torquato</a></div>
+    </div>
+    <div>
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a> ·
+      <a href="https://josetorquato.dev/cilada/">Cilada</a> ·
+      <a href="https://josetorquato.dev">josetorquato.dev</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
