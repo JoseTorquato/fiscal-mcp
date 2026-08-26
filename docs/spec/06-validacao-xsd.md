@@ -191,15 +191,29 @@ validação de schema é pior que em regra — parece autoritativo.
 Com os XSD embarcados, algumas regras da Camada A ficam redundantes (L-11 e L-12
 são as candidatas óbvias). **Isso é bom.**
 
-> **Resultado da revisão, 25/08/2026:** só a **L-12 saiu** — e por estar errada,
-> não só redundante (ver [spec 05 §6](05-camada-a-ibs-cbs.md)). A **L-11 ficou**:
-> o tipo `TCompetApur` não tem `pattern` nem `enumeration` no XSD, então o schema
-> **não** valida o formato `AAAA-MM`. A suposição de que ela era redundante
-> estava errada.
+> **Resultado da revisão, 25/08/2026.**
+>
+> A **L-12 saiu** — por estar errada, não só redundante (ver
+> [spec 05 §6](05-camada-a-ibs-cbs.md)).
+>
+> A **L-11 ficou, mas teve o padrão corrigido**, e vale registrar como o defeito
+> foi encontrado: ao conferir se o schema a tornava redundante. `TCompetApur` é
+> `xs:gYearMonth` com `minInclusive 2025-01` — e `gYearMonth` **admite sufixo de
+> fuso**. O padrão original exigia só `AAAA-MM` e reprovaria `2026-08Z` e
+> `2026-08+03:00`, que são válidos. Mesmo modo de falha da L-12, achado do mesmo
+> jeito.
+>
+> A regra continua porque é a única cobertura sem o extra `[xsd]`. Ela pega
+> menos que o schema — não verifica o `minInclusive` — e isso é aceitável:
+> **pegar menos é aceitável, acusar errado não é.**
 >
 > `TcClassTrib` é `\d{6}` e `TCST` é `\d{3}` — o schema garante o formato, mas
 > não o domínio nem a relação entre os dois. As regras de tabela e de prefixo
-> continuam necessárias. Regra que o schema já cobre é regra a
+> continuam necessárias.
+>
+> **Lição que vale além destas duas regras:** toda regra de `formato` escrita a
+> partir da leitura do leiaute precisa ser comparada com o tipo do XSD antes de
+> entrar. Das duas que existiam, as duas estavam erradas. Regra que o schema já cobre é regra a
 menos para manter quando a nota técnica mudar. Ao fechar esta camada, revisar o
 YAML e remover o que virou duplicata — anotando no changelog o que saiu e por
 quê, para que ninguém reintroduza depois.

@@ -75,6 +75,20 @@ leitura do leiaute em PDF tinha deixado erradas:
 - A validação de `cClassTrib` por modelo de documento usa os indicadores `IndNfe`
   e `IndNfce` da tabela oficial, que existem por classificação.
 
+### Corrigido antes de sair
+
+- **`ibs-competapur-formato` tinha falso positivo.** O padrão exigia `AAAA-MM`
+  puro; o tipo real no XSD é `xs:gYearMonth`, que admite sufixo de fuso —
+  `2026-08Z` e `2026-08+03:00` são válidos e seriam reprovados. Encontrado ao
+  conferir se o schema tornava a regra redundante.
+
+  A regra ficou (é a única cobertura sem o extra `[xsd]`) com o padrão alinhado
+  ao tipo. Ela não verifica o `minInclusive 2025-01` que o schema verifica:
+  **pegar menos é aceitável, acusar errado não é.**
+
+  Das duas regras de `formato` escritas a partir da leitura do leiaute, as duas
+  estavam erradas. A lição virou anotação na [spec 06](docs/spec/06-validacao-xsd.md).
+
 ### Removido
 
 - **Regra de escala decimal (`ibs-escala-decimal`)** — não só era redundante com

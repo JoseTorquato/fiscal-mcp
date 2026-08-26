@@ -194,7 +194,13 @@ def test_competencia_fora_do_formato_e_reprovada():
     assert "ibs-competapur-formato" in ids(xml, "erro")
 
 
-@pytest.mark.parametrize("competencia", ["2026-08", "2026-01", "2026-12"])
+@pytest.mark.parametrize("competencia", [
+    "2026-08", "2026-01", "2026-12",
+    # o tipo do XSD é xs:gYearMonth, que admite sufixo de fuso. A primeira versão
+    # desta regra reprovava estes três — falso positivo achado ao comparar a
+    # regra contra o XSD, o mesmo modo de falha que tirou a L-12 do repositório
+    "2026-08Z", "2026-08+03:00", "2026-08-03:00",
+])
 def test_competencia_valida_passa(competencia):
     xml = quebra((
         "<gIBSCBS>",

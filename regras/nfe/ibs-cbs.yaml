@@ -244,15 +244,26 @@ regras:
 
   # ---- L-11 a L-14: formato, enums, alíquotas ------------------------------
 
+  # O padrão aceita sufixo de fuso porque o tipo real no XSD é `xs:gYearMonth`, e
+  # `2026-08Z` e `2026-08+03:00` são valores VÁLIDOS. A primeira versão desta
+  # regra exigia só `AAAA-MM` e teria reprovado nota correta — o mesmo defeito
+  # que tirou a regra de escala decimal do repositório, achado do mesmo jeito:
+  # comparando a regra contra o XSD em vez de contra a leitura do leiaute.
+  #
+  # O que esta regra NÃO cobre e o schema cobre: o `minInclusive 2025-01`, que
+  # reprova competência anterior à reforma. Pegar menos é aceitável; acusar
+  # errado não é. Com o extra [xsd] instalado, o schema fecha essa parte.
   - id: ibs-competapur-formato
     tipo: formato
     escopo: item
     severidade: erro
     campo: imposto/IBSCBS/gAjusteCompet/competApur
-    padrao: "\\d{4}-(0[1-9]|1[0-2])"
+    padrao: "\\d{4}-(0[1-9]|1[0-2])(Z|[+-]\\d{2}:\\d{2})?"
     mensagem: Competência de apuração fora do formato
-    referencia: Grupo UB112 · competApur no formato AAAA-MM
-    acao: "A competência vai como AAAA-MM, ex.: 2026-08."
+    referencia: Grupo UB112 · competApur, tipo xs:gYearMonth do XSD oficial
+    acao: >
+      A competência vai como AAAA-MM, ex.: 2026-08. O leiaute admite sufixo de
+      fuso horário (2026-08Z, 2026-08+03:00), mas não outro formato de data.
 
   # A regra de escala decimal que a spec 05 §6 previa (L-12) foi RETIRADA por
   # dois motivos, e o segundo é o que decide:
