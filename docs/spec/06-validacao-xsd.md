@@ -35,6 +35,20 @@ Alternativas descartadas e por quê:
 `nfelib` entra só pelos arquivos `.xsd` que ela carrega — não pelos bindings
 generateDS.
 
+> ### ⚠️ Onde procurar, verificado em 25/08/2026
+>
+> Os tipos da reforma **não estão em `leiauteNFe_v4.00.xsd`**. Uma busca por
+> `cClassTrib` nesse arquivo devolve zero e leva à conclusão errada de que o
+> pacote é pré-reforma.
+>
+> Eles vivem em **`DFeTiposBasicos_v1.00.xsd`** (tipo `TStringRTC` denuncia:
+> RTC = Reforma Tributária sobre o Consumo), que o `leiauteNFe` importa. O grupo
+> por item existe como `<xs:element name="IBSCBS" type="TTribNFe" minOccurs="0"/>`.
+>
+> Pacote conferido: **`PL_009p_NT2024_003_v103`, na `nfelib` 2.5.2** — não o
+> PL 010e v1.02 que a §5 supõe. O `nfelib` 2.5.2 é a versão mais recente no PyPI.
+> Mesmo assim ele **cobre** o leiaute de IBS/CBS por item.
+
 ## 3. Contrato
 
 ### Empacotamento
@@ -151,10 +165,41 @@ validação de schema é pior que em regra — parece autoritativo.
       rede. `XMLSchema` do lxml pode tentar resolver import remoto — o parser já
       usa `no_network=True`, e isso precisa de teste explícito.
 
+> ### ⚠️ O critério que precisou de uma cláusula, em 25/08/2026
+>
+> "XML válido de NF-e com IBS/CBS passa sem achado de schema. **Sem exceção**"
+> não é alcançável como escrito, e o motivo não é a versão do pacote:
+>
+> **NF-e não assinada nunca passa no XSD oficial.** O schema exige `Signature`
+> dentro de `NFe`. Como este projeto não assina nada por decisão
+> ([ADR-0010](../adr/0010-fatia-zero-sem-credencial.md)), o caso normal de uso é
+> justamente o XML ainda não assinado.
+>
+> A cláusula: esse achado sai como **`informacao`**, com id `schema-sem-assinatura`
+> e a explicação. O critério vale para severidade `erro`, que é o que reprova.
+> Reprovar ali seria reprovar todo mundo que usa a ferramenta para o que ela
+> existe.
+>
+> O rebaixamento por versão da §5 também mudou de forma: em vez de uma lista de
+> elementos da reforma escrita à mão, o conjunto de nomes conhecidos vem do
+> próprio XSD. Lista escrita à mão envelhece em silêncio, e rebaixamento indevido
+> **esconde erro de verdade** — `vBC` e `CST`, por exemplo, existem nos dois
+> leiautes.
+
 ## 7. Ganho colateral
 
 Com os XSD embarcados, algumas regras da Camada A ficam redundantes (L-11 e L-12
-são as candidatas óbvias). **Isso é bom.** Regra que o schema já cobre é regra a
+são as candidatas óbvias). **Isso é bom.**
+
+> **Resultado da revisão, 25/08/2026:** só a **L-12 saiu** — e por estar errada,
+> não só redundante (ver [spec 05 §6](05-camada-a-ibs-cbs.md)). A **L-11 ficou**:
+> o tipo `TCompetApur` não tem `pattern` nem `enumeration` no XSD, então o schema
+> **não** valida o formato `AAAA-MM`. A suposição de que ela era redundante
+> estava errada.
+>
+> `TcClassTrib` é `\d{6}` e `TCST` é `\d{3}` — o schema garante o formato, mas
+> não o domínio nem a relação entre os dois. As regras de tabela e de prefixo
+> continuam necessárias. Regra que o schema já cobre é regra a
 menos para manter quando a nota técnica mudar. Ao fechar esta camada, revisar o
 YAML e remover o que virou duplicata — anotando no changelog o que saiu e por
 quê, para que ninguém reintroduza depois.

@@ -70,6 +70,30 @@ Confiança: alta. Extraído do PDF oficial da NT v1.40 hospedado no CGIBS, por
 extrator automatizado. **Conferir contra o XSD antes de virar código** — o XSD é
 a verdade executável e resolve ambiguidade de cardinalidade.
 
+> ### ⚠️ Conferido em 25/08/2026 — três correções
+>
+> A conferência aconteceu, contra o `TTribNFe` de `DFeTiposBasicos_v1.00.xsd`
+> (empacotado pela `nfelib`), e corrigiu três coisas desta seção. Foi o conselho
+> mais valioso desta spec.
+>
+> 1. **`gCredPresIBSZFM` fica sob `IBSCBS`**, no mesmo nível de `gIBSCBS` — não
+>    aninhado em `gCBS`, como a leitura do PDF sugeria.
+> 2. **Existe um segundo `choice`**, que esta seção não registra: `gCredPresOper`
+>    e `gCredPresIBSZFM` são mutuamente exclusivos. Virou a regra
+>    `ibs-credito-presumido-exclusivo`.
+> 3. **`gALCZFMCBS` e `tpALCZFMCBS` não existem** no pacote de schema vigente. A
+>    regra que a §6 previa para eles não entrou.
+>
+> A estrutura real do grupo, conforme o XSD:
+>
+> ```
+> IBSCBS
+>   CST (1) · cClassTrib (1) · [indDoacao]
+>   choice: gIBSCBS | gIBSCBSMono | gTransfCred | gAjusteCompet
+>   [gEstornoCred]
+>   choice: gCredPresOper | gCredPresIBSZFM
+> ```
+
 ```
 det/imposto/
 └─ IBSCBS                        UB12 · 0-1
@@ -207,6 +231,12 @@ já exige o teste existente.
 - **L-12** depende de interpretação de escala decimal que o XSD já faz melhor.
   Quando a Camada XSD ([spec 06](06-validacao-xsd.md)) estiver de pé, avaliar se
   esta regra deve sair do YAML por redundância.
+
+  > **Saiu, em 25/08/2026 — e não só por redundância: estava errada.** O padrão
+  > real do tipo `TDec1302RTC` é
+  > `0|0\.[0-9]{2}|[1-9][0-9]{0,12}(\.[0-9]{2})?`, que **aceita `0` sozinho**. A
+  > regra escrita à mão exigia sempre duas casas e teria reprovado `<vIBS>0</vIBS>`,
+  > que é válido. Falso positivo latente, achado só ao comparar com o XSD.
 - **L-14** tem exceções legítimas. Uma fonte secundária afirma `pIBSMun = 0,00%`
   em 2026 com preenchimento obrigatório, com os 0,1% ficando integralmente na
   parcela estadual — **não confirmado em fonte oficial**. Enquanto essa dúvida
@@ -217,6 +247,22 @@ já exige o teste existente.
 É a regra que ninguém mais tem: usa as colunas `ind_g*` da tabela oficial para
 exigir ou vedar `gRed`, `gDif`, `gTribRegular`, `gCredPresOper`, `gIBSCBSMono`,
 `gEstornoCred`, `gAjusteCompet` conforme o `cClassTrib` do item.
+
+> ### ⚠️ Corrigido em 25/08/2026 — os indicadores estão em dois níveis
+>
+> Esta seção supõe "colunas `ind_g*`" num nível só. A tabela real reparte:
+>
+> | Nível | Indicadores |
+> |---|---|
+> | **CST** | `IndReducaoAliq`, `IndDiferimento`, `IndMonofasica`, `IndTransferenciaCred`, `IndAjusteCompet`, `IndCredPresIbsZfm`, `IndExigeTrib`, `IndReducaoBc` |
+> | **cClassTrib** | `IndTribRegular`, `IndPermiteCredPres`, `IndEstornoCred`, `IndMono*`, `IndPbioDiferenca`, e os por documento (`IndNfe`, `IndNfce`…) |
+>
+> Consultar um nível só deixaria metade das exigências invisível. A tabela
+> embarcada junta os dois em `TabelaCstClassTrib.indicadores_de`, com a
+> classificação vencendo em colisão.
+>
+> **`gRed` e `gDif` ficaram fora do mapa**, de propósito: aparecem sob `gIBSUF`,
+> `gIBSMun` **e** `gCBS`, e um caminho só não os expressa.
 
 É também a que mais pode acusar errado, porque depende de o mapa entre coluna da
 tabela e caminho XML estar certo. **Contrato de segurança:** ela entra como
