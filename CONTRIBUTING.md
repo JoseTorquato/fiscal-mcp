@@ -28,8 +28,26 @@ Troque tudo que identifica, preserve tudo que é fiscal:
 O que importa para uma regra fiscal é a **estrutura** e os **códigos**, nunca
 quem emitiu. Se o XML anonimizado ainda reproduz o problema, ele serve.
 
-> Um script `scripts/anonimizar.py` está planejado. Enquanto ele não existe, a
-> anonimização é manual — e é sua responsabilidade conferir antes de abrir o PR.
+### O script faz isso para você
+
+```bash
+python scripts/anonimizar.py nota.xml -o anonimizada.xml
+python scripts/anonimizar.py anonimizada.xml --conferir   # procura resíduo do original
+```
+
+Ele troca CNPJ e CPF por documentos fictícios **com DV válido e estáveis** (o
+mesmo documento de entrada vira sempre o mesmo de saída, então a relação entre
+emitente e destinatário se mantém), recalcula o DV da chave de acesso, remove
+assinatura, protocolo e comentários — emissor comercial carimba nome de cliente
+em comentário de XML — e preserva NCM, CFOP, CST, `cClassTrib`, alíquotas e
+valores.
+
+Quando ele não tem certeza, **ele avisa em vez de adivinhar**: no Id da NFS-e,
+por exemplo, o leiaute não está confirmado, então ele só mexe se encontrar o
+documento sem ambiguidade. Leia os avisos antes de anexar o arquivo.
+
+**`--conferir` é a rede de segurança**, não a garantia. Rode, mas confira você
+também: o script não sabe que o `xProd` do item 3 tem o nome do seu cliente.
 
 ## O que mais ajuda, em ordem
 

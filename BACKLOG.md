@@ -76,7 +76,7 @@ junto com o ADR-0003, se o gatilho disparar.
 | B6 | GitHub Action publicando no registry a cada release | P | só depois de B2 ter sido feito à mão uma vez |
 | B7 ✅ | `CHANGELOG.md` amarrado a nota técnica | P | primeira entrada com data de detecção e data de suporte |
 | B8 ✅ | Exemplo de config copiável para cliente MCP popular | P | copiar, colar, funcionar |
-| B9 | `scripts/anonimizar.py` | M | substitui CNPJ/CPF com DV válido, razão social, endereço, chave com DV recalculado, IE/IM, assinatura, `infCpl` e `obsCont`; preserva NCM, CFOP, CST, `cClassTrib`, alíquotas e valores |
+| B9 ✅ | `scripts/anonimizar.py` | M | substitui CNPJ/CPF com DV válido, razão social, endereço, chave com DV recalculado, IE/IM, assinatura, `infCpl` e `obsCont`; preserva NCM, CFOP, CST, `cClassTrib`, alíquotas e valores |
 | B10 ✅ | `CONTRIBUTING.md` com a regra de anonimização | P | diz explicitamente que PR com dado real identificável é fechado sem merge |
 | B11 | Corpus de fixtures a partir das samples MIT da `nfelib` | M | fixtures no repo, com origem declarada |
 | B12 | Páginas por código de rejeição (`/rejeicoes/<codigo>`) | M | causa, XML errado, XML corrigido e o comando de validação |
