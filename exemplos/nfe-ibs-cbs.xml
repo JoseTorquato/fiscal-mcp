@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NF-e sintética com o grupo IBS/CBS preenchido. NÃO é documento real: dados
+  fictícios, sem assinatura e sem protocolo de autorização.
+
+  Serve ao teste mais importante do repositório: uma nota correta e completa
+  precisa passar com ZERO achados de severidade "erro". Regra que reprova nota
+  válida é desinstalada no mesmo dia e não volta.
+
+  Preenchimento conforme a NT 2025.002-RTC e a tabela oficial de CST/cClassTrib
+  (regras/tabelas/PROCEDENCIA.md):
+
+    CST 000 · cClassTrib 000001   tributação integral, permitida em NF-e
+    alíquotas de 2026            IBS 0,10% (integralmente na parcela estadual)
+                                 e CBS 0,90%
+    vBC 250,00                   base do item; NÃO é derivável do XML — ver
+                                 spec 05 §8, que proíbe recomputá-la
+-->
+<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+  <infNFe versao="4.00" Id="NFe43260812345678000195550010000012341123456786">
+    <ide>
+      <cUF>43</cUF>
+      <cNF>12345678</cNF>
+      <natOp>Venda de mercadoria</natOp>
+      <mod>55</mod>
+      <serie>1</serie>
+      <nNF>1234</nNF>
+      <dhEmi>2026-08-08T10:00:00-03:00</dhEmi>
+      <tpNF>1</tpNF>
+      <idDest>1</idDest>
+      <cMunFG>4304606</cMunFG>
+      <tpImp>1</tpImp>
+      <tpEmis>1</tpEmis>
+      <cDV>6</cDV>
+      <tpAmb>2</tpAmb>
+      <finNFe>1</finNFe>
+      <indFinal>1</indFinal>
+      <indPres>1</indPres>
+      <procEmi>0</procEmi>
+      <verProc>fiscal-mcp-exemplo</verProc>
+    </ide>
+    <emit>
+      <CNPJ>12345678000195</CNPJ>
+      <xNome>Empresa Exemplo Ltda</xNome>
+      <enderEmit>
+        <xLgr>Rua Exemplo</xLgr>
+        <nro>100</nro>
+        <xBairro>Centro</xBairro>
+        <cMun>4304606</cMun>
+        <xMun>Canoas</xMun>
+        <UF>RS</UF>
+        <CEP>92000000</CEP>
+      </enderEmit>
+      <IE>1234567890</IE>
+      <CRT>3</CRT>
+    </emit>
+    <dest>
+      <CNPJ>98765432000188</CNPJ>
+      <xNome>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <enderDest>
+        <xLgr>Avenida Teste</xLgr>
+        <nro>200</nro>
+        <xBairro>Centro</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>Sao Paulo</xMun>
+        <UF>SP</UF>
+        <CEP>01000000</CEP>
+      </enderDest>
+      <indIEDest>9</indIEDest>
+    </dest>
+    <det nItem="1">
+      <prod>
+        <cProd>P001</cProd>
+        <xProd>Produto de exemplo A</xProd>
+        <NCM>84713012</NCM>
+        <CFOP>5102</CFOP>
+        <uCom>UN</uCom>
+        <qCom>2.0000</qCom>
+        <vUnCom>100.00</vUnCom>
+        <vProd>200.00</vProd>
+        <indTot>1</indTot>
+      </prod>
+      <imposto>
+        <IBSCBS>
+          <CST>000</CST>
+          <cClassTrib>000001</cClassTrib>
+          <gIBSCBS>
+            <vBC>200.00</vBC>
+            <gIBSUF>
+              <pIBSUF>0.10</pIBSUF>
+              <vIBSUF>0.20</vIBSUF>
+            </gIBSUF>
+            <gIBSMun>
+              <pIBSMun>0.00</pIBSMun>
+              <vIBSMun>0.00</vIBSMun>
+            </gIBSMun>
+            <vIBS>0.20</vIBS>
+            <gCBS>
+              <pCBS>0.90</pCBS>
+              <vCBS>1.80</vCBS>
+            </gCBS>
+          </gIBSCBS>
+        </IBSCBS>
+      </imposto>
+    </det>
+    <det nItem="2">
+      <prod>
+        <cProd>P002</cProd>
+        <xProd>Produto de exemplo B</xProd>
+        <NCM>84713012</NCM>
+        <CFOP>5102</CFOP>
+        <uCom>UN</uCom>
+        <qCom>1.0000</qCom>
+        <vUnCom>50.00</vUnCom>
+        <vProd>50.00</vProd>
+        <indTot>1</indTot>
+      </prod>
+      <imposto>
+        <IBSCBS>
+          <CST>000</CST>
+          <cClassTrib>000001</cClassTrib>
+          <gIBSCBS>
+            <vBC>50.00</vBC>
+            <gIBSUF>
+              <pIBSUF>0.10</pIBSUF>
+              <vIBSUF>0.05</vIBSUF>
+            </gIBSUF>
+            <gIBSMun>
+              <pIBSMun>0.00</pIBSMun>
+              <vIBSMun>0.00</vIBSMun>
+            </gIBSMun>
+            <vIBS>0.05</vIBS>
+            <gCBS>
+              <pCBS>0.90</pCBS>
+              <vCBS>0.45</vCBS>
+            </gCBS>
+          </gIBSCBS>
+        </IBSCBS>
+      </imposto>
+    </det>
+    <total>
+      <ICMSTot>
+        <vProd>250.00</vProd>
+        <vDesc>0.00</vDesc>
+        <vFrete>0.00</vFrete>
+        <vICMS>0.00</vICMS>
+        <vNF>250.00</vNF>
+      </ICMSTot>
+      <IBSCBSTot>
+        <vBCIBSCBS>250.00</vBCIBSCBS>
+        <gIBS>
+          <gIBSUF>
+            <vIBSUF>0.25</vIBSUF>
+          </gIBSUF>
+          <gIBSMun>
+            <vIBSMun>0.00</vIBSMun>
+          </gIBSMun>
+          <vIBS>0.25</vIBS>
+        </gIBS>
+        <gCBS>
+          <vCBS>2.25</vCBS>
+        </gCBS>
+      </IBSCBSTot>
+      <vNFTot>250.00</vNFTot>
+    </total>
+  </infNFe>
+</NFe>

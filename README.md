@@ -111,7 +111,12 @@ perder a confiança de quem trabalha com fiscal:
 | | Regras | Testado contra documento real |
 |---|---|---|
 | NFS-e nacional | 10 | ✅ sim, uma nota autorizada |
-| NF-e / NFC-e | 12 | ⚠️ **apenas contra XML sintético** |
+| NF-e / NFC-e | 29 | ⚠️ **apenas contra XML sintético** |
+
+Das 29, dezoito são da Camada A de IBS/CBS: CST e `cClassTrib` conferidos contra
+a **tabela oficial embarcada** da SVRS (18 CST, 164 classificações, com
+procedência e sha256 no repositório), aritmética por item, exclusividade de
+regime e alíquotas de transição.
 
 A regra de IBS/CBS emite **aviso**, não erro: a NT 2025.002 v1.51 reclassificou
 a regra de rejeição correspondente (UB12-10) como *implementação futura*, então

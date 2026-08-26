@@ -90,7 +90,7 @@ def test_ibs_cbs_e_aviso_nao_erro():
     isso valer, a regra é aviso e carrega data de reavaliação — ver spec 05 §2.
     """
     r = valida_nfe(EXEMPLO)
-    ibs = [a for a in r["achados"] if a["id"].startswith("ibs-cbs")]
+    ibs = [a for a in r["achados"] if a["id"] == "ibs-grupo-ausente"]
     assert ibs, "a regra de IBS/CBS deveria ter aparecido"
     assert all(a["severidade"] == "aviso" for a in ibs)
     assert all(a.get("vigencia", {}).get("reavaliar_em") for a in ibs),         "regra ainda não estabilizada precisa dizer quando será reavaliada"

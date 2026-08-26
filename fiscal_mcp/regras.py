@@ -383,11 +383,12 @@ def _valor_em(alvo: Alvo, r: Regra) -> str | None:
 
 
 def _formato(alvo: Alvo, r: Regra) -> str | None:
-    atual = alvo.texto(r.campo)
-    if atual is None:
-        return None
-    if not re.fullmatch(r.padrao, atual):
-        return f"{r.campo} = '{atual}' não casa com o formato esperado"
+    for campo in (r.campos or (r.campo,)):
+        atual = alvo.texto(campo)
+        if atual is None:
+            continue  # ausência é problema de outra regra
+        if not re.fullmatch(r.padrao, atual):
+            return f"{campo} = '{atual}' não casa com o formato esperado"
     return None
 
 
