@@ -10,7 +10,7 @@ nenhum.
 
 [![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/pyproject.toml)
-[![186 testes](https://img.shields.io/badge/testes-186-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
+[![189 testes](https://img.shields.io/badge/testes-189-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
 
 ```bash
 pip install "fiscal-mcp[xsd]"
@@ -203,6 +203,18 @@ qual item, pelo `nItem`:
   tipo: existe
   escopo: item              # documento (padrão) | item
   campo: imposto/IBSCBS
+```
+
+**Caminho absoluto.** Num `escopo: item`, o caminho que começa com `/` vale a
+partir da raiz da nota. É o que permite uma regra olhar o item e algo fora dele
+ao mesmo tempo:
+
+```yaml
+- id: ibs-totais-presentes
+  tipo: condicional
+  escopo: item
+  quando_campo: imposto/IBSCBS/CST     # relativo ao item
+  campo: /total/IBSCBSTot              # a partir da raiz
 ```
 
 **Vigência.** Regra que ainda não estabilizou declara quando será reavaliada.

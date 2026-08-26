@@ -119,14 +119,28 @@ class Alvo:
     item: str | None = None
     """Número do item (`nItem`), quando o alvo é um `det`."""
 
+    def _resolve(self, campo: str) -> tuple[str, etree._Element | None]:
+        """Caminho iniciado por `/` é absoluto, a partir da raiz do documento.
+
+        Existe porque há regra que precisa dos dois ao mesmo tempo: olhar um
+        campo do item e outro fora dele. Sem isso, "item com IBS/CBS exige o
+        grupo de totais" só conseguia enxergar o primeiro item da nota.
+        """
+        if campo.startswith("/"):
+            return campo[1:], None
+        return campo, self.base
+
     def texto(self, campo: str) -> str | None:
-        return self.doc.texto(campo, self.base)
+        caminho, base = self._resolve(campo)
+        return self.doc.texto(caminho, base)
 
     def existe(self, campo: str) -> bool:
-        return self.doc.existe(campo, self.base)
+        caminho, base = self._resolve(campo)
+        return self.doc.existe(caminho, base)
 
     def decimal(self, campo: str):
-        return self.doc.decimal(campo, self.base)
+        caminho, base = self._resolve(campo)
+        return self.doc.decimal(caminho, base)
 
     @property
     def itens(self) -> list["Alvo"]:

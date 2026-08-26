@@ -226,15 +226,16 @@ regras:
       O CST 620 identifica operação monofásica e exige o grupo gIBSCBSMono no
       item. Se a operação não é monofásica, o CST é que está errado.
 
-  # Dispara pelo primeiro item que traz CST — nota em que só um item do meio
-  # tem o grupo passa aqui. É limitação conhecida da navegação por caminho, e
-  # o custo de errar para o outro lado (acusar total ausente em nota sem
-  # IBS/CBS nenhum) seria maior.
+  # Roda por item e olha para fora dele: `quando_campo` é relativo ao `det`,
+  # `campo` começa com `/` e vale a partir da raiz. A versão anterior rodava no
+  # documento e só enxergava o primeiro `det`, então nota em que apenas um item
+  # do meio trazia o grupo passava batido.
   - id: ibs-totais-presentes
     tipo: condicional
+    escopo: item
     severidade: erro
-    quando_campo: det/imposto/IBSCBS/CST
-    campo: total/IBSCBSTot
+    quando_campo: imposto/IBSCBS/CST
+    campo: /total/IBSCBSTot
     mensagem: Item com IBS/CBS e nota sem o grupo de totais
     referencia: Grupo W34 · IBSCBSTot
     acao: >

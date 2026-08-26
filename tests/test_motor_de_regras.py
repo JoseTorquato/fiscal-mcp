@@ -22,7 +22,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from fiscal_mcp.documento import Documento  # noqa: E402
-from fiscal_mcp.regras import Regra, aplica, carrega  # noqa: E402
+from fiscal_mcp.regras import Alvo, Regra, aplica, carrega  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 
@@ -207,3 +207,52 @@ def _escreve(tmp_path: Path, vigencia: dict) -> None:
         ),
         encoding="utf-8",
     )
+
+
+# ---- caminho absoluto -----------------------------------------------------
+
+def test_caminho_absoluto_escapa_do_item():
+    """`/` no início vale a partir da raiz, mesmo numa regra de escopo item.
+
+    Existe porque há regra que precisa olhar o item e algo fora dele ao mesmo
+    tempo — "item com IBS/CBS exige o grupo de totais da nota". Sem isso, essa
+    regra só conseguia enxergar o primeiro `det`.
+    """
+    doc = Documento.de_texto(
+        '<NFe xmlns="http://www.portalfiscal.inf.br/nfe">'
+        '<infNFe versao="4.00">'
+        '<det nItem="1"><imposto/></det>'
+        '<det nItem="2"><imposto><IBSCBS/></imposto></det>'
+        "<total><ICMSTot><vNF>1.00</vNF></ICMSTot></total>"
+        "</infNFe></NFe>"
+    )
+    alvo_do_item = Alvo(doc).itens[0]
+    assert alvo_do_item.existe("/total/ICMSTot/vNF"), "o absoluto precisa alcançar a raiz"
+    assert not alvo_do_item.existe("total/ICMSTot/vNF"), "o relativo não sai do item"
+    assert alvo_do_item.texto("/total/ICMSTot/vNF") == "1.00"
+
+
+def test_caminho_absoluto_no_escopo_documento_nao_muda_nada():
+    """Compatibilidade: na raiz, `/x` e `x` são a mesma coisa."""
+    doc = Documento.de_texto(
+        '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe versao="4.00">'
+        "<ide><nNF>7</nNF></ide></infNFe></NFe>"
+    )
+    raiz = Alvo(doc)
+    assert raiz.texto("ide/nNF") == raiz.texto("/ide/nNF") == "7"
+
+
+def test_regra_de_item_enxerga_o_documento_inteiro():
+    """O caso real: cada item que traz IBS/CBS cobra o grupo de totais da nota."""
+    doc = Documento.de_texto(
+        '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe versao="4.00">'
+        '<det nItem="1"><imposto/></det>'
+        '<det nItem="9"><imposto><IBSCBS><CST>000</CST></IBSCBS></imposto></det>'
+        "</infNFe></NFe>"
+    )
+    regra = Regra(
+        id="t", tipo="condicional", severidade="erro", mensagem="m", grupo="t",
+        escopo="item", quando_campo="imposto/IBSCBS/CST", campo="/total/IBSCBSTot",
+    )
+    achados = aplica(doc, [regra])
+    assert [a.item for a in achados] == ["9"], "só o item que tem IBS/CBS cobra o total"

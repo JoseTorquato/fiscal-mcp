@@ -20,3 +20,6 @@ _negocio/
 
 # artefato gerado por ferramenta local
 .cawl/
+
+# worktrees de agentes
+.claude/
