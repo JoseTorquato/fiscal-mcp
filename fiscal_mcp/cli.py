@@ -11,7 +11,7 @@ import json
 import sys
 from pathlib import Path
 
-from . import __version__, rejeicoes
+from . import __version__, rejeicoes, tabelas
 from .chave import analisa as analisa_chave
 from .nfse import analisa_chave as analisa_chave_nfse
 from .validador import explica_nfe, explica_nfse, valida_nfe, valida_nfse
@@ -99,6 +99,9 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("rejeicao", help="traduz um código de rejeição da SEFAZ")
     r.add_argument("codigo", nargs="?", help="código ou mensagem; sem argumento, lista o catálogo")
 
+    t = sub.add_parser("tabelas", help="mostra as tabelas oficiais embarcadas")
+    t.add_argument("--json", action="store_true", help="saída em JSON")
+
     args = p.parse_args(argv)
 
     if args.comando in ("validar", "explicar"):
@@ -129,6 +132,22 @@ def main(argv: list[str] | None = None) -> int:
         resultado = (analisa_chave_nfse if digitos == 50 else analisa_chave)(args.chave)
         print(json.dumps(resultado, ensure_ascii=False, indent=2))
         return 0 if resultado.get("ok") else 1
+
+    if args.comando == "tabelas":
+        # quem valida contra tabela precisa saber contra QUAL tabela
+        dados = tabelas.resumo()
+        if args.json:
+            print(json.dumps(dados, ensure_ascii=False, indent=2))
+        elif not dados["disponivel"]:
+            print(_cor(f"  tabela não embarcada: {dados['motivo']}", VERM))
+            return 1
+        else:
+            print(f"\n  {dados['tabela']}")
+            print(_cor(f"      publicação declarada pela fonte: "
+                       f"{_data_br(dados['publicacao_declarada_pela_fonte'])}", CINZA))
+            print(_cor(f"      {dados['cst']} CST · {dados['cclasstrib']} cClassTrib", CINZA))
+            print(_cor(f"      {dados['fonte']}\n", CINZA))
+        return 0
 
     if args.comando == "rejeicao":
         if not args.codigo:
