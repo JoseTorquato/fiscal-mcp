@@ -1,0 +1,25 @@
+name: fiscal-mcp
+image: mcp/fiscal-mcp
+type: server
+meta:
+  category: productivity
+  tags:
+    - fiscal
+    - brazil
+    - invoice
+    - validation
+about:
+  title: Fiscal MCP
+  description: >-
+    Validates Brazilian electronic invoices (NF-e, NFC-e and the national NFS-e)
+    entirely offline, with no digital certificate and no network access. Runs the
+    official SEFAZ XSD schema, translates the raw validator messages into
+    actionable Portuguese, and checks the 2026 tax reform fields (IBS/CBS) against
+    the official CST and cClassTrib table shipped inside the package with a
+    recorded provenance and sha256. Every finding says what is wrong and what to
+    do about it. It never signs, transmits, issues or cancels a document.
+  icon: https://raw.githubusercontent.com/JoseTorquato/fiscal-mcp/main/docs/logo.svg
+source:
+  project: https://github.com/JoseTorquato/fiscal-mcp
+  branch: main
+  commit: 4792bc61e050e043841af64f917211550e8f03b0

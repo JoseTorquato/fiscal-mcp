@@ -1,0 +1,13 @@
+# O que não tem por que entrar na imagem
+.git/
+.github/
+.cawl/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+docs/
+_negocio/
