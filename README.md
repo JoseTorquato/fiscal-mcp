@@ -152,13 +152,17 @@ O que mais ajuda, em ordem:
    diferentes.
 2. **Código de rejeição que você levou** e não está no catálogo.
 3. **Regra nova** em `regras/`, com teste.
-4. **Confirmação do leiaute de IBS/CBS** contra a nota técnica oficial.
+4. **Leitura da seção 7 da NT 2025.002-RTC v1.51** — o leiaute de IBS/CBS já
+   está mapeado; o que falta confirmar em fonte primária são os códigos de
+   rejeição, e nenhum entra aqui sem leitura humana.
 
 ## Como isso vai crescer
 
-Este projeto é a **fatia zero** de algo maior: servidores MCP mantidos para o
-fiscal brasileiro, incluindo emissão. O que vem depois, e por que nesta ordem,
-está escrito:
+O produto é a **validação**: o validador mais fundo que existe para NF-e, que
+roda offline e que você pode conferir antes de transmitir. Emissão está
+**suspensa, com gatilho escrito** — ver
+[ADR-0011](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/0011-validacao-e-o-produto.md).
+O que vem depois, e por que nesta ordem, está escrito:
 
 | Documento | Para quê |
 |---|---|
@@ -167,8 +171,11 @@ está escrito:
 | [docs/adr/](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/) | as decisões e por que foram tomadas assim |
 | [docs/spec/](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/spec/) | o produto em detalhe |
 
-Duas decisões que explicam o resto:
+Três decisões que explicam o resto:
 
+- **[ADR-0011](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/0011-validacao-e-o-produto.md)** — validação é o
+  produto; emissão sai do caminho crítico e só volta se um gatilho nomeado
+  disparar.
 - **[ADR-0008](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/0008-validar-antes-de-construir.md)** — não escrevo
   integração com SEFAZ antes de saber que existe quem pague pela manutenção.
 - **[ADR-0005](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/0005-certificado-nunca-transita.md)** — certificado

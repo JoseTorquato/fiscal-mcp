@@ -1,137 +1,154 @@
 # Roadmap
 
-Cada fase tem **critério de saída**. Não se avança sem cumprir — especialmente
-da fase 0 para a 1, que é onde a vontade de codar costuma atropelar a validação
-([ADR-0008](docs/adr/0008-validar-antes-de-construir.md)).
+Reescrito em 25/08/2026, depois de uma pesquisa de posicionamento que derrubou
+três premissas da versão anterior. A decisão e o porquê estão no
+[ADR-0011](docs/adr/0011-validacao-e-o-produto.md); a versão antiga continua no
+histórico do git.
 
-O contexto de mercado é favorável e tem prazo: a obrigatoriedade dos campos de
-IBS e CBS começou em **03/08/2026**, e 2026 é ano de transição assistida. A
-janela de atenção do mercado é agora.
+**O que mudou em uma frase:** a validação local deixou de ser a fatia zero e
+passou a ser o produto. Emissão saiu do caminho crítico.
 
----
-
-## Fase 0 — Validar a hipótese · *nenhum código de produção*
-
-**Objetivo:** descobrir se existe disposição a pagar por manutenção.
-
-- [ ] Listar 20 alvos: ERPs pequenos e médios, contabilidades digitais, software
-      houses com projeto fiscal
-- [ ] 10 conversas usando o roteiro do [ADR-0008](docs/adr/0008-validar-antes-de-construir.md)
-- [ ] Registrar, por conversa: gasto anual com fiscal, o que doeu no IBS/CBS,
-      valor nomeado, quem assina
-- [ ] Consolidar UFs e municípios citados — vira ordem de prioridade
-
-**Critério de saída:** 6 de 10 confirmam disposição a pagar **com valor nomeado
-pelo interlocutor**.
-
-**Se falhar:** publicar o que houver como contribuição aberta, capturar
-autoridade, e voltar para as outras frentes. Perda: dias.
+Cada fase tem **critério de saída**. Não se avança sem cumprir.
 
 ---
 
-## Fase 0.5 — Fatia zero · *roda em paralelo com a fase 0*
+## O que este projeto é
 
-**Objetivo:** ter algo que funciona hoje, sem certificado e sem efeito fiscal —
-tanto para valer por si só quanto para tornar as dez conversas concretas
-([ADR-0010](docs/adr/0010-fatia-zero-sem-credencial.md)).
+Um validador de documento fiscal brasileiro que **roda offline, é auditável, e
+você pode conferir antes de transmitir** — exposto como ferramenta de agente e
+como linha de comando.
 
-- [ ] `validar_nfe` — schema e regras, **incluindo o grupo IBS/CBS**
-- [ ] `explicar_nfe` — XML em estrutura resumida, que cabe em contexto de agente
-- [ ] `explicar_rejeicao` — código → significado → ação
-- [ ] `validar_chave_acesso`
-- [ ] Publicar no PyPI e nos registries
-- [ ] Landing com a pergunta da validação, não com promessa de produto
+O que ele não é, e não vai ser neste horizonte: emissor, intermediário,
+consultoria tributária. Ver [ADR-0011](docs/adr/0011-validacao-e-o-produto.md).
+
+## Por que esse lugar existe
+
+Três fatos apurados em agosto de 2026:
+
+- Nenhum servidor MCP fiscal brasileiro faz **validação por schema XSD**. O maior
+  deles anuncia e não faz.
+- Nenhum oferece **garantia verificável de zero-rede**. Todos misturam consulta
+  online com validação local, inclusive nas tools que chamam de offline.
+- Nenhum tem **catálogo de rejeição com ação** — o mais próximo são 26 pares de
+  código e texto, sem dizer o que fazer.
+
+As três lacunas são exatamente onde este projeto já aponta. A janela é de meses,
+não de anos: são falhas corrigíveis por um mantenedor ativo.
+
+---
+
+## Fase A — Confiança · *em andamento*
+
+**Objetivo:** ser o validador mais fundo que existe para NF-e, e provar isso com
+dado verificável em vez de alegação de README.
+
+- [ ] Motor de regras com escopo por item e os tipos novos ([spec 05](docs/spec/05-camada-a-ibs-cbs.md))
+- [ ] Tabela oficial de CST e `cClassTrib` embarcada, versionada e com procedência
+- [ ] As 14 regras estruturais de IBS/CBS, cada uma com fixture que reprova e fixture que aprova
+- [ ] Validação por schema XSD via `nfelib`, com mensagens traduzidas ([spec 06](docs/spec/06-validacao-xsd.md))
+- [ ] Nenhuma regra em `pendente_confirmacao` — ou tem vigência, ou tem data de reavaliação, ou sai
+- [ ] Teste de zero-rede cobrindo as camadas novas
+
+**Critério de saída:** um XML de NF-e válido com IBS/CBS passa sem nenhum erro, e
+um XML com `cClassTrib` incompatível com o CST é reprovado com ação acionável.
+As duas coisas, no mesmo release.
+
+**O que faz esta fase falhar:** um falso positivo em nota real. Regra que acusa
+errado é desinstalada no mesmo dia e não volta. Ao primeiro relato, a regra vira
+aviso — sem discussão.
+
+---
+
+## Fase B — Descoberta
+
+**Objetivo:** ser encontrável por quem tem o problema no momento em que tem.
+
+- [ ] Registry oficial de MCP, Awesome MCP Servers, claim no Glama ([spec 07](docs/spec/07-distribuicao.md))
+- [ ] Dockerfile e PR no Docker MCP Catalog — o público-alvo é majoritariamente Delphi e C#, não Python
+- [ ] `CHANGELOG.md` amarrado a nota técnica, com data de detecção e data de suporte
+- [ ] Script de anonimização de XML + `CONTRIBUTING.md` com a regra de contribuição
+- [ ] Conteúdo técnico de cauda longa, por código de rejeição, escrito para dev e não para contador
+- [ ] Validador no navegador: cola o XML, recebe o laudo, sem upload
 
 **Critério de saída:** alguém de fora valida um XML real e relata o resultado.
-
-**Regra:** esta fase **não pode terminar depois da fase 0**. Se as conversas
-pararem porque construir é mais agradável, o gate do
-[ADR-0008](docs/adr/0008-validar-antes-de-construir.md) foi furado na prática,
-ainda que não no papel.
+É o mesmo critério da antiga fase 0.5, e continua sendo o único sinal que importa
+nesta etapa.
 
 ---
 
-## Fase 1 — Provar que a parte difícil é possível · *spike técnico*
+## Fase C — Evidência de manutenção
 
-**Objetivo:** eliminar o risco técnico antes de prometer qualquer coisa. Não é
-produto — é resposta à pergunta "isso é viável para uma pessoa?".
+**Objetivo:** transformar "eu mantenho isso" de promessa em fato observável.
+Esta fase é a que justifica cobrar depois.
 
-- [ ] Assinar XML de NF-e com certificado A1 e validar a assinatura
-- [ ] Emitir uma NF-e modelo 55 em **homologação** de uma UF, ponta a ponta
-- [ ] Incluir os campos do grupo de IBS/CBS conforme leiaute vigente
-- [ ] Consultar e cancelar a nota emitida
-- [ ] Medir: quanto tempo levou, e o que foi mais difícil
-
-**Critério de saída:** nota autorizada em homologação, com o passo a passo
-documentado.
-
-**Se falhar:** reavaliar o [ADR-0003](docs/adr/0003-integracao-direta-com-sefaz.md)
-— talvez o adapter de intermediário precise ser o caminho principal.
-
----
-
-## Fase 2 — Primeiro servidor útil · *NF-e, aberto*
-
-**Objetivo:** alguém que não seja o autor consegue emitir em homologação.
-
-- [ ] Superfície de ferramentas conforme [spec 02](docs/spec/02-contrato-de-ferramentas.md)
-- [ ] Validação local antes de transmitir
-- [ ] Tradução dos códigos de rejeição mais comuns, com campo `acao`
-- [ ] Guarda de ambiente conforme [ADR-0007](docs/adr/0007-homologacao-por-padrao.md)
-- [ ] Publicar no PyPI e nos registries MCP
-- [ ] README com o caminho de 15 minutos
-
-**Critério de saída:** três pessoas de fora emitem em homologação seguindo só o
-README, sem perguntar nada.
-
----
-
-## Fase 3 — Provar a manutenção · *o produto de verdade*
-
-**Objetivo:** transformar a promessa em evidência observável.
-
-- [ ] Suíte diária contra homologação, com resultado público
-- [ ] Monitor de publicação de nota técnica
-- [ ] Registro público de mudanças fiscais absorvidas
-- [ ] Página de status dos webservices por UF
+- [ ] Teste de vigência vencida rodando em CI — falha quando alguma regra passou da data de reavaliação
+- [ ] Monitor de publicação de nota técnica, abrindo tarefa quando sai documento novo
+- [ ] Registro público de cada mudança fiscal absorvida
+- [ ] Suíte de validação contra corpus de XMLs reais anonimizados, com resultado público
 
 **Critério de saída:** uma mudança real de leiaute absorvida e registrada, com
-data de detecção e data de suporte.
+data de detecção e data de suporte. Sem histórico, "manutenção" é promessa; com
+histórico, é produto.
 
-> Esta fase é a que justifica a assinatura. Sem histórico, "manutenção" é
-> promessa; com histórico, é produto.
+> A detecção por telemetria agregada de rejeição — o sinal mais rápido que
+> existe — depende de base instalada e por isso vem depois, não antes.
 
 ---
 
-## Fase 4 — Primeira receita
+## Fase D — Primeira receita
 
-- [ ] Definir a fronteira paga em detalhe operacional ([ADR-0002](docs/adr/0002-open-core.md))
-- [ ] Serviço que entrega cobertura mantida sem embarcar no pacote aberto
-- [ ] Compromissos de prazo calibrados com dados reais da fase 3
-- [ ] Contrato com a fronteira de responsabilidade da [spec 03](docs/spec/03-credenciais-e-certificado.md)
+**Objetivo:** descobrir se alguém paga, com dinheiro e não com opinião.
+
+A pesquisa apontou dois caminhos viáveis para uma pessoa em tempo parcial, e um
+que não é:
+
+- [ ] **Consultoria de adequação ao IBS/CBS**, usando a ferramenta como
+      instrumento. Receita imediata, sem infra e sem compromisso de prazo
+- [ ] **Assinatura anual estilo clube**, no formato do ACBr Pro: biblioteca
+      mantida + boletim de nota técnica + canal direto. Faixa de referência:
+      R$ 1.500 a R$ 3.000/ano por software house
+- [ ] Contrato com fronteira de responsabilidade da [spec 03](docs/spec/03-credenciais-e-certificado.md), revisado por alguém com competência jurídica
 - [ ] Enquadramento fiscal e contábil resolvido **antes** de faturar
 
 **Critério de saída:** primeiro cliente pagando.
 
+**Fora deste desenho, por decisão:** cobrança por documento emitido (comoditizada
+em R$ 0,05–0,15/nota) e SLA de disponibilidade (invendável sem plantão e sem
+balanço, e a cláusula limitativa não afasta responsabilidade civil por falha
+técnica).
+
+**Teto de preço:** R$ 799/mês. Acima disso o comprador vai ao Focus NFe Growth
+(R$ 548/mês, *com* emissão) ou ao PlugNotas.
+
 ---
 
-## Fase 5 — NFS-e e ampliação
+## Suspenso — Emissão
 
-- [ ] Padrão nacional de NFS-e
-- [ ] Adapters municipais por demanda ([ADR-0006](docs/adr/0006-estrategia-nfse-municipal.md))
-- [ ] SPED em leitura
-- [ ] Telemetria agregada de rejeição
+Não é "depois". É **suspenso, com gatilho escrito**.
+
+O [ADR-0011](docs/adr/0011-validacao-e-o-produto.md) suspende o
+[ADR-0003](docs/adr/0003-integracao-direta-com-sefaz.md) e lista quatro gatilhos
+que trazem a emissão de volta — o mais importante sendo alguém pagar adiantado
+por ela, com valor nomeado.
+
+Enquanto o gatilho não disparar: nenhuma linha de assinatura, transmissão,
+certificado ou webservice. Nem spike.
 
 ---
 
-## Fora de escopo por enquanto
+## Fora de escopo
 
 CT-e, MDF-e, custódia de certificado ([ADR-0005](docs/adr/0005-certificado-nunca-transita.md)),
-emissão de SPED, interface gráfica, e qualquer integração não fiscal
+geração de SPED, adapters municipais de NFS-e (a NFS-e Nacional está
+comoditizando esse fosso), interface gráfica, e qualquer integração não fiscal
 ([ADR-0001](docs/adr/0001-escopo-vertical-fiscal.md)).
+
+---
 
 ## Nota sobre prazos
 
-Este roadmap **não tem datas**. É projeto de tempo parcial paralelo a um emprego
-integral; estimativa aqui seria ficção. As fases têm ordem e critério de saída —
-a velocidade é o que for.
+Sem datas. Projeto de tempo parcial paralelo a emprego integral; estimativa aqui
+seria ficção. As fases têm ordem e critério de saída — a velocidade é o que for.
+
+A única data que importa no repositório é o campo `reavaliar_em` das regras, e
+essa não é negociável: é obrigação com quem usa.

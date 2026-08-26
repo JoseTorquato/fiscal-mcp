@@ -17,3 +17,6 @@ venv/
 
 # documentos internos
 _negocio/
+
+# artefato gerado por ferramenta local
+.cawl/

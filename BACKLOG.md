@@ -1,134 +1,119 @@
 # Backlog
 
-Tarefas agrupadas por fase do [ROADMAP](ROADMAP.md). Cada uma tem **critério de
-pronto** — sem isso, tarefa de projeto pessoal nunca termina, só é abandonada.
+Tarefas por fase do [ROADMAP](ROADMAP.md). Cada uma tem **critério de pronto** —
+sem isso, tarefa de projeto pessoal nunca termina, só é abandonada.
 
 Tamanhos: **P** cabe em uma sessão de ~1h · **M** algumas sessões · **G** exige
 um fim de semana ou é incerta demais para estimar.
 
----
-
-## Fase 0 — Validação · *nenhum código de produção*
-
-| # | Tarefa | Tam. | Pronto quando |
-|---|---|---|---|
-| V1 | Montar lista de 20 alvos (ERP, contabilidade digital, software house) com nome, contato e origem | P | planilha com 20 linhas preenchidas |
-| V2 | Escrever a mensagem de abordagem — curta, sem pitch, pedindo 15 min | P | texto pronto e enviado para os 5 primeiros |
-| V3 | Rodar 10 conversas com o roteiro do ADR-0008 | G | 10 registros preenchidos |
-| V4 | Consolidar: gasto anual, dor do IBS/CBS, valor nomeado, quem assina | P | tabela comparativa + veredito da hipótese |
-| V5 | Derivar ordem de prioridade de UFs e municípios das conversas | P | lista ordenada com justificativa |
-
-> **Gate.** V4 decide se existe fase 1. Ver critério de falseamento no ADR-0008.
+Reescrito em 25/08/2026 conforme o [ADR-0011](docs/adr/0011-validacao-e-o-produto.md).
+As tarefas de emissão (T1–T8, S1–S9) saíram para o histórico do git — voltam
+junto com o ADR-0003, se o gatilho disparar.
 
 ---
 
-## Fase 0.5 — Fatia zero · *sem credencial, sem efeito fiscal*
+## Fase A — Confiança
+
+### Motor
 
 | # | Tarefa | Tam. | Pronto quando |
 |---|---|---|---|
-| Z1 | Estrutura do pacote e servidor MCP mínimo | P | agente lista as ferramentas |
-| Z2 | Obter os schemas XSD vigentes da NF-e e entender o grupo IBS/CBS | M | schema carregado e grupo mapeado |
-| Z3 | `validar_nfe` — validação por schema | M | XML inválido é reprovado com o motivo |
-| Z4 | Regras de negócio além do schema (totais, dígito verificador, coerência) | M | pega erro que o XSD deixa passar |
-| Z5 | Validação específica do grupo IBS/CBS | M | aponta ausência e inconsistência dos campos novos |
-| Z6 | `explicar_nfe` — resumo estruturado em vez do XML inteiro | M | resposta cabe em contexto sem truncar |
-| Z7 | Catálogo de rejeições e `explicar_rejeicao` | M | os códigos mais comuns com campo `acao` |
-| Z8 | `validar_chave_acesso` | P | valida composição e dígito |
-| Z9 | Publicar no PyPI e nos registries MCP | P | `pip install fiscal-mcp` funciona |
-| Z10 | Landing com a pergunta da validação | M | no ar, com o convite à conversa |
+| A1 | `escopo: item` no motor de regras | M | regra com escopo item roda em todos os `det` e o detalhe traz o `nItem`; os 41 testes atuais passam sem alteração |
+| A2 | Tipo `prefixo_de` | P | reprova `cClassTrib` cujos 3 primeiros dígitos não são o CST |
+| A3 | Tipos `em_tabela` e `subgrupos_por_indicador` | M | leem dado versionado do repo; sem tabela embarcada, emitem `informacao` e nunca `erro` |
+| A4 | Tipos `soma_campos`, `exclusivo`, `valor_numerico_em` | M | `valor_numerico_em` compara Decimal — `0.10` e `0.1000` não geram achado |
+| A5 | Bloco `vigencia` substituindo `status` | P | teste falha quando alguma regra tem `reavaliar_em` no passado |
 
-> Todas offline. Nenhuma assina, transmite ou emite —
-> [ADR-0010](docs/adr/0010-fatia-zero-sem-credencial.md).
+### Dado oficial
+
+| # | Tarefa | Tam. | Pronto quando |
+|---|---|---|---|
+| A6 | Baixar CST e `cClassTrib` do Portal da Conformidade Fácil (SVRS) | P | arquivos em `regras/tabelas/` |
+| A7 | `PROCEDENCIA.md` com URL, data, sha256 e versão declarada pela fonte | P | teste confere o sha256 e falha na divergência |
+| A8 | Tabelas viajam dentro do wheel | P | `pip install` numa venv limpa entrega as tabelas |
+| A9 | Comando que imprime a versão da tabela embarcada | P | quem depende sabe contra o que está validando |
+
+### Regras
+
+| # | Tarefa | Tam. | Pronto quando |
+|---|---|---|---|
+| A10 | L-01 a L-04 — CST e `cClassTrib` | M | as quatro com fixture que reprova e fixture que aprova |
+| A11 | L-05 — subgrupos por indicador | M | entra como **aviso**; promoção a erro exige 3 XMLs reais distintos sem falso positivo |
+| A12 | L-06 a L-10 — aritmética, exclusividade, presença condicional | M | idem, dois fixtures cada |
+| A13 | L-11 a L-14 — formato, enums, alíquotas | P | L-12 e L-14 como aviso, com `reavaliar_em` |
+| A14 | Reescrever `ibs-cbs.yaml` sem TODO, com a mensagem da spec 05 §6 | P | a mensagem cita a postergação da UB12-10 pela v1.51 |
+| A15 | Teste de ausência de falso positivo | M | XML válido com IBS/CBS passa com zero achados de severidade `erro` |
+
+### Schema
+
+| # | Tarefa | Tam. | Pronto quando |
+|---|---|---|---|
+| A16 | `nfelib` como extra `[xsd]`; validação com `lxml.XMLSchema` | M | XML que viola o schema é reprovado |
+| A17 | Tradução das mensagens do lxml, em `regras/schema/traducoes.yaml` | M | mensagens de `IBSCBS`, `cClassTrib`, `CST` e totais em português com `acao`; não reconhecida sai crua e marcada |
+| A18 | `leiaute_validado_contra` na saída + rebaixamento por versão | M | documento com estrutura posterior ao pacote gera aviso, não erro |
+| A19 | Teste de zero-rede cobrindo a camada de schema | P | `XMLSchema` não resolve import remoto |
+| A20 | Revisar regras que o schema tornou redundantes | P | o que saiu está anotado no changelog, com o motivo |
+
+> **Gate da fase A.** A15 e A19 são os dois testes que sustentam a promessa do
+> projeto. Sem eles verdes, nada da fase B acontece.
 
 ---
 
-## Fase 1 — Spike técnico
+## Fase B — Descoberta
 
 | # | Tarefa | Tam. | Pronto quando |
 |---|---|---|---|
-| T1 | Obter certificado A1 de teste e entender o formato | P | certificado carregado e dados lidos |
-| T2 | Assinar XML de NF-e e validar a assinatura localmente | M | assinatura válida por validador independente |
-| T3 | Levantar o webservice de homologação da UF escolhida | P | endpoint respondendo a consulta de status |
-| T4 | Montar XML mínimo de NF-e modelo 55 válido no schema | M | XSD valida sem erro |
-| T5 | Incluir o grupo de IBS/CBS conforme leiaute vigente | M | campos presentes e aceitos |
-| T6 | Transmitir e obter autorização em homologação | G | protocolo de autorização recebido |
-| T7 | Consultar e cancelar a nota emitida | M | evento de cancelamento autorizado |
-| T8 | Documentar o passo a passo e o que foi mais difícil | P | documento que outra pessoa consegue seguir |
-
-> T6 é o marco que decide a viabilidade do ADR-0003. Se travar por mais de duas
-> semanas de trabalho efetivo, reabrir a decisão de usar intermediário.
+| B1 | `mcp-name:` no README + release no PyPI | P | a string está na description publicada no PyPI, não só no GitHub |
+| B2 | `server.json` + `mcp-publisher publish` | P | `curl` no registry devolve o servidor |
+| B3 | PR no Awesome MCP Servers | P | merge feito |
+| B4 | Claim do listing no Glama | P | o listing deixa de ser genérico |
+| B5 | Dockerfile + PR no Docker MCP Catalog | M | `docker run` funciona; PR aberto |
+| B6 | GitHub Action publicando no registry a cada release | P | só depois de B2 ter sido feito à mão uma vez |
+| B7 | `CHANGELOG.md` amarrado a nota técnica | P | primeira entrada com data de detecção e data de suporte |
+| B8 | Exemplo de config copiável para cliente MCP popular | P | copiar, colar, funcionar |
+| B9 | `scripts/anonimizar.py` | M | substitui CNPJ/CPF com DV válido, razão social, endereço, chave com DV recalculado, IE/IM, assinatura, `infCpl` e `obsCont`; preserva NCM, CFOP, CST, `cClassTrib`, alíquotas e valores |
+| B10 | `CONTRIBUTING.md` com a regra de anonimização | P | diz explicitamente que PR com dado real identificável é fechado sem merge |
+| B11 | Corpus de fixtures a partir das samples MIT da `nfelib` | M | fixtures no repo, com origem declarada |
+| B12 | Páginas por código de rejeição (`/rejeicoes/<codigo>`) | M | causa, XML errado, XML corrigido e o comando de validação |
+| B13 | Validador no navegador, sem upload | G | roda 100% client-side; cada post de conteúdo aponta para ele |
+| B14 | Série de posts técnicos, começando pelo que separa o que rejeita do que só multa | M | primeiro post publicado no TabNews e no LinkedIn |
 
 ---
 
-## Fase 2 — Primeiro servidor útil
-
-### Núcleo
+## Fase C — Evidência de manutenção
 
 | # | Tarefa | Tam. | Pronto quando |
 |---|---|---|---|
-| S1 | Estrutura do pacote e servidor MCP mínimo respondendo | P | agente lista as ferramentas |
-| S2 | Separar as camadas do spec 01 (ferramenta / validação / adapter / transporte) | M | trocar de UF não toca em ferramenta |
-| S3 | `consultar_status_servico` | P | responde para as UFs suportadas |
-| S4 | `validar_nfe` — validação local, sem rede | M | aponta pendências com mensagem acionável |
-| S5 | `emitir_nfe` com guarda de ambiente do ADR-0007 | G | emite em homologação; recusa produção sem a variável |
-| S6 | `consultar_nfe` | M | devolve resumo estruturado, XML sob pedido |
-| S7 | `cancelar_nfe` com confirmação explícita | M | recusa sem `confirmo_cancelamento` |
-| S8 | `corrigir_nfe` (CC-e) | M | evento autorizado em homologação |
-| S9 | Chave de idempotência na emissão | M | duas chamadas iguais não emitem duas notas |
-
-### Qualidade de erro
-
-| # | Tarefa | Tam. | Pronto quando |
-|---|---|---|---|
-| E1 | Catálogo dos códigos de rejeição mais comuns | M | tabela código → significado → ação |
-| E2 | Tradução de erro com campo `acao` | M | erro devolvido é acionável por agente |
-| E3 | Distinguir "SEFAZ fora do ar" de "seu documento está errado" | M | dois caminhos de erro distintos |
-
-### Distribuição
-
-| # | Tarefa | Tam. | Pronto quando |
-|---|---|---|---|
-| D1 | README com o caminho de 15 minutos | M | três pessoas de fora conseguem sem perguntar |
-| D2 | Publicar no PyPI | P | `pip install fiscal-mcp` funciona |
-| D3 | Registrar nos registries MCP | P | aparece na busca |
-| D4 | Exemplo de configuração para cliente MCP popular | P | copiar, colar, funcionar |
-| D5 | Falar com o mantenedor do `Mcp-Brasil/mcp-brasil` propondo complementaridade e listagem mútua | P | conversa feita; resposta registrada |
+| C1 | Teste de vigência vencida rodando em CI agendado | P | falha e notifica quando alguma regra passou da data |
+| C2 | Monitor de publicação de nota técnica | M | abre tarefa quando sai documento novo. Alerta para humano, não automação — NT precisa ser lida |
+| C3 | Registro público de mudanças fiscais absorvidas | P | primeira entrada publicada |
+| C4 | Suíte de validação contra o corpus, com resultado público | M | histórico visível; mudança de comportamento é detectada |
+| C5 | Ler a seção 7 da NT v1.51 e abrir a Camada B | M | códigos de rejeição confirmados em fonte primária entram no catálogo |
 
 ---
 
-## Fase 3 — Provar a manutenção
+## Fase D — Receita
 
 | # | Tarefa | Tam. | Pronto quando |
 |---|---|---|---|
-| M1 | Suíte de emissão contra homologação, rodando diariamente | M | resultado publicado, histórico visível |
-| M2 | Alerta quando a suíte muda de comportamento | P | notificação chega ao autor |
-| M3 | Monitor de publicação de nota técnica | M | abre tarefa quando sai documento novo |
-| M4 | Registro público de mudanças fiscais absorvidas | P | primeira entrada publicada |
-| M5 | Página de status dos webservices por UF | M | status atualizado automaticamente |
+| D1 | 60 contatos a partir dos *dependents* de `nfelib` e `PyNFe` no GitHub | M | planilha preenchida com nome, repo e origem |
+| D2 | 10 conversas com o roteiro corrigido | G | 10 registros; toda conversa termina com a pergunta do piloto pago |
+| D3 | Definir a fronteira paga em nível operacional ([ADR-0002](docs/adr/0002-open-core.md)) | M | documento sem ambiguidade sobre o que é pago |
+| D4 | Contrato com fronteira de responsabilidade ([spec 03](docs/spec/03-credenciais-e-certificado.md)) | M | revisado por alguém com competência jurídica |
+| D5 | Enquadramento fiscal e contábil da operação | M | resolvido antes de faturar |
 
----
-
-## Fase 4 — Receita
-
-| # | Tarefa | Tam. | Pronto quando |
-|---|---|---|---|
-| R1 | Detalhar a fronteira paga em nível operacional | M | documento sem ambiguidade sobre o que é pago |
-| R2 | Serviço que entrega cobertura sem embarcar no pacote | G | pacote aberto consulta; nada sensível distribuído |
-| R3 | Calibrar compromissos de prazo com dados da fase 3 | P | números que se sustentam |
-| R4 | Contrato com fronteira de responsabilidade da spec 03 | M | revisado por alguém com competência jurídica |
-| R5 | Enquadramento fiscal e contábil da operação | M | resolvido antes de faturar |
-
----
-
-## Fase 5 — Ampliação
-
-| # | Tarefa | Tam. |
-|---|---|---|
-| N1 | `consultar_capacidade_municipio` | M |
-| N2 | Adapter do padrão nacional de NFS-e | G |
-| N3 | Adapters municipais por demanda | G |
-| N4 | `ler_sped` e `resumir_sped` | G |
-| N5 | Telemetria agregada de rejeição | M |
+> **O roteiro mudou.** O do [ADR-0008](docs/adr/0008-validar-antes-de-construir.md)
+> pergunta *"você pagaria para nunca mais manter essa integração?"*, e a resposta
+> é sim universal — o ACBr Pro já provou isso comercialmente a R$ 1.500/ano.
+> As perguntas que discriminam:
+>
+> 1. Quanto você pagou de licença fiscal em 2025, e para quem?
+> 2. Quantas horas custou a NT 2025.002 este ano?
+> 3. Você já avaliou o ACBr Pro? Por que sim ou por que não?
+> 4. Me conta o último XML que rejeitou. Quanto tempo levou para achar a causa?
+> 5. **Topa pagar R$ 3.000 por um piloto de 60 dias?**
+>
+> Sem cartão de crédito, não é validação.
 
 ---
 
@@ -136,9 +121,12 @@ um fim de semana ou é incerta demais para estimar.
 
 | Item | Risco | Mitigação |
 |---|---|---|
-| Homologação da SEFAZ instável | trava desenvolvimento sem ser culpa nossa | separar erro de ambiente de erro de documento (E3) desde cedo |
-| Certificado A1 de teste | precisa de um, e tem custo/burocracia | resolver em T1, antes de qualquer outra coisa técnica |
-| Leiaute mudando durante a construção | retrabalho no meio da fase 2 | acompanhar nota técnica desde já, mesmo sem produto |
+| Falso positivo em nota real | destrói confiança de forma irreversível | regra vira aviso no mesmo dia do relato; L-05 nasce como aviso por padrão |
+| Pacote XSD não cobrir a v1.50/1.51 | reprova nota válida com monofasia | declarar a versão na saída e rebaixar por versão (A18) |
+| Códigos de rejeição não confirmados | citar número errado é pior que não citar | nenhum número entra sem leitura humana da NT (C5) |
+| Tabela da SVRS mudar ou sair do ar | quebra build de terceiro | tabela versionada no repo; CI nunca baixa |
+| Concorrente fechar as lacunas | perda do diferencial técnico | a vantagem defensável é o catálogo com ação, que é acúmulo |
+| PyNFe lançar MCP oficial | redesenha o tabuleiro | gatilho de revisão do ADR-0011 |
+| Bus factor = 1 | é a objeção que mata a venda de manutenção | não se resolve com feature; endereçar com registro público e código aberto |
+| Vontade de codar emissão | meses gastos fora do caminho crítico | [ADR-0011](docs/adr/0011-validacao-e-o-produto.md), escrito exatamente para esse momento |
 | Autor com emprego integral | ritmo imprevisível | tarefas P e M; nada de G fora de fim de semana |
-| Vontade de codar antes de validar | meses gastos sem sinal de mercado | gate explícito no ADR-0008 |
-| Concorrente entregando primeiro | perda da janela do IBS/CBS | é risco real e aceito; a defesa é profundidade, não velocidade |
