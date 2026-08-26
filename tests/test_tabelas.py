@@ -104,3 +104,28 @@ def test_o_carregador_nao_toca_a_rede(monkeypatch):
     monkeypatch.setattr(socket, "create_connection", proibido)
     tabelas.cst_cclasstrib.cache_clear()
     assert len(tabelas.cst_cclasstrib()) == 164
+
+
+def test_indicadores_vem_dos_dois_niveis():
+    """A tabela reparte a informação entre CST e cClassTrib.
+
+    Os indicadores de estrutura do grupo (redução de alíquota, diferimento,
+    monofasia) ficam no CST; os da classificação ficam nela. Uma regra que
+    consultasse só um nível deixaria metade das exigências invisível — foi o
+    que a spec 05 §6 supunha ao descrever a L-05 como "colunas ind_g*".
+    """
+    tabela = tabelas.cst_cclasstrib()
+
+    do_cst = {"IndReducaoAliq", "IndDiferimento", "IndMonofasica",
+              "IndTransferenciaCred", "IndAjusteCompet", "IndCredPresIbsZfm"}
+    da_classificacao = {"IndTribRegular", "IndPermiteCredPres", "IndEstornoCred"}
+    assert do_cst | da_classificacao <= tabela.indicadores_conhecidos
+
+    # 200008 é do CST 200, que tem redução de alíquota
+    juntos = tabela.indicadores_de("200008")
+    assert "IndReducaoAliq" in juntos, "indicador do CST precisa alcançar o cClassTrib"
+    assert "IndTribRegular" in juntos, "indicador da própria classificação precisa estar lá"
+
+
+def test_indicadores_de_codigo_inexistente_devolve_none():
+    assert tabelas.cst_cclasstrib().indicadores_de("999999") is None

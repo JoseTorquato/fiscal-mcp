@@ -71,6 +71,35 @@ class TabelaCstClassTrib:
     def __len__(self) -> int:
         return len(self.classificacoes)
 
+    def indicadores_de(self, cclasstrib: str) -> dict[str, bool] | None:
+        """Indicadores que valem para um cClassTrib, dos dois níveis da tabela.
+
+        A tabela oficial reparte a informação: o CST carrega os indicadores de
+        estrutura do grupo (`IndReducaoAliq`, `IndDiferimento`, `IndMonofasica`,
+        `IndTransferenciaCred`, `IndAjusteCompet`, `IndCredPresIbsZfm`) e a
+        classificação carrega os dela (`IndTribRegular`, `IndPermiteCredPres`,
+        `IndEstornoCred`, os `IndMono*`). Uma regra que precise decidir sobre
+        subgrupo precisa dos dois — consultar só um nível deixaria metade das
+        exigências invisível.
+
+        A classificação vence em caso de colisão: é o dado mais específico.
+        """
+        linha = self.classificacoes.get(cclasstrib)
+        if linha is None:
+            return None
+        pai = self.cst.get(linha.cst)
+        return {**(pai.indicadores if pai else {}), **linha.indicadores}
+
+    @property
+    def indicadores_conhecidos(self) -> set[str]:
+        """Todo nome de indicador válido, nos dois níveis. Usado na validação de regra."""
+        nomes: set[str] = set()
+        for grupo in self.cst.values():
+            nomes |= set(grupo.indicadores)
+        for linha in self.classificacoes.values():
+            nomes |= set(linha.indicadores)
+        return nomes
+
 
 def _indicadores(bruto: dict) -> dict[str, bool]:
     return {c: v for c, v in bruto.items() if c.startswith("Ind") and isinstance(v, bool)}
