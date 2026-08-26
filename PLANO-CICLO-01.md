@@ -1,7 +1,12 @@
-# Plano — Ciclo 01
+# Plano — Ciclo 01 · *encerrado em 25/08/2026*
 
 Derivado da pesquisa de 25/08/2026 (dossiê de posicionamento). Este documento é
 temporário: quando o ciclo fechar, o que sobrar vira BACKLOG e o resto se apaga.
+
+> **Resultado:** três dos quatro critérios cumpridos. O quarto depende de
+> credencial sua, não de trabalho — está detalhado no fim do [BACKLOG](BACKLOG.md).
+> Os blocos 1 a 7 estão todos fechados; o que a execução mudou em relação ao
+> planejado está registrado no [CHANGELOG](CHANGELOG.md) e resumido abaixo.
 
 **Objetivo do ciclo:** sair de "validador honesto mas raso, invisível" para
 "validador que ninguém mais tem, encontrável". Sem escrever uma linha de emissão.
@@ -54,14 +59,18 @@ mais valioso, e primeira impressão de dependência fiscal não se recupera.
 O ciclo fecha quando as quatro linhas abaixo forem verdadeiras. Não antes, e
 não "quase".
 
-- [ ] **Nenhuma regra com `status: pendente_confirmacao` no repositório.** Ou a
-      regra tem vigência declarada, ou tem data de reavaliação, ou saiu.
-- [ ] **`fiscal-mcp validar` aponta o grupo IBS/CBS ausente com o motivo certo** —
-      citando a postergação da UB12-10 pela NT v1.51, não uma obrigatoriedade
-      que hoje não rejeita.
-- [ ] **Um XML de NF-e com `cClassTrib` incompatível com o CST é reprovado como
+- [x] **Nenhuma regra com `status: pendente_confirmacao` no repositório.** O
+      campo deixou de existir: no lugar entrou o bloco `vigencia`, com
+      `reavaliar_em` em data concreta e teste que falha quando a data passa.
+- [x] **`fiscal-mcp validar` aponta o grupo IBS/CBS ausente com o motivo certo** —
+      citando a postergação da UB12-10 pela NT v1.51, e dizendo que a
+      obrigação de destaque permanece por condicionar a dispensa do art. 348.
+- [x] **Um XML de NF-e com `cClassTrib` incompatível com o CST é reprovado como
       erro**, com ação acionável, e um XML válido passa sem falso positivo.
-- [ ] **`fiscal-mcp` aparece na busca do registry oficial de MCP.**
+- [ ] **`fiscal-mcp` aparece na busca do registry oficial de MCP.** Bloqueado em
+      credencial, não em trabalho: falta o release no PyPI (token) e o
+      `mcp-publisher login github` (device code). O `server.json` está
+      versionado e o `mcp-name:` já está no README.
 
 ---
 
@@ -145,3 +154,38 @@ Não é estrela, não é download. É esta:
 
 É o mesmo critério de saída que a fase 0.5 já tinha, e continua sendo o único
 sinal que importa nesta etapa. As demais métricas medem esforço, não valor.
+
+---
+
+## O que a execução mudou em relação ao plano
+
+Registrado porque plano que não confessa onde errou não ensina nada no ciclo
+seguinte.
+
+**A tabela oficial tem dois níveis de indicador, não um.** A spec 05 §6
+descrevia a L-05 como "colunas `ind_g*`" num nível só. Na tabela real, os
+indicadores de estrutura do grupo (`IndReducaoAliq`, `IndDiferimento`,
+`IndMonofasica`, `IndTransferenciaCred`, `IndAjusteCompet`, `IndCredPresIbsZfm`)
+ficam no **CST**, e só `IndTribRegular`, `IndPermiteCredPres`, `IndEstornoCred` e
+os `IndMono*` ficam na **classificação**. Consultar um nível só deixaria metade
+das exigências invisível.
+
+**O XSD corrigiu três pontos do leiaute lido em PDF.** `gCredPresIBSZFM` fica sob
+`IBSCBS`, não sob `gCBS`; existe um segundo choice, não documentado, entre
+`gCredPresOper` e `gCredPresIBSZFM`; e `gALCZFMCBS` não existe no pacote. A spec
+05 §4 mandava conferir contra o XSD antes de virar código — foi o conselho mais
+valioso do ciclo.
+
+**Uma regra planejada estava errada, não só redundante.** A de escala decimal
+exigia sempre duas casas; o padrão real do tipo `TDec1302RTC` aceita `0` sozinho.
+Ela teria reprovado `<vIBS>0</vIBS>`, que é válido. Foi retirada.
+
+**Documento não assinado nunca passa no XSD oficial.** O schema exige
+`Signature` dentro de `NFe`, e o caso normal de uso desta ferramenta é
+justamente o XML ainda não assinado. Virou achado de `informacao` com explicação
+— reprovar ali seria reprovar todo mundo que usa a ferramenta para o que ela
+existe.
+
+**18 ids de regra, não 14.** Três regras da spec exigem mais de uma entrada
+(dois totais, dois enums, duas alíquotas), e duas foram retiradas. Forçar
+paridade 1:1 com a numeração da spec deixaria valor na mesa.

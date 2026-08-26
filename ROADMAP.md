@@ -37,21 +37,27 @@ não de anos: são falhas corrigíveis por um mantenedor ativo.
 
 ---
 
-## Fase A — Confiança · *em andamento*
+## Fase A — Confiança · *concluída em 25/08/2026*
 
 **Objetivo:** ser o validador mais fundo que existe para NF-e, e provar isso com
 dado verificável em vez de alegação de README.
 
-- [ ] Motor de regras com escopo por item e os tipos novos ([spec 05](docs/spec/05-camada-a-ibs-cbs.md))
-- [ ] Tabela oficial de CST e `cClassTrib` embarcada, versionada e com procedência
-- [ ] As 14 regras estruturais de IBS/CBS, cada uma com fixture que reprova e fixture que aprova
-- [ ] Validação por schema XSD via `nfelib`, com mensagens traduzidas ([spec 06](docs/spec/06-validacao-xsd.md))
-- [ ] Nenhuma regra em `pendente_confirmacao` — ou tem vigência, ou tem data de reavaliação, ou sai
-- [ ] Teste de zero-rede cobrindo as camadas novas
+- [x] Motor de regras com escopo por item e os tipos novos ([spec 05](docs/spec/05-camada-a-ibs-cbs.md))
+- [x] Tabela oficial de CST e `cClassTrib` embarcada, versionada e com procedência
+- [x] As regras estruturais de IBS/CBS, cada uma com fixture que reprova e fixture que aprova
+- [x] Validação por schema XSD via `nfelib`, com mensagens traduzidas ([spec 06](docs/spec/06-validacao-xsd.md))
+- [x] Nenhuma regra em `pendente_confirmacao` — o campo deixou de existir
+- [x] Teste de zero-rede cobrindo as camadas novas
 
 **Critério de saída:** um XML de NF-e válido com IBS/CBS passa sem nenhum erro, e
 um XML com `cClassTrib` incompatível com o CST é reprovado com ação acionável.
-As duas coisas, no mesmo release.
+As duas coisas, no mesmo release. **Cumprido na 0.2.0** — 153 testes, dos quais
+`test_nota_correta_passa_sem_nenhum_erro` é o que sustenta a promessa.
+
+Duas regras que a spec previa **não** entraram, e o motivo é o mesmo: o XSD
+oficial é a verdade executável, e conferir contra ele mostrou que uma delas
+teria falso positivo e a outra apontava para um elemento inexistente. Está no
+[CHANGELOG](CHANGELOG.md).
 
 **O que faz esta fase falhar:** um falso positivo em nota real. Regra que acusa
 errado é desinstalada no mesmo dia e não volta. Ao primeiro relato, a regra vira

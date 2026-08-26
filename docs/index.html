@@ -127,27 +127,31 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
   <div class="wrap">
     <div class="shead"><span class="snum">01<span style="color:var(--verde)">.</span></span>
       <h2 class="stitle">Dois comandos</h2></div>
-<pre><span class="c"># instala</span>
-pip install fiscal-mcp
+<pre><span class="c"># instala, com a validação por schema XSD oficial</span>
+pip install "fiscal-mcp[xsd]"
 
 <span class="c"># valida — NF-e ou NFS-e, ele descobre sozinho</span>
 fiscal-mcp validar nota.xml
 
-  <span class="r">[erro]</span> tot-produtos-confere
-      O total de produtos não bate com a soma dos itens
-      soma dos itens = 250.00, total/ICMSTot/vProd = 999.00, diferença de 749.00
-      <span class="c">→ Some o vProd de cada item e compare com total/ICMSTot/vProd.</span>
+  <span class="r">[erro]</span> ibs-cclasstrib-prefixo-cst
+      cClassTrib não corresponde ao CST do item
+      item 2: imposto/IBSCBS/cClassTrib = '000123' não começa por
+              imposto/IBSCBS/CST = '200'
+      <span class="c">→ Os três primeiros dígitos do cClassTrib são o CST do item.
+        É o erro mais comum ao ligar o módulo de IBS/CBS num ERP.</span>
 
-  <span class="a">[aviso]</span> ibs-cbs-grupo-totais-presente
-      Grupo de totais de IBS/CBS não encontrado
-      <span class="c">→ Obrigatório desde 03/08/2026 para o regime regular.</span>
+  <span class="r">[erro]</span> schema-elemento-fora-de-ordem
+      cEAN apareceu onde o leiaute espera xProd
+      item 1, linha 62 do XML
+      <span class="c">→ O schema da NF-e exige a sequência exata do leiaute —
+        trocar a ordem reprova mesmo com todos os campos presentes.</span>
 
-  <span class="r">1 erro(s)</span>, 1 aviso(s)</pre>
+  <span class="r">2 erro(s)</span>, 0 aviso(s)</pre>
     <div class="texto">
       <p>Sai com código 1 quando encontra erro, então serve direto no seu CI.
       E como servidor MCP, o agente passa a conseguir ler nota fiscal:</p>
     </div>
-<pre>pip install "fiscal-mcp[servidor]"
+<pre>pip install "fiscal-mcp[servidor,xsd]"
 
 <span class="c">// no cliente MCP</span>
 { "mcpServers": { "fiscal": { "command": "fiscal-mcp-servidor" } } }</pre>
@@ -166,7 +170,7 @@ fiscal-mcp validar nota.xml
     <table>
       <thead><tr><th>ferramenta</th><th>o que faz</th></tr></thead>
       <tbody>
-        <tr><td><code>validar_nfe</code></td><td>estrutura, coerência dos totais, formato e chave — com <strong style="color:var(--title)">o que fazer</strong> em cada achado</td></tr>
+        <tr><td><code>validar_nfe</code></td><td>schema XSD oficial, regras fiscais (IBS/CBS incluso), totais e chave — com <strong style="color:var(--title)">o que fazer</strong> em cada achado</td></tr>
         <tr><td><code>validar_nfse</code></td><td>NFS-e do padrão nacional: estrutura, DPS embutida, prestador, serviço</td></tr>
         <tr><td><code>explicar_nfe</code><br><code>explicar_nfse</code></td><td>resumo estruturado, em vez do XML inteiro estourando o contexto</td></tr>
         <tr><td><code>explicar_rejeicao</code></td><td>código da SEFAZ → significado → ação, e se é reversível</td></tr>
@@ -186,12 +190,18 @@ fiscal-mcp validar nota.xml
       <ul>
         <li><strong style="color:var(--title)">NFS-e nacional</strong> — 10 regras,
           testado contra uma nota autorizada de verdade.</li>
-        <li><strong style="color:var(--title)">NF-e / NFC-e</strong> — 12 regras,
-          mas testado <strong style="color:var(--atencao)">apenas contra XML
-          sintético</strong>. Ainda não passou por uma nota real.</li>
-        <li>A regra de <strong style="color:var(--title)">IBS/CBS</strong> emite só
-          aviso: o leiaute exato ainda não foi conferido contra a nota técnica
-          oficial. Acusar errado é pior que não acusar.</li>
+        <li><strong style="color:var(--title)">NF-e / NFC-e</strong> — schema XSD
+          oficial + 28 regras, das quais 17 são de IBS/CBS, conferidas contra a
+          tabela oficial da SVRS embarcada no repositório com sha256. Mas testado
+          <strong style="color:var(--atencao)">apenas contra XML sintético</strong>.
+          Ainda não passou por uma nota real.</li>
+        <li>A regra de <strong style="color:var(--title)">grupo IBS/CBS ausente</strong>
+          emite só aviso: a NT 2025.002 v1.51 reclassificou a rejeição
+          correspondente como implementação futura, então a nota não é recusada
+          por isso hoje. Acusar errado é pior que não acusar.</li>
+        <li>A <strong style="color:var(--title)">validação por schema</strong> exige
+          o extra <code>[xsd]</code>. Sem ele, o laudo diz que essa camada não
+          rodou — nunca finge que rodou.</li>
         <li>Passar aqui <strong style="color:var(--title)">não garante
           autorização</strong>. É validação local — pega o erro previsível, não
           substitui a SEFAZ.</li>
@@ -217,8 +227,10 @@ fiscal-mcp validar nota.xml
           mais valiosa que existe agora.</li>
         <li><strong style="color:var(--title)">Código de rejeição</strong> que você
           levou e não está no catálogo.</li>
-        <li><strong style="color:var(--title)">Confirmação do leiaute de IBS/CBS</strong>
-          contra a nota técnica oficial.</li>
+        <li><strong style="color:var(--title)">Leitura da seção 7 da NT
+          2025.002-RTC v1.51</strong> — o leiaute já está mapeado; o que falta
+          confirmar em fonte primária são os códigos de rejeição, e nenhum entra
+          aqui sem leitura humana.</li>
       </ul>
       <p style="margin-top:20px">Regras são dados, não código: absorver uma nota
       técnica é editar um YAML. Contribuir não exige entender o projeto inteiro
