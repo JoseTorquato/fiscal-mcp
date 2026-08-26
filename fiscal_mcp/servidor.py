@@ -47,14 +47,21 @@ def _json(dados: dict) -> str:
 
 
 @mcp.tool(annotations=SO_LEITURA)
-def validar_nfe(xml: str, incluir_resumo: bool = True) -> str:
+def validar_nfe(xml: str, incluir_resumo: bool = True, schema: bool = True) -> str:
     """Valida um XML de NF-e localmente, sem transmitir nada.
 
     Somente leitura. Sem efeito fiscal — não assina, não emite, não envia à SEFAZ.
 
-    Confere estrutura mínima, coerência dos totais com os itens, formato dos
-    campos e o dígito verificador da chave de acesso. Também sinaliza os campos
-    de IBS e CBS, obrigatórios desde 03/08/2026.
+    Três camadas, num laudo só:
+
+    - **schema XSD oficial**, quando o extra `[xsd]` está instalado: ordem dos
+      elementos, cardinalidade, tipo e formato, com as mensagens traduzidas;
+    - **regras fiscais**, incluindo a Camada A de IBS/CBS, que confere CST e
+      cClassTrib contra a tabela oficial embarcada da SVRS;
+    - **chave de acesso**, com dígito verificador.
+
+    A saída traz `leiaute_validado_contra` com o pacote de schemas em uso, e
+    `schema_disponivel` dizendo se essa camada rodou — ela nunca finge que rodou.
 
     Cada achado traz severidade, o que está errado e o que fazer. Passar aqui
     não garante autorização pela SEFAZ: é validação local, feita para evitar
@@ -63,8 +70,9 @@ def validar_nfe(xml: str, incluir_resumo: bool = True) -> str:
     Args:
         xml: conteúdo do XML da NF-e.
         incluir_resumo: inclui o resumo do documento junto do resultado.
+        schema: roda também a validação por schema XSD.
     """
-    return _json(_valida_nfe(xml, incluir_resumo=incluir_resumo))
+    return _json(_valida_nfe(xml, incluir_resumo=incluir_resumo, schema=schema))
 
 
 @mcp.tool(annotations=SO_LEITURA)

@@ -20,6 +20,9 @@ dependencies = ["lxml>=5.0", "pyyaml>=6.0"]
 [project.optional-dependencies]
 # O núcleo (validação, chave, rejeições) funciona sem o SDK. Só o servidor precisa.
 servidor = ["mcp>=2.0"]
+# Validação por schema XSD. A nfelib (MIT) entra só pelos arquivos .xsd oficiais
+# que ela empacota — a validação em si é do lxml, que já é dependência do núcleo.
+xsd = ["nfelib>=2.5"]
 
 [project.urls]
 Homepage = "https://josetorquato.dev/fiscal-mcp/"

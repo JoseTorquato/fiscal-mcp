@@ -89,6 +89,8 @@ def main(argv: list[str] | None = None) -> int:
     v = sub.add_parser("validar", help="valida um XML de NF-e ou NFS-e localmente")
     v.add_argument("arquivo", help="caminho do XML")
     v.add_argument("--json", action="store_true", help="saída em JSON")
+    v.add_argument("--sem-schema", action="store_true",
+                   help="não roda a validação por schema XSD")
 
     e = sub.add_parser("explicar", help="resume um XML de NF-e ou NFS-e")
     e.add_argument("arquivo")
@@ -119,7 +121,10 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(explica(xml), ensure_ascii=False, indent=2))
             return 0
 
-        resultado = (valida_nfse if e_nfse else valida_nfe)(xml)
+        if e_nfse:
+            resultado = valida_nfse(xml)
+        else:
+            resultado = valida_nfe(xml, schema=not args.sem_schema)
         if args.json:
             print(json.dumps(resultado, ensure_ascii=False, indent=2))
         else:

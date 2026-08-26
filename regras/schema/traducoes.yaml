@@ -1,0 +1,94 @@
+# Tradução das mensagens do validador de schema (lxml) para português acionável.
+#
+# É dado, não código — mesma tese do motor de regras: absorver leiaute novo
+# deveria ser editar um arquivo, não mexer no validador.
+#
+# O casamento é por expressão regular sobre a mensagem do lxml JÁ SEM o
+# namespace (a URL do portal fiscal é removida antes). Grupos nomeados viram
+# campos em `problema` e `acao`.
+#
+# Ordem importa: vence a primeira que casar. Padrões específicos vêm antes dos
+# genéricos.
+#
+# Regra de ouro: mensagem que não casar com nenhum padrão sai CRUA e marcada
+# como não traduzida. Nunca adivinhe — achado cru e honesto é melhor que achado
+# bonito e errado.
+
+traducoes:
+
+  # ---- específicos da reforma tributária: onde está a dor de 2026 ----------
+
+  - id: schema-cclasstrib-ausente
+    padrao: "Element 'IBSCBS': Missing child element\\(s\\)\\. Expected is \\( cClassTrib \\)"
+    problema: o elemento cClassTrib é obrigatório dentro de IBSCBS
+    acao: >
+      Informe cClassTrib com 6 dígitos, começando pelos 3 dígitos do CST do
+      item. A tabela oficial de classificações está embarcada — veja
+      `fiscal-mcp tabelas`.
+
+  - id: schema-cst-ausente
+    padrao: "Element 'IBSCBS': Missing child element\\(s\\)\\. Expected is \\( CST \\)"
+    problema: o elemento CST é obrigatório dentro de IBSCBS
+    acao: >
+      Informe o CST de IBS/CBS com 3 dígitos. São 18 códigos possíveis, listados
+      na tabela oficial embarcada.
+
+  - id: schema-ibscbstot-ausente
+    padrao: "Element 'total': Missing child element\\(s\\)\\. Expected is \\( IBSCBSTot \\)"
+    problema: a nota tem IBS/CBS nos itens mas não traz o grupo de totais IBSCBSTot
+    acao: >
+      Inclua IBSCBSTot em `total`, com as bases e os valores consolidados de IBS
+      e CBS.
+
+  # ---- genéricos: cobrem o resto do leiaute --------------------------------
+
+  - id: schema-elemento-obrigatorio-ausente
+    padrao: >-
+      Element '(?P<pai>[\w.-]+)': Missing child element\(s\)\. Expected is
+      (?:one of )?\( (?P<esperado>[\w.-]+)
+    problema: "o elemento {esperado} é obrigatório dentro de {pai} e está ausente"
+    acao: >
+      Inclua {esperado} em {pai}. A ordem dos elementos também conta: o schema da
+      NF-e é uma sequência, não um conjunto.
+
+  - id: schema-elemento-fora-de-ordem
+    padrao: >-
+      Element '(?P<encontrado>[\w.-]+)': This element is not expected\. Expected is
+      (?:one of )?\( (?P<esperado>[\w.-]+)
+    problema: "{encontrado} apareceu onde o leiaute espera {esperado}"
+    acao: >
+      Ou {esperado} está faltando antes de {encontrado}, ou os dois estão fora de
+      ordem. O schema da NF-e exige a sequência exata do leiaute — trocar a ordem
+      reprova mesmo com todos os campos presentes.
+
+  - id: schema-elemento-desconhecido
+    padrao: "Element '(?P<encontrado>[\\w.-]+)': This element is not expected\\."
+    problema: "o elemento {encontrado} não existe nesta posição do leiaute"
+    acao: >
+      Confira o nome e a posição de {encontrado} contra o leiaute da versão que
+      você está emitindo. Campo inventado ou com maiúscula trocada reprova.
+
+  - id: schema-valor-invalido-para-o-tipo
+    padrao: >-
+      Element '(?P<elemento>[\w.-]+)': \[facet '(?P<restricao>\w+)'\]
+      The value '(?P<valor>[^']*)'
+    problema: "o valor '{valor}' de {elemento} viola a restrição de {restricao} do leiaute"
+    acao: >
+      Ajuste {elemento} ao formato do leiaute. As causas mais comuns são casas
+      decimais a mais, zeros à esquerda faltando e espaço em branco no conteúdo.
+
+  - id: schema-valor-fora-do-tipo
+    padrao: >-
+      Element '(?P<elemento>[\w.-]+)': '(?P<valor>[^']*)' is not a valid value
+    problema: "o valor '{valor}' não é aceito em {elemento}"
+    acao: >
+      Confira o domínio de {elemento} no leiaute. Códigos de tabela precisam vir
+      exatamente como publicados, inclusive zeros à esquerda.
+
+  - id: schema-atributo-invalido
+    padrao: >-
+      Element '(?P<elemento>[\w.-]+)', attribute '(?P<atributo>[\w.-]+)'
+    problema: "o atributo {atributo} de {elemento} não está conforme o leiaute"
+    acao: >
+      Confira {atributo}. No caso do Id do infNFe, o valor é 'NFe' seguido dos 44
+      dígitos da chave de acesso, sem separadores.

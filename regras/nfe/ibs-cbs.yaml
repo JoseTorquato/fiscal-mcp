@@ -125,7 +125,9 @@ regras:
       IndTransferenciaCred: imposto/IBSCBS/gTransfCred
       IndAjusteCompet: imposto/IBSCBS/gAjusteCompet
       IndTribRegular: imposto/IBSCBS/gIBSCBS/gTribRegular
-      IndPermiteCredPres: imposto/IBSCBS/gIBSCBS/gCredPresOper
+      IndPermiteCredPres: imposto/IBSCBS/gCredPresOper
+      IndCredPresIbsZfm: imposto/IBSCBS/gCredPresIBSZFM
+      IndEstornoCred: imposto/IBSCBS/gEstornoCred
     mensagem: Subgrupo de IBS/CBS incompatível com a classificação tributária
     referencia: Indicadores da tabela oficial, nos níveis CST e cClassTrib
     vigencia:
@@ -195,6 +197,22 @@ regras:
       (gIBSCBSMono), transferência de crédito (gTransfCred) ou ajuste de
       competência (gAjusteCompet). Remova os que não se aplicam.
 
+  # Segundo choice do grupo, que a spec 05 §4 não documentava e o XSD mostra:
+  # gCredPresOper e gCredPresIBSZFM são mutuamente exclusivos.
+  - id: ibs-credito-presumido-exclusivo
+    tipo: exclusivo
+    escopo: item
+    severidade: erro
+    campos:
+      - imposto/IBSCBS/gCredPresOper
+      - imposto/IBSCBS/gCredPresIBSZFM
+    mensagem: Dois regimes de crédito presumido no mesmo item
+    referencia: Escolha entre gCredPresOper e gCredPresIBSZFM · XSD TTribNFe
+    acao: >
+      O item usa crédito presumido por operação (gCredPresOper) ou o da Zona
+      Franca de Manaus (gCredPresIBSZFM), nunca os dois. Remova o que não se
+      aplica.
+
   - id: ibs-cst-620-exige-mono
     tipo: condicional
     escopo: item
@@ -235,49 +253,33 @@ regras:
     referencia: Grupo UB112 · competApur no formato AAAA-MM
     acao: "A competência vai como AAAA-MM, ex.: 2026-08."
 
-  - id: ibs-escala-decimal
-    tipo: formato
-    escopo: item
-    severidade: aviso
-    campos:
-      - imposto/IBSCBS/gIBSCBS/vBC
-      - imposto/IBSCBS/gIBSCBS/vIBS
-      - imposto/IBSCBS/gIBSCBS/gIBSUF/vIBSUF
-      - imposto/IBSCBS/gIBSCBS/gIBSMun/vIBSMun
-      - imposto/IBSCBS/gIBSCBS/gCBS/vCBS
-    padrao: "\\d{1,13}\\.\\d{2}"
-    mensagem: Valor de IBS/CBS fora da escala decimal do leiaute
-    referencia: Valores monetários do leiaute são 13v2
-    vigencia:
-      reavaliar_em: "2026-12-01"
-      fonte: "Leiaute da NT 2025.002-RTC"
-      observacao: >
-        Redundante quando a validação por schema XSD estiver de pé — o XSD faz
-        isso melhor. Reavaliar para possível remoção (spec 06).
-    acao: >
-      Valores monetários vão com ponto decimal e duas casas. Alguns emissores
-      aceitam mais casas e a SEFAZ trunca; a divergência aparece depois, na
-      conferência do total.
+  # A regra de escala decimal que a spec 05 §6 previa (L-12) foi RETIRADA por
+  # dois motivos, e o segundo é o que decide:
+  #
+  #   1. é redundante — o XSD já valida a escala pelo tipo TDec1302RTC;
+  #   2. estava ERRADA. O padrão do leiaute é `0|0\.[0-9]{2}|[1-9][0-9]{0,12}(\.[0-9]{2})?`,
+  #      que aceita `0` sozinho. A regra escrita à mão exigia sempre duas casas e
+  #      teria reprovado `<vIBS>0</vIBS>`, que é válido.
+  #
+  # É o caso exemplar de por que o XSD é a verdade executável: a regra de formato
+  # escrita a partir da leitura do leiaute tinha um falso positivo latente.
+  # Escala decimal agora é responsabilidade da camada de schema (extra [xsd]).
 
   - id: ibs-enum-credpres-zfm
     tipo: valor_em
     escopo: item
     severidade: erro
-    campo: imposto/IBSCBS/gIBSCBS/gCBS/gCredPresIBSZFM/tpCredPresIBSZFM
+    campo: imposto/IBSCBS/gCredPresIBSZFM/tpCredPresIBSZFM
     valores: ["0", "1", "2", "3", "4"]
     mensagem: Tipo de crédito presumido da ZFM fora dos valores previstos
     referencia: Domínio de tpCredPresIBSZFM
     acao: Use um dos valores previstos no leiaute para o crédito presumido da ZFM.
 
-  - id: ibs-enum-alc-zfm
-    tipo: valor_em
-    escopo: item
-    severidade: erro
-    campo: imposto/IBSCBS/gIBSCBS/gCBS/gALCZFMCBS/tpALCZFMCBS
-    valores: ["1", "2"]
-    mensagem: Tipo de ALC/ZFM fora dos valores previstos
-    referencia: Domínio de tpALCZFMCBS
-    acao: Use um dos valores previstos no leiaute para a Área de Livre Comércio.
+  # A regra de tpALCZFMCBS que a spec 05 §6 previa foi RETIRADA: o elemento não
+  # existe no XSD oficial embarcado, e o domínio {1,2} veio de extração de PDF,
+  # sem confirmação em fonte primária. Regra sobre elemento inexistente é peso
+  # morto, e domínio não confirmado é exatamente o que este projeto não publica.
+  # Volta quando aparecer num pacote de schema, com o domínio lido do XSD.
 
   # As alíquotas de 2026 são de transição assistida: 0,1% de IBS e 0,9% de CBS,
   # sem recolhimento. Fica como AVISO porque uma fonte secundária afirma que a

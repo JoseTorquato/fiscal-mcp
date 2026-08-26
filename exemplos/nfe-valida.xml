@@ -59,6 +59,7 @@
     <det nItem="1">
       <prod>
         <cProd>P001</cProd>
+        <cEAN>SEM GTIN</cEAN>
         <xProd>Produto de exemplo A</xProd>
         <NCM>84713012</NCM>
         <CFOP>5102</CFOP>
@@ -66,12 +67,31 @@
         <qCom>2.0000</qCom>
         <vUnCom>100.00</vUnCom>
         <vProd>200.00</vProd>
+        <cEANTrib>SEM GTIN</cEANTrib>
+        <uTrib>UN</uTrib>
+        <qTrib>2.0000</qTrib>
+        <vUnTrib>100.00</vUnTrib>
         <indTot>1</indTot>
       </prod>
+      <imposto>
+        <ICMS>
+          <ICMS00>
+            <orig>0</orig>
+            <CST>00</CST>
+            <modBC>3</modBC>
+            <vBC>200.00</vBC>
+            <pICMS>0.00</pICMS>
+            <vICMS>0.00</vICMS>
+          </ICMS00>
+        </ICMS>
+        <PIS><PISNT><CST>07</CST></PISNT></PIS>
+        <COFINS><COFINSNT><CST>07</CST></COFINSNT></COFINS>
+      </imposto>
     </det>
     <det nItem="2">
       <prod>
         <cProd>P002</cProd>
+        <cEAN>SEM GTIN</cEAN>
         <xProd>Produto de exemplo B</xProd>
         <NCM>84713012</NCM>
         <CFOP>5102</CFOP>
@@ -79,17 +99,58 @@
         <qCom>1.0000</qCom>
         <vUnCom>50.00</vUnCom>
         <vProd>50.00</vProd>
+        <cEANTrib>SEM GTIN</cEANTrib>
+        <uTrib>UN</uTrib>
+        <qTrib>1.0000</qTrib>
+        <vUnTrib>50.00</vUnTrib>
         <indTot>1</indTot>
       </prod>
+      <imposto>
+        <ICMS>
+          <ICMS00>
+            <orig>0</orig>
+            <CST>00</CST>
+            <modBC>3</modBC>
+            <vBC>50.00</vBC>
+            <pICMS>0.00</pICMS>
+            <vICMS>0.00</vICMS>
+          </ICMS00>
+        </ICMS>
+        <PIS><PISNT><CST>07</CST></PISNT></PIS>
+        <COFINS><COFINSNT><CST>07</CST></COFINSNT></COFINS>
+      </imposto>
     </det>
     <total>
       <ICMSTot>
-        <vProd>250.00</vProd>
-        <vDesc>0.00</vDesc>
-        <vFrete>0.00</vFrete>
+        <vBC>0.00</vBC>
         <vICMS>0.00</vICMS>
+        <vICMSDeson>0.00</vICMSDeson>
+        <vFCP>0.00</vFCP>
+        <vBCST>0.00</vBCST>
+        <vST>0.00</vST>
+        <vFCPST>0.00</vFCPST>
+        <vFCPSTRet>0.00</vFCPSTRet>
+        <vProd>250.00</vProd>
+        <vFrete>0.00</vFrete>
+        <vSeg>0.00</vSeg>
+        <vDesc>0.00</vDesc>
+        <vII>0.00</vII>
+        <vIPI>0.00</vIPI>
+        <vIPIDevol>0.00</vIPIDevol>
+        <vPIS>0.00</vPIS>
+        <vCOFINS>0.00</vCOFINS>
+        <vOutro>0.00</vOutro>
         <vNF>250.00</vNF>
       </ICMSTot>
     </total>
+    <transp>
+      <modFrete>9</modFrete>
+    </transp>
+    <pag>
+      <detPag>
+        <tPag>90</tPag>
+        <vPag>250.00</vPag>
+      </detPag>
+    </pag>
   </infNFe>
 </NFe>

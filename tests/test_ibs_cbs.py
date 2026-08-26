@@ -202,31 +202,55 @@ def test_competencia_valida_passa(competencia):
     assert "ibs-competapur-formato" not in ids(xml, "erro")
 
 
-# ---- L-12 · escala decimal (aviso) ---------------------------------------
+# ---- L-12 · escala decimal: a regra saiu, o schema cobre -----------------
 
-def test_valor_com_escala_errada_vira_aviso_e_nao_erro():
-    """O XSD faz isso melhor. Enquanto ele não existe, avisa — nunca reprova."""
-    xml = quebra(("<vBC>200.00</vBC>", "<vBC>200.0000</vBC>"))
-    achado = [a for a in achados(xml) if a["id"] == "ibs-escala-decimal"]
-    assert achado and achado[0]["severidade"] == "aviso"
+def test_escala_decimal_e_responsabilidade_do_schema():
+    """A regra de formato escrita à mão tinha falso positivo; o XSD não tem.
+
+    O tipo TDec1302RTC aceita `0` sozinho. A regra exigia sempre duas casas e
+    teria reprovado nota válida. Ficou com o schema, que carrega o padrão real.
+    """
+    assert "ibs-escala-decimal" not in {r.id for r in carrega()}
+
+    # o vBC do IBSCBS, não o do ICMS — a nota tem os dois
+    dentro_do_grupo = "<gIBSCBS>\n            <vBC>"
+    xml = quebra((dentro_do_grupo + "200.00</vBC>", dentro_do_grupo + "200.0000</vBC>"))
+    pegou = [a for a in achados(xml, "erro") if a["grupo"] == "schema"]
+    assert pegou, "sem a regra, quem precisa pegar escala errada é o schema"
+    assert "200.0000" in pegou[0]["problema"]
 
 
 # ---- L-13 · enums ---------------------------------------------------------
 
 def test_enum_de_credito_presumido_zfm_fora_do_dominio_e_reprovado():
+    """O domínio 0-4 foi conferido no XSD oficial, não extraído de PDF."""
     xml = quebra((
-        "<gCBS>",
-        "<gCBS><gCredPresIBSZFM><tpCredPresIBSZFM>9</tpCredPresIBSZFM></gCredPresIBSZFM>",
+        "</gIBSCBS>",
+        "</gIBSCBS><gCredPresIBSZFM><competApur>2026-08</competApur>"
+        "<tpCredPresIBSZFM>9</tpCredPresIBSZFM>"
+        "<vCredPresIBSZFM>0.00</vCredPresIBSZFM></gCredPresIBSZFM>",
     ))
     assert "ibs-enum-credpres-zfm" in ids(xml, "erro")
 
 
-def test_enum_de_alc_zfm_fora_do_dominio_e_reprovado():
+@pytest.mark.parametrize("valor", ["0", "1", "2", "3", "4"])
+def test_enum_de_credito_presumido_zfm_aceita_o_dominio_do_xsd(valor):
     xml = quebra((
-        "<gCBS>",
-        "<gCBS><gALCZFMCBS><tpALCZFMCBS>7</tpALCZFMCBS></gALCZFMCBS>",
+        "</gIBSCBS>",
+        f"</gIBSCBS><gCredPresIBSZFM><competApur>2026-08</competApur>"
+        f"<tpCredPresIBSZFM>{valor}</tpCredPresIBSZFM>"
+        f"<vCredPresIBSZFM>0.00</vCredPresIBSZFM></gCredPresIBSZFM>",
     ))
-    assert "ibs-enum-alc-zfm" in ids(xml, "erro")
+    assert "ibs-enum-credpres-zfm" not in ids(xml, "erro")
+
+
+def test_dois_creditos_presumidos_no_mesmo_item_e_reprovado():
+    """Segundo choice do grupo, que só o XSD revelou."""
+    xml = quebra((
+        "</gIBSCBS>",
+        "</gIBSCBS><gCredPresOper/><gCredPresIBSZFM/>",
+    ))
+    assert "ibs-credito-presumido-exclusivo" in ids(xml, "erro")
 
 
 # ---- L-14 · alíquotas de 2026 (aviso) ------------------------------------
@@ -285,7 +309,8 @@ def test_as_regras_da_camada_a_estao_todas_presentes():
         "ibs-cclasstrib-modelo", "ibs-subgrupos-obrigatorios", "ibs-vibs-soma-uf-mun",
         "ibs-totais-conferem-ibs", "ibs-totais-conferem-cbs", "ibs-grupo-exclusivo",
         "ibs-cst-620-exige-mono", "ibs-totais-presentes", "ibs-competapur-formato",
-        "ibs-escala-decimal", "ibs-enum-credpres-zfm", "ibs-enum-alc-zfm",
+        "ibs-enum-credpres-zfm",
+        "ibs-credito-presumido-exclusivo",
         "ibs-aliquota-uf-2026", "ibs-aliquota-cbs-2026",
     }
     assert {r.id for r in carrega() if r.id.startswith("ibs-")} == esperadas

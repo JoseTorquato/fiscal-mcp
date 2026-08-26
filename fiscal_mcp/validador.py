@@ -7,14 +7,19 @@ servidor de propósito — o núcleo precisa ser testável sem o SDK de MCP.
 from __future__ import annotations
 
 from . import chave as mod_chave
+from . import schema as mod_schema
 from .documento import Documento, DocumentoNaoSuportado, XmlInvalido
 from .nfse import DocumentoNFSe
 from .nfse import analisa_chave as _analisa_chave_nfse
 from .regras import aplica, carrega
 
 
-def valida_nfe(xml: str, incluir_resumo: bool = True) -> dict:
-    """Valida um XML de NF-e localmente. Não assina, não transmite, não emite."""
+def valida_nfe(xml: str, incluir_resumo: bool = True, schema: bool = True) -> dict:
+    """Valida um XML de NF-e localmente. Não assina, não transmite, não emite.
+
+    `schema=True` roda também a validação por XSD, quando o extra `[xsd]` está
+    instalado. Sem o extra, a saída diz que não rodou — nunca finge que rodou.
+    """
     try:
         doc = Documento.de_texto(xml)
     except DocumentoNaoSuportado as exc:
@@ -56,8 +61,29 @@ def valida_nfe(xml: str, incluir_resumo: bool = True) -> dict:
             "acao": "O Id deve ser 'NFe' seguido dos 44 dígitos da chave.",
         })
 
+    schema_rodou = False
+    leiaute = None
+    if schema and mod_schema.disponivel():
+        leiaute = mod_schema.pacote()
+        achados.extend(mod_schema.valida(xml))
+        schema_rodou = True
+
     erros = [a for a in achados if a["severidade"] == "erro"]
     avisos = [a for a in achados if a["severidade"] == "aviso"]
+
+    if schema_rodou:
+        nota = (
+            "Validação local: schema XSD oficial, regras fiscais, coerência de "
+            "totais e chave de acesso. Não substitui a validação da SEFAZ e não "
+            "garante autorização."
+        )
+    else:
+        nota = (
+            "Validação local: regras fiscais, coerência de totais e chave de acesso. "
+            "A validação por schema XSD não rodou — instale com "
+            "`pip install 'fiscal-mcp[xsd]'`. Não substitui a validação da SEFAZ "
+            "e não garante autorização."
+        )
 
     saida = {
         "ok": not erros,
@@ -65,11 +91,9 @@ def valida_nfe(xml: str, incluir_resumo: bool = True) -> dict:
         "avisos": len(avisos),
         "achados": achados,
         "verificado_localmente": True,
-        "nota": (
-            "Validação local: schema mínimo, coerência de totais e chave de acesso. "
-            "Não substitui a validação da SEFAZ nem o XSD oficial, e não garante "
-            "autorização."
-        ),
+        "schema_disponivel": schema_rodou,
+        "leiaute_validado_contra": leiaute,
+        "nota": nota,
     }
     if incluir_resumo:
         saida["documento"] = doc.resumo()
