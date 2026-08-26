@@ -1,3 +1,16 @@
+# A tabela oficial é conferida por sha256 dos BYTES em disco. Com core.autocrlf
+# ligado — o padrão em muita instalação Windows — o checkout converteria as
+# quebras de linha e o hash divergiria: o teste acusaria "alguém editou dado
+# oficial à mão" num clone recém-feito, que é o pior alarme falso possível.
+# `-text` desliga qualquer conversão para estes arquivos.
+regras/tabelas/*.json -text
+regras/tabelas/*.md   -text
+
+# Fixtures e regras são lidas como texto e comparadas com o que o código produz.
+regras/**/*.yaml eol=lf
+exemplos/*.xml   eol=lf
+tests/dados/*    eol=lf
+
 # As páginas de docs/rejeicoes/ são geradas por script e versionadas, e um teste
 # compara o HTML do repositório byte a byte com o que o gerador produz. Sem isto,
 # o checkout no Windows converte para CRLF e o teste acusa desatualização que não
