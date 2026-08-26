@@ -1,44 +1,43 @@
 grupo: ibs-cbs
 #
-# ⚠️  ARQUIVO PENDENTE DE CONFIRMAÇÃO CONTRA A NOTA TÉCNICA OFICIAL
+# Estado desta camada, em 25/08/2026.
 #
-# Contexto: desde 03/08/2026 o preenchimento dos campos de IBS e CBS é
-# obrigatório nos documentos fiscais do regime regular, e notas sem eles podem
-# ser rejeitadas. 2026 é ano de transição assistida, com alíquota-teste de 1%
-# (0,1% IBS + 0,9% CBS) sem recolhimento.
+# O leiaute de IBS/CBS está mapeado e é verificável — sai do XSD oficial e da
+# tabela de CST/cClassTrib publicada pela SVRS. O que NÃO está confirmado em
+# fonte primária são os códigos numéricos de rejeição, e essa distinção decide
+# o que pode virar erro: nenhuma mensagem daqui cita número de rejeição antes
+# de o número ter sido lido na nota técnica vigente.
 #
-# O que se sabe: os totais de IBS, CBS e Imposto Seletivo entram no grupo W03,
-# dentro do grupo de totais da NF-e.
+# A NT 2025.002 v1.51, aprovada pelo Ato Técnico Conjunto RFB/CGIBS nº 1 de
+# 31/07/2026, reclassificou a regra UB12-10 — a que exigiria o grupo IBSCBS —
+# de data fixa para "implementação futura". Ou seja: a rejeição por ausência do
+# grupo NÃO está ativa em produção para NF-e e NFC-e. Uma regra que acusasse
+# erro aqui hoje acusaria errado.
 #
-# O que FALTA confirmar antes de marcar estas regras como vigentes:
-#   1. os nomes exatos das tags XML do grupo e de cada campo;
-#   2. em quais situações o grupo é obrigatório e em quais é dispensado;
-#   3. se há campos por item (além dos totais) e quais;
-#   4. a versão de leiaute a partir da qual valem.
+# Isso é postergação técnica, não jurídica: a obrigação de destacar permanece, e
+# o descumprimento afeta a dispensa de recolhimento do art. 348 da LC 214/2025.
+# Em 2026 a nota corretamente preenchida É o mecanismo de dispensa.
 #
-# Fonte a consultar: Portal da NF-e (nfe.fazenda.gov.br), seção de notas
-# técnicas, e os atos do Comitê Gestor do IBS.
-#
-# Enquanto não confirmado, as regras ficam com severidade "aviso" e
-# status "pendente_confirmacao" — aparecem no laudo sinalizadas, mas não
-# reprovam a nota. Acusar erradamente é pior que não acusar; ver a mesma
-# postura no README, seção de limites.
-#
-# Este arquivo é, de propósito, o exemplo vivo da tese do projeto: absorver uma
-# mudança fiscal deveria ser editar dados, não código. Ver docs/spec/04-manutencao.md.
+# As 14 regras estruturais da Camada A entram nos blocos seguintes do ciclo.
+# Ver docs/spec/05-camada-a-ibs-cbs.md.
 
 regras:
   - id: ibs-cbs-grupo-totais-presente
     tipo: existe
     severidade: aviso
-    status: pendente_confirmacao
-    # TODO(NT): substituir pelo caminho real do grupo W03 quando confirmado
     campo: total/IBSCBSTot
     mensagem: Grupo de totais de IBS/CBS não encontrado
-    referencia: Obrigatório desde 03/08/2026 para o regime regular
+    referencia: >
+      NT 2025.002 v1.51 · UB12-10 reclassificada como implementação futura
+    vigencia:
+      reavaliar_em: "2026-09-01"
+      fonte: "Ato Técnico Conjunto RFB/CGIBS nº 1, de 31/07/2026"
+      observacao: >
+        Reavaliar quando entrarem as validações de 01/09/2026 (homologação) e
+        05/10/2026 (produção).
     acao: >
-      A partir de 03/08/2026 os documentos fiscais do regime regular precisam
-      trazer os campos de IBS e CBS, e a nota pode ser rejeitada sem eles.
-      Confirme o leiaute exato na nota técnica vigente no Portal da NF-e.
-      ATENÇÃO: esta regra ainda não foi confirmada contra a nota técnica —
-      trate como lembrete, não como veredito.
+      Inclua o grupo de totais de IBS/CBS na nota. A rejeição correspondente
+      (regra UB12-10) foi postergada para implementação futura pela NT 2025.002
+      v1.51, então a nota não é recusada por isso hoje — mas o destaque continua
+      legalmente obrigatório e condiciona a dispensa de recolhimento do
+      art. 348 da LC 214/2025.

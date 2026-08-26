@@ -113,9 +113,10 @@ perder a confiança de quem trabalha com fiscal:
 | NFS-e nacional | 10 | ✅ sim, uma nota autorizada |
 | NF-e / NFC-e | 12 | ⚠️ **apenas contra XML sintético** |
 
-A regra de IBS/CBS está marcada como `pendente_confirmacao` e só emite **aviso**:
-o leiaute exato ainda não foi conferido contra a nota técnica oficial. Acusar
-errado é pior que não acusar.
+A regra de IBS/CBS emite **aviso**, não erro: a NT 2025.002 v1.51 reclassificou
+a regra de rejeição correspondente (UB12-10) como *implementação futura*, então
+a nota não é recusada por isso hoje. Ela carrega data de reavaliação, e um teste
+falha quando essa data passa. Acusar errado é pior que não acusar.
 
 **Tem um XML real que pode compartilhar?** É a contribuição mais valiosa
 possível agora — abra uma issue com os dados trocados por fictícios.
@@ -139,6 +140,27 @@ YAML — e é:
 
 Tipos disponíveis: `existe`, `nao_vazio`, `valor_em`, `formato`, `soma_itens`,
 `condicional`.
+
+**Escopo.** Por padrão a regra roda uma vez, na raiz da nota. Com `escopo: item`
+ela roda uma vez por item, com os caminhos relativos ao `det` — e o achado diz
+qual item, pelo `nItem`:
+
+```yaml
+- id: ibs-grupo-ausente
+  tipo: existe
+  escopo: item              # documento (padrão) | item
+  campo: imposto/IBSCBS
+```
+
+**Vigência.** Regra que ainda não estabilizou declara quando será reavaliada.
+Não é comentário: um teste falha quando a data passa, e é assim que a manutenção
+deixa de depender de memória.
+
+```yaml
+  vigencia:
+    reavaliar_em: "2026-09-01"
+    fonte: "Ato Técnico Conjunto RFB/CGIBS nº 1, de 31/07/2026"
+```
 
 **Todo achado precisa de `acao`.** Quem lê é um agente que vai tentar de novo —
 erro sem ação vira loop de retry ou nota duplicada. Um teste falha se alguma

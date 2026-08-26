@@ -84,12 +84,16 @@ def test_xml_valido_passa_sem_erro():
 
 
 def test_ibs_cbs_e_aviso_nao_erro():
-    """Regra pendente de confirmação não pode reprovar nota."""
+    """A rejeição por ausência do grupo não está ativa: acusar erro seria acusar errado.
+
+    A NT 2025.002 v1.51 reclassificou a UB12-10 como implementação futura. Enquanto
+    isso valer, a regra é aviso e carrega data de reavaliação — ver spec 05 §2.
+    """
     r = valida_nfe(EXEMPLO)
     ibs = [a for a in r["achados"] if a["id"].startswith("ibs-cbs")]
     assert ibs, "a regra de IBS/CBS deveria ter aparecido"
     assert all(a["severidade"] == "aviso" for a in ibs)
-    assert all(a.get("status_da_regra") == "pendente_confirmacao" for a in ibs)
+    assert all(a.get("vigencia", {}).get("reavaliar_em") for a in ibs),         "regra ainda não estabilizada precisa dizer quando será reavaliada"
 
 
 # ---- validação: o ruim precisa ser pego -----------------------------------

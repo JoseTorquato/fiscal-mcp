@@ -23,6 +23,11 @@ def _cor(texto: str, cor: str) -> str:
     return f"{cor}{texto}{ZERA}" if sys.stdout.isatty() else texto
 
 
+def _data_br(iso: str) -> str:
+    ano, mes, dia = iso.split("-")
+    return f"{dia}/{mes}/{ano}"
+
+
 def _mostra_validacao(r: dict) -> None:
     if "erro" in r and not r.get("achados"):
         print(_cor(f"\n  não consegui ler o arquivo: {r['erro']}", VERM))
@@ -39,6 +44,10 @@ def _mostra_validacao(r: dict) -> None:
             print(_cor(f"      {a['detalhe']}", CINZA))
         if a.get("acao"):
             print(_cor(f"      → {a['acao'].strip()}", CINZA))
+        # regra que ainda não estabilizou diz isso na cara de quem lê, não só no YAML
+        reavaliar = a.get("vigencia", {}).get("reavaliar_em")
+        if reavaliar:
+            print(_cor(f"      regra em reavaliação até {_data_br(reavaliar)}", CINZA))
         print()
 
     veredito = "sem erros" if r["ok"] else f"{r['erros']} erro(s)"
