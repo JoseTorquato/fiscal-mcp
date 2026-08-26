@@ -10,7 +10,7 @@ nenhum.
 
 [![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/pyproject.toml)
-[![185 testes](https://img.shields.io/badge/testes-185-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
+[![186 testes](https://img.shields.io/badge/testes-186-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
 
 ```bash
 pip install "fiscal-mcp[xsd]"

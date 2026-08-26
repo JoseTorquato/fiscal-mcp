@@ -21,6 +21,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from fiscal_mcp import schema  # noqa: E402
 from fiscal_mcp.regras import carrega  # noqa: E402
 from fiscal_mcp.validador import valida_nfe  # noqa: E402
 
@@ -204,7 +205,7 @@ def test_competencia_valida_passa(competencia):
 
 # ---- L-12 · escala decimal: a regra saiu, o schema cobre -----------------
 
-def test_escala_decimal_e_responsabilidade_do_schema():
+def test_a_regra_de_escala_decimal_nao_existe_mais():
     """A regra de formato escrita à mão tinha falso positivo; o XSD não tem.
 
     O tipo TDec1302RTC aceita `0` sozinho. A regra exigia sempre duas casas e
@@ -212,6 +213,9 @@ def test_escala_decimal_e_responsabilidade_do_schema():
     """
     assert "ibs-escala-decimal" not in {r.id for r in carrega()}
 
+
+@pytest.mark.skipif(not schema.disponivel(), reason="extra [xsd] não instalado")
+def test_quem_pega_escala_decimal_errada_e_o_schema():
     # o vBC do IBSCBS, não o do ICMS — a nota tem os dois
     dentro_do_grupo = "<gIBSCBS>\n            <vBC>"
     xml = quebra((dentro_do_grupo + "200.00</vBC>", dentro_do_grupo + "200.0000</vBC>"))

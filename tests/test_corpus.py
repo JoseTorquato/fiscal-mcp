@@ -42,8 +42,16 @@ REGRAS_DE_TABELA = {
 
 
 def amostras() -> list[Path]:
-    import nfelib
+    """O corpus, ou lista vazia sem o extra.
 
+    O `parametrize` chama isto na COLETA, antes de qualquer skipif rodar — se
+    aqui estourasse ImportError, a suíte inteira quebraria na instalação sem o
+    extra, que é justamente o cenário que o CI precisa exercitar.
+    """
+    try:
+        import nfelib
+    except ImportError:
+        return []
     base = Path(nfelib.__file__).parent / "nfe" / "samples" / "v4_0" / "leiauteNFe"
     return sorted(base.glob("*.xml"))
 
