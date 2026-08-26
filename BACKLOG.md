@@ -146,7 +146,7 @@ publicada no PyPI*, então o release vem primeiro.
 
 | # | Ação | Por que não dá para fazer daqui |
 |---|---|---|
-| B1 | `python -m build && twine upload dist/*` | exige o token do PyPI. A string `mcp-name:` já está no README, mas o registry lê a description **publicada**, não a do GitHub — é a pegadinha que faz a primeira tentativa falhar |
+| B1 | Cadastrar o publisher confiável no PyPI e criar o release `v0.2.0` | o cadastro é no site do PyPI, na sua conta. Depois disso publicar é criar um release — o workflow `publicar.yml` faz o resto. A string `mcp-name:` já está no README e vai para a description publicada, que é o que o registry lê |
 | B2 | `mcp-publisher login github && mcp-publisher publish` | exige device code no github.com/login/device. O `server.json` já está versionado e com o `name` idêntico ao `mcp-name:` do README |
 | B3 | PR no Awesome MCP Servers | ação em repositório de terceiro, com a sua autoria |
 | B4 | Claim do listing no Glama | exige login na conta |

@@ -1,0 +1,112 @@
+name: publicar no PyPI
+
+# Publicação por Trusted Publishing: o PyPI confia neste repositório e neste
+# workflow, e o GitHub emite um token de curta duração na hora. Não existe
+# segredo guardado em lugar nenhum — nada para vazar, nada para expirar, nada
+# para rotacionar quando alguém sai do projeto.
+#
+# O gatilho é a publicação de um release, não um push. Publicar versão é ato
+# deliberado e auditável: fica registrado quem apertou o botão e quando.
+#
+# Configuração no PyPI (uma vez, em Settings > Publishing):
+#   Owner: JoseTorquato · Repository: fiscal-mcp
+#   Workflow: publicar.yml · Environment: pypi
+# Os quatro precisam bater exatamente, senão o PyPI recusa o token.
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  # Versão publicada não se apaga nem se reenvia. Tudo que puder falhar precisa
+  # falhar aqui, antes do upload.
+  conferir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -e ".[servidor,xsd]" pytest build twine
+
+      - name: a suíte passa?
+        run: pytest -q
+
+      - name: a versão do pacote bate com a tag do release?
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME#v}"
+          pacote=$(python -c "import fiscal_mcp; print(fiscal_mcp.__version__)")
+          echo "tag=$tag pacote=$pacote"
+          if [ "$tag" != "$pacote" ]; then
+            echo "::error::a tag do release ($tag) não bate com __version__ ($pacote)."
+            echo "::error::publicar assim entrega um pacote com número errado, e não dá para corrigir depois."
+            exit 1
+          fi
+
+      - name: o mcp-name do README bate com o server.json?
+        # É o item que faz a publicação no registry de MCP falhar, e o erro só
+        # aparece depois — quando o release já foi gasto. Confere aqui.
+        run: |
+          set -euo pipefail
+          python - <<'FIM'
+          import json, re, pathlib, sys
+          readme = pathlib.Path("README.md").read_text(encoding="utf-8")
+          achado = re.search(r"mcp-name:\s*(\S+)", readme)
+          servidor = json.loads(pathlib.Path("server.json").read_text(encoding="utf-8"))
+          if not achado:
+              sys.exit("README.md não traz a marca `mcp-name:` — o registry não vai conseguir verificar a posse")
+          if achado.group(1) != servidor["name"]:
+              sys.exit(f"mcp-name do README ({achado.group(1)}) != name do server.json ({servidor['name']})")
+          if servidor["version"] != servidor["packages"][0]["version"]:
+              sys.exit("server.json: a versão do servidor e a do pacote divergem")
+          print(f"ok: {achado.group(1)}")
+          FIM
+
+      - name: construir
+        run: |
+          rm -rf dist
+          python -m build
+          python -m twine check dist/*
+
+      - name: a tabela oficial e as regras viajam no pacote?
+        # Já quase ficaram de fora do wheel uma vez. Um pacote publicado sem os
+        # dados é um validador que não valida nada, e sem volta.
+        run: |
+          set -euo pipefail
+          python -m venv /tmp/limpa
+          /tmp/limpa/bin/pip install --quiet dist/*.whl
+          cd /tmp
+          /tmp/limpa/bin/python - <<'FIM'
+          from fiscal_mcp.regras import carrega
+          from fiscal_mcp.tabelas import resumo
+          from fiscal_mcp import schema
+          assert len(carrega()) >= 25, "as regras não vieram no pacote"
+          r = resumo()
+          assert r["disponivel"] and r["cclasstrib"] == 164, f"tabela incompleta: {r}"
+          assert schema._traducoes(), "as traduções de schema não vieram no pacote"
+          print("regras, tabela e traduções conferidas no pacote instalado")
+          FIM
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publicar:
+    needs: conferir
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      # é isto que permite ao GitHub emitir o token de curta duração para o PyPI
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
