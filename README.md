@@ -10,7 +10,7 @@ nenhum.
 
 [![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/pyproject.toml)
-[![153 testes](https://img.shields.io/badge/testes-153-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
+[![185 testes](https://img.shields.io/badge/testes-185-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
 
 ```bash
 pip install "fiscal-mcp[xsd]"
@@ -144,10 +144,17 @@ perder a confiança de quem trabalha com fiscal:
 
 ### Estado da validação, por documento
 
-| | Camadas | Regras | Testado contra documento real |
+| | Camadas | Regras | Testado contra |
 |---|---|---|---|
-| NF-e / NFC-e | schema XSD + regras + chave | 28 | ⚠️ **apenas contra XML sintético** |
-| NFS-e nacional | regras + chave | 10 | ✅ sim, uma nota autorizada |
+| NF-e / NFC-e | schema XSD + regras + chave | 28 | XML sintético **e 17 amostras de formato real** da `nfelib` |
+| NFS-e nacional | regras + chave | 10 | ✅ uma nota autorizada de verdade |
+
+⚠️ **A NF-e ainda não passou por uma nota real de contribuinte.** As 17 amostras
+são públicas e MIT, com estrutura de documento real — 15 passam com zero erros, e
+as duas que não passam são explicáveis: uma é inválida no XSD oficial de
+propósito, a outra tem valores de preenchimento incoerentes entre si (`vIBS = 0`
+com `vIBSUF = 16`). **Nenhuma regra de tabela acusa nenhuma delas**, e há teste
+que trava isso.
 
 Das 28 regras de NF-e, **17 são da Camada A de IBS/CBS**: CST e `cClassTrib`
 conferidos contra a **tabela oficial embarcada** da SVRS — 18 CST e 164

@@ -190,14 +190,21 @@ def _traduz(mensagem: str) -> tuple[str, str, str, str] | None:
     limpa = _sem_ns(mensagem)
     for traducao in _traducoes():
         casou = traducao.padrao.search(limpa)
-        if casou:
-            campos = {k: v for k, v in casou.groupdict().items() if v}
+        if not casou:
+            continue
+        campos = {k: v for k, v in casou.groupdict().items() if v}
+        try:
             return (
                 traducao.id,
                 traducao.problema.format(**campos),
                 traducao.acao.format(**campos),
                 traducao.severidade,
             )
+        except (KeyError, IndexError):
+            # tradução com campo que o padrão não captura: a mensagem sai crua e
+            # marcada, como qualquer outra não reconhecida. Melhor que estourar
+            # no meio de uma validação por causa de um typo no YAML
+            return None
     return None
 
 

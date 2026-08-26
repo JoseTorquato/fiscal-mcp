@@ -247,6 +247,13 @@ def _confere_configuracao(r: Regra, onde: str) -> None:
         raise ValueError(f"{onde}: coluna '{r.coluna}' não existe — há {sorted(COLUNAS)}")
     if r.filtro not in FILTROS:
         raise ValueError(f"{onde}: filtro '{r.filtro}' não existe — há {sorted(FILTROS - {''})}")
+    if r.filtro == "modelo_do_documento" and r.coluna != "cclasstrib":
+        # só a classificação carrega IndNfe/IndNfce; pedir isso ao CST estouraria
+        # em runtime, validando nota de cliente — o pior lugar para descobrir
+        raise ValueError(
+            f"{onde}: filtro 'modelo_do_documento' só vale com coluna 'cclasstrib', "
+            f"porque os indicadores por documento existem só nesse nível"
+        )
     if r.tolerancia:
         try:
             Decimal(r.tolerancia)
