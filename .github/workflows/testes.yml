@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    # Toda segunda às 9h (America/Sao_Paulo). Não é rotina de higiene: é o
+    # gatilho que faz a regra com `reavaliar_em` vencido quebrar o build sozinha,
+    # sem depender de alguém lembrar. Ver docs/spec/04-manutencao.md.
+    - cron: "0 12 * * 1"
 
 jobs:
   testes:
@@ -16,12 +21,34 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - run: pip install -e ".[servidor]"
-      - run: python tests/test_fatia_zero.py
+      - run: pip install -e ".[servidor,xsd]" pytest
+      - run: pytest -q
+
+  sem-o-extra-de-schema:
+    # O núcleo precisa funcionar sem a nfelib. Sem este job, o dia em que a
+    # camada de schema virar dependência escondida passa despercebido.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[servidor]" pytest
+      - run: pytest -q
+      - name: a validação roda e diz que o schema não rodou?
+        run: |
+          python -c "
+          import json
+          from fiscal_mcp.validador import valida_nfe
+          r = valida_nfe(open('exemplos/nfe-ibs-cbs.xml', encoding='utf-8').read())
+          assert r['schema_disponivel'] is False, 'sem o extra, não pode dizer que rodou'
+          assert r['erros'] == 0, r['achados']
+          print('ok — núcleo funciona sem o extra [xsd]')
+          "
 
   instalacao-limpa:
     # O pacote precisa funcionar instalado, não só no repositório clonado —
-    # as regras vivem fora do pacote e já quase ficaram de fora do wheel.
+    # as regras e as tabelas vivem fora do pacote e já quase ficaram de fora do wheel.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,8 +60,20 @@ jobs:
         run: |
           cd /tmp
           python -c "from fiscal_mcp.regras import carrega; n=len(carrega()); print(f'{n} regras'); assert n >= 10, 'regras não foram embarcadas no pacote'"
+      - name: a tabela oficial veio junto?
+        run: |
+          cd /tmp
+          python -c "
+          from fiscal_mcp.tabelas import resumo
+          r = resumo()
+          print(r)
+          assert r['disponivel'], 'tabela oficial não foi embarcada no pacote'
+          assert r['cclasstrib'] == 164, 'tabela embarcada veio incompleta'
+          "
       - name: a CLI funciona?
         run: |
           fiscal-mcp validar exemplos/nfe-valida.xml
+          fiscal-mcp validar exemplos/nfe-ibs-cbs.xml
           fiscal-mcp validar exemplos/nfse-nacional.xml
           fiscal-mcp rejeicao 539
+          fiscal-mcp tabelas

@@ -1,3 +1,5 @@
+<!-- mcp-name: io.github.josetorquato/fiscal-mcp -->
+
 <img src="https://raw.githubusercontent.com/JoseTorquato/fiscal-mcp/main/docs/logo.svg" width="72" alt="fiscal-mcp">
 
 # fiscal-mcp
@@ -8,25 +10,32 @@ nenhum.
 
 [![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/pyproject.toml)
-[![41 testes](https://img.shields.io/badge/testes-41-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
+[![153 testes](https://img.shields.io/badge/testes-153-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
 
 ```bash
-pip install fiscal-mcp
+pip install "fiscal-mcp[xsd]"
 fiscal-mcp validar nota.xml
 ```
 
 ```
-  [erro] tot-produtos-confere
-      O total de produtos não bate com a soma dos itens
-      soma dos itens = 250.00, total/ICMSTot/vProd = 999.00, diferença de 749.00
-      → Some o vProd de cada item e compare com total/ICMSTot/vProd.
+  [erro] ibs-cclasstrib-prefixo-cst
+      cClassTrib não corresponde ao CST do item
+      item 2: imposto/IBSCBS/cClassTrib = '000123' não começa por
+              imposto/IBSCBS/CST = '200'
+      → Os três primeiros dígitos do cClassTrib são o CST do item. Este é o erro
+        mais comum ao ligar o módulo de IBS/CBS num ERP.
 
-  [aviso] ibs-cbs-grupo-totais-presente
-      Grupo de totais de IBS/CBS não encontrado
-      → Obrigatório desde 03/08/2026 para o regime regular.
+  [erro] schema-elemento-fora-de-ordem
+      cEAN apareceu onde o leiaute espera xProd
+      item 1, linha 62 do XML
+      → O schema da NF-e exige a sequência exata do leiaute — trocar a ordem
+        reprova mesmo com todos os campos presentes.
 
-  1 erro(s), 1 aviso(s)
+  2 erro(s), 0 aviso(s)
 ```
+
+Três camadas, num laudo só: **schema XSD oficial**, **regras fiscais** e **chave
+de acesso**. Tudo local — o processo não abre socket, e há teste que prova.
 
 ---
 
@@ -47,7 +56,7 @@ não sabe ler uma nota fiscal.
 
 | Ferramenta | O que faz |
 |---|---|
-| `validar_nfe` | estrutura, coerência dos totais, formato e chave — com **o que fazer** em cada achado |
+| `validar_nfe` | schema XSD oficial, regras fiscais (IBS/CBS incluso), totais e chave — com **o que fazer** em cada achado |
 | `explicar_nfe` | resumo estruturado do XML, em vez do documento inteiro |
 | `validar_nfse` | NFS-e do padrão nacional: estrutura, DPS embutida, prestador, serviço |
 | `explicar_nfse` | resumo estruturado da NFS-e |
@@ -67,10 +76,12 @@ cada mudança.
 ```bash
 fiscal-mcp validar nota.xml          # NF-e ou NFS-e, ele descobre sozinho
 fiscal-mcp validar nota.xml --json   # para script e CI
+fiscal-mcp validar nota.xml --sem-schema
 fiscal-mcp explicar nota.xml         # resumo estruturado
 fiscal-mcp chave 4326081234...       # 44 dígitos (NF-e) ou 50 (NFS-e)
 fiscal-mcp rejeicao 539              # traduz o código da SEFAZ
 fiscal-mcp rejeicao                  # lista o catálogo
+fiscal-mcp tabelas                   # qual tabela oficial está embarcada
 ```
 
 Sai com código 1 quando encontra erro, então serve direto em CI.
@@ -78,13 +89,35 @@ Sai com código 1 quando encontra erro, então serve direto em CI.
 ### Como servidor MCP
 
 ```bash
-pip install "fiscal-mcp[servidor]"
+pip install "fiscal-mcp[servidor,xsd]"
 ```
+
+Copie e cole no seu cliente. **Claude Code:**
+
+```bash
+claude mcp add fiscal -- fiscal-mcp-servidor
+```
+
+**Claude Desktop** (`claude_desktop_config.json`), **Cursor**
+(`.cursor/mcp.json`), **VS Code** e a maioria dos outros:
 
 ```json
 {
   "mcpServers": {
     "fiscal": { "command": "fiscal-mcp-servidor" }
+  }
+}
+```
+
+**Sem instalar Python** — útil para quem trabalha com ERP em Delphi ou C#:
+
+```json
+{
+  "mcpServers": {
+    "fiscal": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "ghcr.io/josetorquato/fiscal-mcp"]
+    }
   }
 }
 ```
@@ -98,25 +131,33 @@ perder a confiança de quem trabalha com fiscal:
 
 - **Não emite, não assina, não transmite.** Sem certificado digital envolvido.
 - **Passar aqui não garante autorização.** É validação local: pega o erro
-  previsível, não substitui a SEFAZ nem o XSD oficial.
+  previsível, não substitui a SEFAZ.
+- **A validação por schema exige o extra `[xsd]`.** Sem ele, o laudo diz que
+  essa camada não rodou — nunca finge que rodou.
 - **NFS-e só no padrão nacional.** Município com padrão próprio não é
   reconhecido ([ADR-0006](https://github.com/JoseTorquato/fiscal-mcp/blob/main/docs/adr/0006-estrategia-nfse-municipal.md)).
 - **Não verifica dígito verificador de NFS-e** — o algoritmo não foi
   confirmado, e chutar produziria acusação falsa.
-- **Não valida assinatura digital.**
+- **Não valida assinatura digital.** Documento não assinado nunca passa no XSD
+  oficial; o laudo diz isso como informação, não como erro.
 - **Não dá conselho tributário.** CFOP, CST e alíquota são do seu contador.
 
 ### Estado da validação, por documento
 
-| | Regras | Testado contra documento real |
-|---|---|---|
-| NFS-e nacional | 10 | ✅ sim, uma nota autorizada |
-| NF-e / NFC-e | 29 | ⚠️ **apenas contra XML sintético** |
+| | Camadas | Regras | Testado contra documento real |
+|---|---|---|---|
+| NF-e / NFC-e | schema XSD + regras + chave | 28 | ⚠️ **apenas contra XML sintético** |
+| NFS-e nacional | regras + chave | 10 | ✅ sim, uma nota autorizada |
 
-Das 29, dezoito são da Camada A de IBS/CBS: CST e `cClassTrib` conferidos contra
-a **tabela oficial embarcada** da SVRS (18 CST, 164 classificações, com
-procedência e sha256 no repositório), aritmética por item, exclusividade de
-regime e alíquotas de transição.
+Das 28 regras de NF-e, **17 são da Camada A de IBS/CBS**: CST e `cClassTrib`
+conferidos contra a **tabela oficial embarcada** da SVRS — 18 CST e 164
+classificações, versionadas no repositório com URL de origem, data e sha256
+([procedência](https://github.com/JoseTorquato/fiscal-mcp/blob/main/regras/tabelas/PROCEDENCIA.md)).
+Mais aritmética por item, exclusividade de regime, presença condicional e as
+alíquotas de transição de 2026.
+
+`fiscal-mcp tabelas` diz qual versão da tabela está embarcada. Quem valida contra
+tabela precisa saber contra qual.
 
 A regra de IBS/CBS emite **aviso**, não erro: a NT 2025.002 v1.51 reclassificou
 a regra de rejeição correspondente (UB12-10) como *implementação futura*, então
@@ -178,10 +219,14 @@ O que mais ajuda, em ordem:
 1. **XML real anonimizado** — principalmente NF-e, e municípios de NFS-e
    diferentes.
 2. **Código de rejeição que você levou** e não está no catálogo.
-3. **Regra nova** em `regras/`, com teste.
+3. **Regra nova** em `regras/`, com as duas fixtures.
 4. **Leitura da seção 7 da NT 2025.002-RTC v1.51** — o leiaute de IBS/CBS já
    está mapeado; o que falta confirmar em fonte primária são os códigos de
    rejeição, e nenhum entra aqui sem leitura humana.
+
+Antes de abrir PR, leia o [CONTRIBUTING](https://github.com/JoseTorquato/fiscal-mcp/blob/main/CONTRIBUTING.md).
+Há uma regra sem exceção: **PR com dado fiscal real identificável é fechado sem
+merge.**
 
 ## Como isso vai crescer
 

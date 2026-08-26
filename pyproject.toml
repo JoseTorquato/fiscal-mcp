@@ -1,7 +1,7 @@
 [project]
 name = "fiscal-mcp"
-version = "0.1.0"
-description = "Servidor MCP para o fiscal brasileiro — validação e leitura de NF-e, offline e sem certificado"
+version = "0.2.0"
+description = "Validador de NF-e, NFC-e e NFS-e offline: schema XSD oficial, IBS/CBS e chave de acesso, sem certificado"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
