@@ -1,0 +1,102 @@
+name: monitor de fontes oficiais
+
+# Workflow separado do de testes, de propósito. Ele fala com o Portal da NF-e e
+# com o portal da SVRS — sites de terceiro, que caem e mudam de formato. Se isso
+# rodasse junto com `testes.yml`, uma manutenção da SEFAZ quebraria o build de
+# quem depende do pacote. É a mesma regra que vale para a tabela oficial, escrita
+# em regras/tabelas/PROCEDENCIA.md: o CI nunca baixa nada no caminho crítico.
+
+on:
+  schedule:
+    # Toda segunda às 10h (America/Sao_Paulo). Nota técnica sai com semanas a
+    # meses de antecedência (docs/spec/04-manutencao.md); semanal já cabe
+    # confortavelmente dentro do compromisso de análise em 5 dias úteis, e
+    # diário só produziria issue repetida.
+    - cron: "0 13 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  # Duas execuções simultâneas (a agendada e uma disparada na mão) conferem a
+  # mesma fonte e abririam a mesma issue duas vezes — o dedupe por marcador não
+  # protege contra corrida.
+  group: monitor-fontes
+  cancel-in-progress: false
+
+jobs:
+  conferir-fontes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Só o que o monitor usa. Instalar o pacote inteiro traria lxml e nfelib
+      # sem nenhuma necessidade — o monitor não valida documento nenhum.
+      - run: pip install "pyyaml>=6.0"
+
+      # Uma única ida à rede por execução: o relatório em JSON alimenta tanto a
+      # abertura de issue quanto o resumo.
+      #
+      # Por que este job termina em verde mesmo com a fonte fora do ar: portal de
+      # terceiro cai, e um X vermelho toda segunda-feira vira ruído — em duas
+      # semanas ninguém olha mais para o histórico do Actions, e o alerta que
+      # importa passa junto. Indisponibilidade e mudança de formato são *achado*,
+      # não falha, e o monitor sai com 0 nos dois casos; o sinal vira issue, que é
+      # onde alguém de fato lê, com marcador fixo por fonte para não repetir toda
+      # semana. Vermelho aqui fica reservado para o monitor quebrado — bug nosso,
+      # e aí é a mensagem certa. Daí o `pipefail`: sem ele o `tee` engoliria o
+      # código de saída do Python e o único vermelho legítimo se perderia.
+      - name: conferir as fontes
+        run: |
+          set -o pipefail
+          python scripts/monitor_fontes.py --json | tee relatorio.json
+
+      - name: abrir issue para um humano ler
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          # O rótulo precisa existir antes de a primeira issue usá-lo.
+          gh label create monitor-fontes \
+            --color "0E8A16" \
+            --description "Fonte oficial mudou — precisa de leitura humana" \
+            2>/dev/null || true
+
+          # Dedupe por marcador. Busca full-text do GitHub é eventual e às vezes
+          # não acha uma issue aberta há minutos; listar as abertas com o rótulo
+          # e procurar o marcador no corpo é determinístico. Sem rede de proteção
+          # de propósito: se esta chamada falhar, o passo cai — abrir duplicata
+          # por não saber o que já existe é pior que não abrir nada esta semana.
+          gh issue list --state open --label monitor-fontes --limit 200 \
+            --json body --jq '.[].body' > abertas.txt
+
+          jq -c '.alertas[]' relatorio.json | while read -r alerta; do
+            marcador=$(jq -r '.marcador' <<<"$alerta")
+            if grep -Fq "$marcador" abertas.txt; then
+              echo "já existe issue aberta para $marcador — nada a fazer"
+              continue
+            fi
+            jq -r '.corpo' <<<"$alerta" > corpo.md
+            gh issue create \
+              --title "$(jq -r '.titulo' <<<"$alerta")" \
+              --body-file corpo.md \
+              --label monitor-fontes
+          done
+
+      # O histórico do Actions guarda o que foi conferido e como estava cada
+      # fonte — evidência de manutenção é o produto (docs/spec/04-manutencao.md).
+      - name: resumo
+        if: always()
+        run: |
+          [ -f relatorio.json ] || exit 0
+          {
+            jq -r '"Fontes conferidas em \(.detectado_em):"' relatorio.json
+            jq -r '.fontes[] | "- `\(.situacao)` — \(.nome)"' relatorio.json
+          } >> "$GITHUB_STEP_SUMMARY"

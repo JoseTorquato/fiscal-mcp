@@ -79,7 +79,7 @@ junto com o ADR-0003, se o gatilho disparar.
 | B9 ✅ | `scripts/anonimizar.py` | M | substitui CNPJ/CPF com DV válido, razão social, endereço, chave com DV recalculado, IE/IM, assinatura, `infCpl` e `obsCont`; preserva NCM, CFOP, CST, `cClassTrib`, alíquotas e valores |
 | B10 ✅ | `CONTRIBUTING.md` com a regra de anonimização | P | diz explicitamente que PR com dado real identificável é fechado sem merge |
 | B11 | Corpus de fixtures a partir das samples MIT da `nfelib` | M | fixtures no repo, com origem declarada |
-| B12 | Páginas por código de rejeição (`/rejeicoes/<codigo>`) | M | causa, XML errado, XML corrigido e o comando de validação |
+| B12 ✅ | Páginas por código de rejeição (`/rejeicoes/<codigo>`) | M | causa, XML errado, XML corrigido e o comando de validação |
 | B13 | Validador no navegador, sem upload | G | roda 100% client-side; cada post de conteúdo aponta para ele |
 | B14 | Série de posts técnicos, começando pelo que separa o que rejeita do que só multa | M | primeiro post publicado no TabNews e no LinkedIn |
 
@@ -90,7 +90,7 @@ junto com o ADR-0003, se o gatilho disparar.
 | # | Tarefa | Tam. | Pronto quando |
 |---|---|---|---|
 | C1 ✅ | Teste de vigência vencida rodando em CI agendado | P | falha e notifica quando alguma regra passou da data |
-| C2 | Monitor de publicação de nota técnica | M | abre tarefa quando sai documento novo. Alerta para humano, não automação — NT precisa ser lida |
+| C2 ✅ | Monitor de publicação de nota técnica | M | abre tarefa quando sai documento novo. Alerta para humano, não automação — NT precisa ser lida |
 | C3 | Registro público de mudanças fiscais absorvidas | P | primeira entrada publicada |
 | C4 | Suíte de validação contra o corpus, com resultado público | M | histórico visível; mudança de comportamento é detectada |
 | C5 | Ler a seção 7 da NT v1.51 e abrir a Camada B | M | códigos de rejeição confirmados em fonte primária entram no catálogo |

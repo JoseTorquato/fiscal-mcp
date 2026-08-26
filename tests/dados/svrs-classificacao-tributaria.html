@@ -1,0 +1,83 @@
+<!--
+  Fixture: recorte mínimo da página de Classificação Tributária da SVRS,
+  https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria
+  Estrutura fiel à real (a tabela vem embutida na variável JavaScript
+  `dadosOriginais`), reduzida a 2 CST e 3 cClassTrib e com os campos que a
+  normalização descarta — `CstNavigation`, `Anexos`, `CtrDthInc` — presentes de
+  propósito, para que o teste prove que eles saem.
+  Existe para que o teste do monitor nunca toque a rede.
+-->
+<html>
+<head><title>Classificação Tributária</title></head>
+<body>
+<script type="text/javascript">
+    var dadosOriginais = [
+      {
+        "Cst": "000",
+        "NomeCst": "Situação tributária normal",
+        "IndReducaoAliq": false,
+        "IndMonofasica": false,
+        "CtrDthInc": "2026-01-05T11:42:03.117",
+        "CstNavigation": {"Cst": "000", "NomeCst": "Situação tributária normal"},
+        "ClassificacoesTributarias": [
+          {
+            "CodClassTrib": "000001",
+            "Cst": "000",
+            "NomeClassTrib": "Situações tributadas integralmente pelo IBS e CBS",
+            "IndTribRegular": true,
+            "IndNfe": true,
+            "IndNfce": true,
+            "DthPublicacao": "2026-06-22T00:00:00",
+            "DthIniVig": "2026-01-01T00:00:00",
+            "DthFimVig": null,
+            "CtrDthInc": "2026-01-05T11:42:03.117",
+            "NroAnexo": null,
+            "Anexos": [],
+            "AnexoNew": null
+          },
+          {
+            "CodClassTrib": "000002",
+            "Cst": "000",
+            "NomeClassTrib": "Regime automotivo - projetos incentivados",
+            "IndTribRegular": true,
+            "IndNfe": true,
+            "IndNfce": false,
+            "DthPublicacao": "2026-06-22T00:00:00",
+            "DthIniVig": "2026-01-01T00:00:00",
+            "DthFimVig": null,
+            "CtrDthInc": "2026-01-05T11:42:03.117",
+            "NroAnexo": null,
+            "Anexos": [],
+            "AnexoNew": null
+          }
+        ]
+      },
+      {
+        "Cst": "200",
+        "NomeCst": "Alíquota reduzida",
+        "IndReducaoAliq": true,
+        "IndMonofasica": false,
+        "CtrDthInc": "2026-01-05T11:42:03.117",
+        "CstNavigation": {"Cst": "200", "NomeCst": "Alíquota reduzida"},
+        "ClassificacoesTributarias": [
+          {
+            "CodClassTrib": "200001",
+            "Cst": "200",
+            "NomeClassTrib": "Redução de 30% da alíquota",
+            "IndTribRegular": true,
+            "IndNfe": true,
+            "IndNfce": true,
+            "DthPublicacao": "2026-06-22T00:00:00",
+            "DthIniVig": "2026-01-01T00:00:00",
+            "DthFimVig": null,
+            "CtrDthInc": "2026-01-05T11:42:03.117",
+            "NroAnexo": null,
+            "Anexos": [],
+            "AnexoNew": null
+          }
+        ]
+      }
+    ];
+</script>
+</body>
+</html>

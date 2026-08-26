@@ -1,0 +1,364 @@
+# Fontes oficiais monitoradas, e o que já se sabe delas.
+#
+# Mesma tese do resto de `regras/`: isto é **dado versionado**, não código. Cada
+# documento listado aqui é um documento que alguém já viu. O que aparecer na
+# fonte e não estiver nesta lista é, por definição, novidade — e novidade fiscal
+# rende uma issue para um humano ler.
+#
+# O monitor não interpreta nada do que encontra. Ele não abre o PDF, não deriva
+# regra e não sugere código: durante a pesquisa da spec 05, uma extração
+# automatizada de nota técnica produziu códigos de rejeição inexistentes. Nota
+# técnica se lê com olho humano. Ver docs/spec/05-camada-a-ibs-cbs.md §3.
+#
+# Nada aqui é consultado em tempo de validação, e nada disto roda em CI de
+# push/PR — pelo mesmo motivo que a tabela oficial vive versionada:
+# indisponibilidade de site de terceiro não pode quebrar o build de ninguém.
+#
+#     python scripts/monitor_fontes.py            # o que mudou desde a última conferida
+#     python scripts/monitor_fontes.py --semear   # depois de ler, registra o que está no ar
+#
+versao: 1
+
+fontes:
+
+  # Tabela de Classificação Tributária: o dado que sustenta as regras de IBS/CBS
+  # da Camada A. Já vive versionada em regras/tabelas/, com sha256 declarado na
+  # procedência — então aqui o monitor faz duas perguntas: o arquivo versionado
+  # continua sendo o que a procedência declara, e a fonte continua publicando o
+  # mesmo conteúdo. As duas respostas negativas exigem gente.
+  - id: tabela-classificacao-tributaria
+    nome: Tabela de Classificação Tributária (CST × cClassTrib) — SVRS
+    tipo: tabela
+    url: https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria
+    arquivo: regras/tabelas/cst-cclasstrib.json
+    procedencia: regras/tabelas/PROCEDENCIA.md
+
+  # Notas técnicas da NF-e: a fonte que anuncia mudança de leiaute e de regra de
+  # validação, com semanas a meses de antecedência (docs/spec/04-manutencao.md).
+  # A identidade de um documento é o título como o portal o publica — ele já
+  # carrega número, versão e data ("Nota Técnica 2025.002 v.1.51 - Publicada em
+  # 04/08/2026"). Versão nova é título novo, e é assim que ela é detectada.
+  - id: notas-tecnicas-nfe
+    nome: Notas Técnicas do Portal da NF-e
+    tipo: lista_de_documentos
+    url: https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=04BIflQt1aY=
+    # O rótulo de cada seção da página, e a chave correspondente abaixo. Está
+    # aqui e não no código de propósito: se o portal renomear uma seção, o
+    # monitor precisa avisar em vez de assumir que a seção sumiu.
+    secoes:
+      Documentos vigentes: vigentes
+      Documentos não vigentes: nao_vigentes
+    documentos_conhecidos:
+      conferido_em: 2026-08-25
+      vigentes:
+        - Nota Técnica 2014.001 v.1.41 - Publicada em 04/08/2026
+        - Nota Técnica 2026.007 v.1.00 - Publicada em 04/08/2026
+        - Nota Técnica 2026.002 v.1.10 - Publicada em 04/08/2026
+        - Nota Técnica 2025.002 v.1.51 - Publicada em 04/08/2026
+        - Nota Técnica 2026.001 v.1.02b - Publicada em 31/07/2026
+        - Nota Técnica 2023.003 v.1.30 - Publicada em 29/07/2026
+        - Nota Técnica 2014.002 - v.1.40 - Publicada em 03/07/2026
+        - Nota Técnica 2026.004 v.1.01 - Publicada em 08/06/2026
+        - Nota Técnica 2026.003 v.1.00 - Publicada em 25/05/2026
+        - Nota Técnica 2024.003 v.1.10 - Publicada em 11/05/2026
+        - Nota Técnica 2020.001 v.1.60 - Publicada em 23/04/2026
+        - Nota Técnica 2022.002 v.1.30a - Publicada em 26/03/2026
+        - Nota Técnica 2023.002 v.1.01 - Publicada em 18/11/2025
+        - Nota Técnica 2025.001. v.1.03 - Corrigido - Publicada em 29/09/2025
+        - Nota Técnica 2019.001.v.1.70 - Publicada em 18/08/2025
+        - Nota Técnica 2018.005 v.1.52 - Publicada em 10/07/2025
+        - Nota Técnica 2023.001 v.1.60 - Publicada em 09/06/2025
+        - Nota Técnica Conjunta 2025.001 - Publicada em 08/05/2025
+        - Nota Técnica 2021.003 - v.1.40 - Publicada em 26/02/2025
+        - Nota Técnica 2021.002 v.1.12 - Publicada em 28/01/2025
+        - Nota Técnica 2015.001 v.1.30 - Publicada em 06/12/2024
+        - Nota Técnica 2022.005 v.1.11 - Publicada em 11/10/2024
+        - Nota Técnica 2023.004 v.1.20 - Publicada em 07/10/2024
+        - Nota Técnica 2024.001 v.1.20 - Publicada em 29/08/2024
+        - Nota Técnica 2020.004 - v.1.10 - Publicada em 19/08/2024
+        - Nota Técnica 2020.007 v.1.40 - Publicada em 02/08/2024
+        - Nota Técnica 2024.002 - v.1.00 - Publicada em 27/05/2024
+        - Nota Técnica 2023.005 - v.1.02 - Publicada em 26/04/2024
+        - Nota Técnica 2016.003 - v.3.70 - Publicada em 09/01/2024
+        - Nota Técnica 2016.003 - v.3.62 - Publicada em 30/10/2023
+        - Nota Técnica 2022.004 - v1.10 - Publicada em 14/02/2023
+        - Nota Técnica 2022.003 - v.1.11 - Publicada em 25/01/2023
+        - Nota Técnica 2021.004 - v.1.35 - Publicada em 01/11/2022
+        - Nota Técnica 2020.006 - v.1.31 - Publicada em 26/09/2022
+        - Nota Técnica 2020.002 - v.1.01 - Publicada em 19/08/2022
+        - Nota Técnica 2021.001 - v.1.01 - Publicada em 06/07/2022
+        - Nota Técnica 2022.001 - v.1.00 - Publicada em 31/05/2022
+        - Nota Técnica 2020.005 - v.1.21 - Publicada em 15/10/2021
+        - Nota Técnica 2020.003 - v.1.00 - Publicada em 25/06/2020
+        - Nota Técnica 2018.001 - v.1.10 - Publicada em 27/02/2020
+        - Nota Técnica 2017.002 - v.1.40 - Publicada em 15/01/2020
+        - Nota Técnica 2018.003 - v.1.01 - Publicada em 12/04/2019
+        - Nota Técnica 2018.004 - v.1.00 - Publicada em 21/12/2018
+        - Nota Técnica 2017.001 - v.1.50 - Publicada em 07/12/2018
+        - Nota Técnica 2016.002 - v.1.61 - Publicada em 10/09/2018
+        - Nota Técnica 2016.001 - v.1.40 - Publicada em 16/07/2018
+        - Nota Técnica 2018.002 - v.1.00 - Publicada em 23/04/2018
+        - Nota Técnica 2015.003 - v.1.94 - Publicada em 23/06/2017
+        - Nota Técnica 2015.002 - v.1.41 - Publicada em 26/08/2016
+        - Nota Técnica 2013.005 - v.1.22 - Publicada em 25/03/2015
+        - Nota Técnica NFC-e 2014.003 - v.1.02 - Publicada em 12/01/2015
+        - Nota Técnica 2013.007 - v.1.03 - Publicada em 16/09/2014
+        - Nota Técnica NFC-e 2014.001 - Publicada em 20/08/2014
+        - Nota Técnica 2014.004 - v.1.10 - Publicada em 11/08/2014
+        - Nota Técnica 2013.008 - Publicada em 12/12/2013
+        - Nota Técnica 2013.006 - Publicada em 05/08/2013
+        - Nota Técnica 2012.004 - Publicada em 09/05/2013
+        - Nota Técnica 2013.004 - Publicada em 06/05/2013
+        - Nota Técnica 2013.003 - v.1.00a - Publicada em 26/04/2013
+        - Nota Técnica 2011.006 - Publicada em 15/04/2013
+        - Nota Técnica 2013.002 - v.1.00b - Publicada em 28/03/2013
+        - Nota Técnica 2013.001 - v.1.00 - Publicada em 12/03/2013
+        - Nota Técnica 2012.005 - Publicada em 08/02/2013
+        - Nota Técnica 2012.003 - Publicada em 01/11/2012
+        - Nota Técnica 2012.002 - Publicada em 24/09/2012
+        - Nota Técnica 2012.001 - Publicada em 17/02/2012
+        - Nota Técnica 2011.007 - Publicada em 26/12/2011
+        - Nota Técnica 2011.005 - Publicada em 21/10/2011
+        - Nota Técnica 2010.006 - Publicada em 16/09/2011
+        - Nota Técnica 2007.004 - Publicada em 15/09/2011
+        - Nota Técnica 2009.003 - Publicada em 15/09/2011
+        - Nota Técnica 2008.002 - Publicada em 15/09/2011
+        - Nota Técnica 2007.001 - Publicada em 15/09/2011
+        - Nota Técnica 2011.004 - Publicada em 26/07/2011
+        - Nota Técnica 2011.003 - Publicada em 19/05/2011
+        - Nota Técnica 2009.006 - Publicada em 16/05/2011
+        - Nota Técnica 2010.010 - Publicada em 13/05/2011
+        - Nota Técnica 2011.002 - Publicada em 23/03/2011
+        - Nota Técnica 2011.001 - Publicada em 25/02/2011
+        - Nota Técnica 2010.009 - Publicada em 10/12/2010
+        - Nota Técnica 2007.009 - Publicada em 30/11/2010
+        - Nota Técnica 2007.008 - Publicada em 30/11/2010
+        - Nota Técnica 2007.007 - Publicada em 30/11/2010
+        - Nota Técnica 2007.006 - Publicada em 30/11/2010
+        - Nota Técnica 2007.005 - Publicada em 30/11/2010
+        - Nota Técnica 2007.003 - Publicada em 30/11/2010
+        - Nota Técnica 2007.002 - Publicada em 30/11/2010
+        - Nota Técnica 2008.006 - Publicada em 30/11/2010
+        - Nota Técnica 2008.005 - Publicada em 30/11/2010
+        - Nota Técnica 2008.004 - Publicada em 30/11/2010
+        - Nota Técnica 2008.003 - Publicada em 30/11/2010
+        - Nota Técnica 2008.001 - Publicada em 30/11/2010
+        - Nota Técnica 2009.005 (substituída pela NT 2009.006) - Publicada em 30/11/2010
+        - Nota Técnica 2009.004 - Publicada em 30/11/2010
+        - Nota Técnica 2009.002 - Publicada em 29/11/2010
+        - Nota Técnica 2009.001 - Publicada em 29/11/2010
+        - Nota Técnica 2010.008 - Publicada em 29/11/2010
+        - Nota Técnica 2010.007 - Publicada em 29/11/2010
+        - Nota Técnica 2010.003 (substituída pela NT 2010.004) - Publicada em 29/11/2010
+        - Nota Técnica 2010.002 - Publicada em 29/11/2010
+        - Nota Técnica 2010.001 - Publicada em 29/11/2010
+        - Nota Técnica 2010.004 - Publicada em 06/07/2010
+        - Nota Técnica 2010.005 - Publicada em 06/07/2010
+      nao_vigentes:
+        - Nota Técnica 2014.001 v.1.40 - Publicada em 15/07/2026
+        - Nota Técnica 2026.001 v.1.02a - Publicada em 23/06/2026
+        - Nota Técnica 2026.001 v.1.02 - Publicada em 09/06/2026
+        - Nota Técnica 2025.002 v.1.50 - Publicada em 03/06/2026
+        - Nota Técnica 2026.002 v.1.00 - Publicada em 25/05/2026
+        - Nota Técnica 2025.002 v.1.40 - Publicada em 20/05/2026
+        - Nota Técnica 2026.004 v.1.00 - Publicada em 30/04/2026
+        - Nota Técnica 2025.002 v.1.36 - Publicada em 30/04/2026
+        - Nota Técnica 2026.001 v.1.00 - Publicada em 22/04/2026
+        - Nota Técnica 2025.002 v.1.35 - Publicada em 31/03/2026
+        - Nota Técnica 2024.003 v.1.09 - Publicada em 11/03/2026
+        - Nota Técnica 2022.002 v.1.30 - Publicada em 02/03/2026
+        - Nota Técnica 2014.002 - v.1.30 - Publicada em 09/02/2026
+        - Nota Técnica 2025.002 v.1.34 - Publicada em 04/12/2025
+        - Nota Técnica 2025.002 v.1.33 - Publicada em 02/12/2025
+        - Nota Técnica 2025.002 v.1.32 - Publicada em 25/11/2025
+        - Nota Técnica 2025.002 v.1.31 - Publicada em 11/11/2025
+        - Nota Técnica 2022.002 v.1.20 - Publicada em 11/11/2025
+        - Nota Técnica 2024.003 v.1.08 - Publicada em 24/10/2025
+        - Nota Técnica 2024.003 v.1.07 - Publicada em 03/10/2025
+        - Nota Técnica 2025.002 v.1.30 - Publicada em 03/10/2025
+        - Nota Técnica 2025.001 v.1.02 - Publicada em 02/09/2025
+        - Nota Técnica 2025.002.v.1.20 - Publicada em 30/07/2025
+        - Nota Técnica 2024.003 v.1.06 - Publicada em 27/06/2025
+        - Nota Técnica 2025.001 v.1.01 - Publicada em 26/06/2025
+        - Nota Técnica 2024.003 v.1.05 - Publicada em 10/06/2025
+        - Nota Técnica 2025.002.v.1.10 - Publicada em 09/06/2025
+        - Nota Técnica 2024.003 v.1.04 - Publicada em 27/05/2025
+        - Nota Técnica 2025.002.v.1.01 - Publicada em 15/04/2025
+        - Nota Técnica 2025.002.v.1.00 - Publicada em 28/03/2025
+        - Nota Técnica 2025.001 v.1.00 - Publicada em 25/03/2025
+        - Nota Técnica 2018.005 - v.1.51 - Publicada em 13/03/2025
+        - Nota Técnica 2018.005 - v.1.50 - Publicada em 25/02/2025
+        - Nota Técnica 2024.003 v.1.03 - Publicada em 24/02/2025
+        - RT - Nota Técnica 2024.002 v.1.10 - IBS/CBS - Publicada em 06/12/2024
+        - Nota Técnica 2024.003 v.1.01 - Publicada em 09/10/2024
+        - Nota Técnica 2023.003 v.1.20 - Publicada em 08/10/2024
+        - Nota Técnica 2024.003 - v.1.00 - Publicada em 17/09/2024
+        - Nota Técnica 2018.005 - v.1.40 - Publicada em 13/09/2024
+        - Nota Técnica 2019.001 - v.1.64 - Publicada em 03/09/2024
+        - Nota Técnica 2019.001 - v.1.63 - Publicada em 13/08/2024
+        - RT Nota Técnica 2024.002 - IBS/CBS - Publicada em 01/08/2024
+        - Nota Técnica 2014.002 - v.1.21 - Publicada em 27/06/2024
+        - Nota Técnica 2024.001 -v.1.10 - Publicada em 17/06/2024
+        - Nota Técnica 2023.001 - v1.51 - Publicada em 27/05/2024
+        - Nota Técnica 2014.002 - v.1.20 - Publicada em 22/05/2024
+        - Nota Técnica 2024.001 -v.1.00 - Publicada em 12/04/2024
+        - Nota Técnica 2019.001 -v.1.62 - Publicada em 19/03/2024
+        - Nota Técnica 2023.004 -v.1.11 - Publicada em 19/03/2024
+        - Nota Técnica 2020.001 - v.1.50 - Publicada em 06/03/2024
+        - Nota Técnica 2019.001 -v.1.61 - Publicada em 05/02/2024
+        - Nota Técnica 2023.004 -v.1.10 - Publicada em 02/02/2024
+        - Nota Técnica 2019.001 -v.1.60 - Publicada em 28/12/2023
+        - Nota Técnica 2023.005 - v.1.00 - Publicada em 20/12/2023
+        - Nota Técnica 2019.001 - v.1.54 - Publicada em 12/12/2023
+        - Nota Técnica 2023.004 -v.1.00 - Publicada em 11/12/2023
+        - Nota Técnica 2021.003 - v.1.30 - Publicada em 05/12/2023
+        - Nota Técnica 2023.001 - v1.50 - Publicada em 01/11/2023
+        - Nota Técnica 2016.003 - v.3.61 - Publicada em 29/09/2023
+        - Nota Técnica 2023.001 - v1.40 - Publicada em 27/09/2023
+        - Nota Técnica 2023.001 - v1.30 - Publicada em 24/08/2023
+        - Nota Técnica 2023.003 - v1.10 - Publicada em 21/08/2023
+        - Nota Técnica 2016.003 - v.3.60 - Publicada em 18/08/2023
+        - Nota Técnica 2020.007 - v.1.30 - Publicada em 26/06/2023
+        - Nota Técnica 2023.003 - v1.00 - Publicada em 01/06/2023
+        - Nota Técnica 2021.003 - v.1.21 - Publicada em 30/05/2023
+        - Nota Técnica 2023.002 - v1.00 - Publicada em 24/05/2023
+        - Nota Técnica 2023.001 - v1.20 - Publicada em 11/04/2023
+        - Nota Técnica 2023.001 - v1.11 - Publicada em 03/04/2023
+        - Nota Técnica 2023.001 - v1.10 - Publicada em 10/03/2023
+        - Nota Técnica 2023.001 - v1.00 - Publicada em 16/02/2023
+        - Nota Técnica 2019.001 - v.1.53 - Publicada em 07/02/2023
+        - Nota Técnica 2016.003 - v.3.50 - Publicada em 03/02/2023
+        - Nota Técnica 2020.007 - v.1.23 - Publicada em 03/02/2023
+        - Nota Técnica 2022.005 - v.1.10 - Publicada em 25/01/2023
+        - Nota Técnica 2022.003 - v.1.10 - Publicada em 22/12/2022
+        - Nota Técnica 2022.005 - v.1.00 - Publicada em 16/12/2022
+        - Nota Técnica 2022.004 - v.1.00 - Publicada em 16/12/2022
+        - Nota Técnica 2021.002 - v.1.11 (correção) - Publicada em 14/12/2022
+        - Nota Técnica 2021.003 - v.1.20 - Publicada em 14/12/2022
+        - Nota Técnica 2022.003 - v.1.00 - Publicada em 09/11/2022 - Atualizada em 09/11/2022
+        - Nota Técnica 2016.003 - v.3.40 - Publicada em 04/11/2022 - Atualizada em 07/11/2022
+        - Nota Técnica 2020.007 - v.1.22 - Publicada em 31/10/2022
+        - Nota Técnica 2021.004 - v.1.34 - Publicada em 21/09/2022
+        - Nota Técnica 2016.003 - v.3.30 - Publicada em 05/09/2022
+        - Nota Técnica 2021.004 - v.1.33 - Publicada em 31/08/2022
+        - Nota Técnica 2019.001 - v.1.52 - Publicada em 29/08/2022
+        - Nota Técnica 2022.002 - v.1.10 - Publicada em 04/08/2022
+        - Nota Técnica 2016.003 - v.3.20 - Publicada em 01/08/2022
+        - Nota Técnica 2021.004 - v.1.32 - Publicada em 25/07/2022
+        - Nota Técnica 2021.004 - v.1.31 - Publicada em 08/07/2022
+        - Nota Técnica 2021.003 - v.1.10 - Publicada em 07/07/2022
+        - Nota Técnica 2022.002 - v.1.00 - Publicada em 05/07/2022
+        - Nota Técnica 2014.001 - v.1.30 - Publicada em 21/06/2022
+        - Nota Técnica 2020.001 - v.1.40 - Publicada em 02/06/2022
+        - Nota Técnica 2014.002 - v.1.13 a 1.15 - Publicada em 26/05/2022
+        - Nota Técnica 2020.001 - v.1.30 - Publicada em 17/05/2022
+        - Nota Técnica 2021.004 - v.1.30 - Publicada em 12/05/2022
+        - Nota Técnica 2016.003 - v.3.10 - Publicada em 02/05/2022
+        - Nota Técnica 2021.004 - v.1.21 - Publicada em 18/04/2022
+        - Nota Técnica 2020.001 - v.1.20 - Publicada em 21/03/2022
+        - Nota Técnica 2021.002 - v.1.11 - Publicada em 17/03/2022
+        - Nota Técnica 2021.004 - v.1.20 - Publicada em 14/03/2022
+        - Nota Técnica 2014.002 - v.1.12 - Publicada em 09/03/2022
+        - Nota Técnica 2020.007 - v.1.21 - Publicada em 01/02/2022
+        - Nota Técnica 2021.004 - v.1.10 - Publicada em 12/01/2022
+        - Nota Técnica 2016.003 - v.3.00 - Publicada em 07/12/2021
+        - Nota Técnica 2014.001 - v.1.21 - Publicada em 03/12/2021
+        - Nota Técnica 2021.004 - v.1.00 - Publicada em 29/11/2021
+        - Nota Técnica 2014.002 - v.1.11 - Publicada em 17/11/2021
+        - Nota Técnica 2020.007 - v.1.20 - Publicada em 18/10/2021
+        - Nota Técnica 2014.002 - v.1.10 - Publicada em 15/10/2021
+        - Nota Técnica 2016.003 - v.2.10 - Publicada em 14/09/2021
+        - Nota Técnica 2021.003 - v.1.00 - Publicada em 13/09/2021
+        - Nota Técnica 2020.006 - v.1.30 - Publicada em 28/07/2021
+        - Nota Técnica 2021.002 - v.1.10 - Publicada em 09/07/2021
+        - Nota Técnica 2020.005 - v. 1.20 - Publicada em 29/06/2021
+        - Nota Técnica 2016.003 - v.2.00 - Publicada em 29/06/2021
+        - Nota Técnica 2020.001 - v.1.10 - Publicada em 22/06/2021
+        - Nota Técnica 2021.002 - v.1.00 - Publicada em 26/03/2021
+        - Nota Técnica 2020.006 - v.1.20 - Publicada em 17/03/2021
+        - Nota Técnica 2014.002 - v.1.02d - Publicada em 11/03/2021
+        - Nota Técnica 2021.001 - v.1.00 - Publicada em 24/02/2021
+        - Nota Técnica 2016.003 - v.1.90 - Publicada em 19/02/2021
+        - Nota Técnica 2020.006 - v.1.10 - Publicada em 15/02/2021
+        - Nota Técnica 2020.007 - v.1.10 - Publicada em 11/02/2021
+        - Nota Técnica 2020.005 - v.1.10 - Publicada em 22/12/2020
+        - Nota Técnica 2016.003 - v.1.81 - Publicada em 16/11/2020
+        - Nota Técnica 2020.005 - v.1.00 - Publicada em 12/11/2020
+        - Nota Técnica 2020.007 - v.1.00a - Publicada em 05/11/2020
+        - Nota Técnica 2016.003 - v.1.80 - Publicada em 14/10/2020
+        - Nota Técnica 2020.007 - v.1.00 - Publicada em 02/10/2020
+        - Nota Técnica 2020.006 - v.1.00 - Publicada em 02/10/2020
+        - Nota Técnica 2019.001 - v.1.51 - Publicada em 25/09/2020
+        - Nota Técnica 2014.002 - v.1.02c - Publicada em 31/08/2020
+        - Nota Técnica 2020.004 - v.1.00 - Publicada em 28/08/2020
+        - Nota Técnica 2016.003 - v.1.70 - Publicada em 01/06/2020
+        - Nota Técnica 2020.002 - v.1.00 - Publicada em 18/05/2020
+        - Nota Técnica 2019.001 - v.1.50 - Publicada em 08/04/2020
+        - Nota Técnica 2020.001 - v.1.00 - Publicada em 07/01/2020
+        - Nota Técnica 2019.001 - v.1.40 - Publicada em 30/12/2019
+        - Nota Técnica 2014.001 - v.1.20 - Publicada em 05/12/2019
+        - Nota Técnica 2017.002 - v.1.30 - Publicada em 25/11/2019
+        - Nota Técnica 2016.003 - v. 1.60 - Publicada em 11/11/2019
+        - Nota Técnica 2019.001 - v.1.30 - Publicada em 30/08/2019
+        - Nota Técnica 2019.001 - v.1.20 - Publicada em 20/08/2019
+        - Nota Técnica 2019.001 - v.1.10 - Publicada em 16/07/2019
+        - Nota Técnica 2019.001 - v.1.00 - Publicada em 03/05/2019
+        - Nota Técnica 2018.005 - v.1.30 - Publicada em 26/04/2019
+        - Nota Técnica 2017.002 - v.1.20 - Publicada em 12/04/2019
+        - Nota Técnica 2018.005 - v.1.20 - Publicada em 15/03/2019
+        - Nota Técnica 2018.005 - v.1.10 - Publicada em 12/02/2019
+        - Nota Técnica 2018.005 - v.1.00 - Publicada em 02/01/2019
+        - Nota Técnica 2016.003 - v.1.50 - Publicada em 09/11/2018
+        - Nota Técnica 2017.002 - v.1.10 - Publicada em 28/08/2018
+        - Nota Técnica 2017.001 - v.1.40 - Publicada em 28/08/2018
+        - Nota Técnica 2017.001 - v.1.30 - Publicada em 25/06/2018
+        - Nota Técnica 2016.002 - v.1.60 - Publicada em 18/06/2018
+        - Nota Técnica 2016.002 - v.1.51 - Publicada em 16/05/2018
+        - Nota Técnica 2016.003 - v.1.40 - Publicada em 07/05/2018
+        - Nota Técnica 2018.003 - v.1.00 - Publicada em 02/05/2018
+        - Nota Técnica 2016.002 - v.1.50 - Publicada em 26/04/2018
+        - Nota Técnica 2018.001 - v.1.00 - Publicada em 19/04/2018
+        - Nota Técnica 2017.001 - v.1.20 - Publicada em 27/02/2018
+        - Nota Técnica 2016.002 - v.1.42 - Publicada em 22/12/2017
+        - Nota Técnica 2017.002 - v.1.00 - Publicada em 18/12/2017
+        - Nota Técnica 2016.003 - v.1.30 - Publicada em 15/12/2017
+        - Nota Técnica 2017.001 - v.1.10 - Publicada em 14/12/2017
+        - Nota Técnica 2016.002 - v.1.41 - Publicada em 07/11/2017
+        - Nota Técnica 2016.002 - v.1.40 - Publicada em 24/10/2017
+        - Nota Técnica 2016.002 - v.1.31 - Publicada em 27/09/2017
+        - Nota Técnica 2016.002 - v.1.30 - Publicada em 12/09/2017
+        - Nota Técnica 2016.002 - v.1.20 - Publicada em 31/05/2017
+        - Nota Técnica 2014.002 - v.1.02b - Publicada em 30/05/2017
+        - Nota Técnica 2014.002 - v.1.01c - Publicada em 29/05/2017
+        - Nota Técnica 2016.001 - v.1.30 - Publicada em 17/04/2017
+        - Nota Técnica 2016.002 - v.1.10 - Publicada em 11/04/2017
+        - Nota Técnica 2016.001 - v.1.20 - Publicada em 24/02/2017
+        - Nota Técnica 2015.003 - v.1.93 - Publicada em 20/01/2017
+        - Nota Técnica 2015.003 - v.1.92 - Publicada em 04/01/2017
+        - Nota Técnica 2016.003 - Publicada em 28/12/2016
+        - Nota Técnica 2016.001 - v.1.10 - Publicada em 28/12/2016
+        - Nota Técnica 2016.002 - v.1.00 - Publicada em 30/11/2016
+        - Nota Técnica 2015.003 - v.1.91 - Publicada em 03/11/2016
+        - Nota Técnica 2016.001 - v.1.00 - Publicada em 01/11/2016
+        - Nota Técnica 2014.002 - v.1.02 - Publicada em 25/10/2016
+        - Nota Técnica 2014.002 - v.1.01b - Publicada em 25/10/2016
+        - Nota Técnica 2015.003 - v.1.90 - Publicada em 18/10/2016
+        - Nota Técnica 2015.001 - v.1.20 - Publicada em 25/07/2016
+        - Nota Técnica 2015.003 - v.1.80 - Publicada em 09/06/2016
+        - Nota Técnica 2015.003 - v.1.71 - Publicada em 13/04/2016
+        - Nota Técnica 2015.003 - v.1.70 - Publicada em 29/03/2016
+        - Nota Técnica 2015.003 - v.1.60 - Publicada em 30/12/2015
+        - Nota Técnica 2015.002 - v.1.30 - Publicada em 28/12/2015
+        - Nota Técnica 2015.003 - v.1.50 - Publicada em 17/12/2015
+        - Nota Técnica 2015.003 - v.1.40 - Publicada em 01/12/2015
+        - Nota Técnica 2015.002 - v.1.20 - Publicada em 19/11/2015
+        - Nota Técnica 2015.001 - v.1.10 - Publicada em 12/06/2015
+        - Nota Técnica 2015.002 - v.1.40 - Publicada em 23/03/2015
+        - Nota Técnica 2013.005 - v.1.20 - Publicada em 18/11/2014
+        - Nota Técnica 2013.005 - v.1.10 - Publicada em 08/10/2014
+        - Nota Técnica 2014.004 - v.1.00 - Publicada em 11/06/2014
+        - Nota Técnica NFC-e 2014.003 - v.1.00 - Publicada em 30/05/2014
+        - Nota Técnica 2014.001 - v.1.00 - Publicada em 12/05/2014
+        - Nota Técnica 2013.005 - v.1.03 - Publicada em 02/04/2014
+        - Nota Técnica 2013.007 - SVC - v1.02 - Publicada em 13/12/2013
+        - Nota Técnica 2013.005 - v.1.02 - Publicada em 12/12/2013
