@@ -7,6 +7,21 @@
 # Cobertura atual: as rejeições mais frequentes em integração nova. Longe de ser
 # a lista completa — cresce conforme aparecem em uso real, e essa é justamente a
 # telemetria que vira vantagem (ver docs/spec/04-manutencao.md).
+#
+# Campos por rejeição:
+#
+#   significa    o que a SEFAZ quis dizer                   (usado pela ferramenta)
+#   acao         o que fazer a respeito                     (usado pela ferramenta)
+#   reversivel   dá para corrigir e transmitir de novo?     (usado pela ferramenta)
+#   causa        o que de fato aconteceu, em linguagem de dev
+#   exemplo      XML errado e XML corrigido, mínimos e fictícios
+#   sem_exemplo  por que NÃO existe exemplo — quando a rejeição não é de XML
+#   verificar    comandos que reproduzem o diagnóstico offline
+#
+# Os quatro últimos alimentam as páginas de docs/rejeicoes/, geradas por
+# scripts/gerar_paginas_rejeicao.py. São opcionais: rejeição sem exemplo vira
+# página com convite para contribuir, e isso é melhor do que inventar XML fiscal
+# errado — a mesma regra que vale para as regras de validação.
 
 rejeicoes:
   "204":
@@ -15,6 +30,40 @@ rejeicoes:
       Consulte a nota existente antes de tentar de novo. NÃO reemita com o mesmo
       número e série: isso gera nova tentativa de duplicidade.
     reversivel: true
+    causa: >
+      A chave transmitida já está autorizada. Chave igual significa emitente,
+      modelo, série, número e código numérico iguais — ou seja, é a mesma nota,
+      não uma parecida. O padrão que mais produz isso é retry: a primeira
+      transmissão estourou o timeout do seu lado, autorizou do lado da SEFAZ, e
+      a rotina reenviou em vez de consultar o recibo.
+    exemplo:
+      contexto: >
+        A nota 1234 da série 1 já está autorizada. Se a venda é outra, ela
+        precisa de número próprio.
+      destaque: ["<nNF>1234</nNF>", "<nNF>1235</nNF>"]
+      errado: |
+        <ide>
+          <mod>55</mod>
+          <serie>1</serie>
+          <nNF>1234</nNF>
+          <cNF>12345678</cNF>
+        </ide>
+      corrigido: |
+        <ide>
+          <mod>55</mod>
+          <serie>1</serie>
+          <nNF>1235</nNF>
+          <cNF>87654321</cNF>
+        </ide>
+      aviso: >
+        Só avance o número se a venda for outra. Se for a mesma nota, a
+        autorizada já existe: consulte e use. Reemitir é o que transforma uma
+        duplicidade em cascata de duplicidades.
+    verificar:
+      - comando: fiscal-mcp chave 43260812345678000100550010000012341123456783
+        nota: >
+          Decompõe a chave que a SEFAZ diz já existir — emitente, série e número
+          saem separados, sem consultar nada.
 
   "217":
     significa: NF-e não consta na base de dados da SEFAZ.
@@ -22,6 +71,20 @@ rejeicoes:
       A chave consultada não existe. Confira o dígito verificador e se a nota
       chegou a ser transmitida.
     reversivel: true
+    causa: >
+      A chave consultada não existe na base. Ou a nota nunca chegou a sair da
+      sua fila — job que morreu antes do envio, lote montado e não transmitido —
+      ou a chave está errada: dígito transcrito à mão, número sem zero à
+      esquerda, ou chave de homologação consultada em produção, que são bases
+      separadas.
+    sem_exemplo: >
+      Não há XML aqui: a 217 é resposta de consulta, não de transmissão. O que
+      dá para conferir localmente é a chave.
+    verificar:
+      - comando: fiscal-mcp chave 43260812345678000100550010000012341123456783
+        nota: >
+          Se o dígito verificador não confere, o problema é a chave e não a base
+          da SEFAZ — e some antes de você abrir chamado.
 
   "225":
     significa: Falha no schema XML — o arquivo não obedece ao leiaute.
@@ -29,11 +92,69 @@ rejeicoes:
       Valide o XML contra o XSD da versão declarada antes de transmitir. A
       mensagem completa da SEFAZ costuma indicar o elemento culpado.
     reversivel: true
+    causa: >
+      O XML não passou no XSD da versão declarada em infNFe/@versao. Isso é
+      leiaute, não regra de negócio: elemento faltando, elemento fora da ordem
+      que o schema exige, ou valor fora do tipo do campo. A mensagem completa da
+      SEFAZ costuma trazer o elemento culpado — e é justamente a parte que muita
+      integração descarta antes de gravar no log.
+    exemplo:
+      contexto: >
+        Valor monetário gravado sem as duas casas decimais que o tipo do campo
+        exige. Passa no seu código, não passa no XSD.
+      destaque: ["<vProd>250</vProd>", "<vProd>250.00</vProd>"]
+      errado: |
+        <prod>
+          <cProd>P001</cProd>
+          <xProd>Produto de exemplo</xProd>
+          <vUnCom>125.00</vUnCom>
+          <vProd>250</vProd>
+        </prod>
+      corrigido: |
+        <prod>
+          <cProd>P001</cProd>
+          <xProd>Produto de exemplo</xProd>
+          <vUnCom>125.00</vUnCom>
+          <vProd>250.00</vProd>
+        </prod>
+    verificar:
+      - comando: fiscal-mcp validar nota.xml
+        nota: >
+          Pega parte dos casos — as regras de formato conferem os campos
+          monetários. Validação completa por XSD ainda não está no pacote: está
+          no roadmap, e até lá o XSD oficial do Portal da NF-e é a referência.
 
   "228":
     significa: Data de emissão muito atrasada.
     acao: Reemita com a data corrente. Há prazo entre emissão e transmissão.
     reversivel: true
+    causa: >
+      dhEmi ficou para trás em relação ao momento em que o lote foi transmitido.
+      Fila parada, job de envio que não rodou, ou — o caso mais comum em
+      integração — dhEmi gravada quando o pedido foi criado, e não quando a nota
+      foi emitida. Confira o fuso junto: dhEmi vai com offset explícito, e sem
+      ele a leitura da data muda.
+    exemplo:
+      contexto: >
+        A nota foi montada em julho e só saiu da fila em agosto, com a data de
+        montagem.
+      destaque:
+        - "<dhEmi>2026-07-01T09:00:00-03:00</dhEmi>"
+        - "<dhEmi>2026-08-08T10:00:00-03:00</dhEmi>"
+      errado: |
+        <ide>
+          <nNF>1234</nNF>
+          <dhEmi>2026-07-01T09:00:00-03:00</dhEmi>
+        </ide>
+      corrigido: |
+        <ide>
+          <nNF>1234</nNF>
+          <dhEmi>2026-08-08T10:00:00-03:00</dhEmi>
+        </ide>
+      aviso: >
+        O prazo entre emissão e transmissão é definido pela SEFAZ e não vale
+        igual para toda operação. Confirme no Manual de Orientação do
+        Contribuinte antes de fixar um número no seu código.
 
   "233":
     significa: Inscrição estadual do destinatário não informada.
@@ -41,6 +162,34 @@ rejeicoes:
       Para contribuinte, informe a IE. Se o destinatário é isento, use o
       indicador de IE correspondente em vez de omitir.
     reversivel: true
+    causa: >
+      O grupo dest declara indIEDest=1 (destinatário contribuinte do ICMS) e não
+      traz o elemento IE. A SEFAZ não deduz: ou vem a inscrição, ou vem o
+      indicador que explica por que ela não vem — 2 para contribuinte isento de
+      inscrição, 9 para não contribuinte. Omitir os dois é o que gera a 233, e
+      quase sempre a origem é um cadastro que aceitou IE em branco.
+    exemplo:
+      contexto: >
+        Destinatário marcado como contribuinte, sem inscrição informada. No
+        leiaute a IE vem depois de indIEDest.
+      destaque: ["<indIEDest>1</indIEDest>", "<IE>1234567890</IE>"]
+      errado: |
+        <dest>
+          <CNPJ>98765432000188</CNPJ>
+          <xNome>Cliente de exemplo</xNome>
+          <indIEDest>1</indIEDest>
+        </dest>
+      corrigido: |
+        <dest>
+          <CNPJ>98765432000188</CNPJ>
+          <xNome>Cliente de exemplo</xNome>
+          <indIEDest>1</indIEDest>
+          <IE>1234567890</IE>
+        </dest>
+      aviso: >
+        Se o destinatário não é contribuinte, o corrigido é outro: mantenha o
+        dest sem IE e troque indIEDest para 9. Informar inscrição de quem não tem
+        é trocar uma rejeição por outra.
 
   "236":
     significa: Chave de acesso com dígito verificador inválido.
@@ -48,11 +197,85 @@ rejeicoes:
       O cDV não confere com os 43 primeiros dígitos. Recalcule por módulo 11 —
       a ferramenta validar_chave_acesso faz essa conta.
     reversivel: true
+    causa: >
+      O 44º dígito da chave não é o módulo 11 dos 43 anteriores. Na prática:
+      chave montada por concatenação em vez de calculada, nNF ou cNF sem zero à
+      esquerda (na chave os campos têm largura fixa), ou o Id do infNFe
+      divergindo do cDV do grupo ide — os dois carregam o mesmo dígito e
+      precisam concordar.
+    exemplo:
+      contexto: >
+        O Id do infNFe e o cDV são a mesma chave vista de dois lugares. Aqui o
+        dígito calculado é 3, não 9.
+      destaque:
+        - 'Id="NFe43260812345678000100550010000012341123456789"'
+        - 'Id="NFe43260812345678000100550010000012341123456783"'
+        - "<cDV>9</cDV>"
+        - "<cDV>3</cDV>"
+      errado: |
+        <infNFe versao="4.00" Id="NFe43260812345678000100550010000012341123456789">
+          <ide>
+            <nNF>1234</nNF>
+            <cNF>12345678</cNF>
+            <cDV>9</cDV>
+          </ide>
+      corrigido: |
+        <infNFe versao="4.00" Id="NFe43260812345678000100550010000012341123456783">
+          <ide>
+            <nNF>1234</nNF>
+            <cNF>12345678</cNF>
+            <cDV>3</cDV>
+          </ide>
+    verificar:
+      - comando: fiscal-mcp chave 43260812345678000100550010000012341123456789
+        nota: >
+          Devolve o dígito esperado e a decomposição da chave. Nada sai da sua
+          máquina.
+      - comando: fiscal-mcp validar nota.xml
+        nota: >
+          A chave do atributo Id é conferida junto com o resto — o achado sai
+          com o id chave-cDV.
 
   "266":
     significa: Série da NF-e diferente da série informada na chave de acesso.
     acao: A série em ide/serie precisa ser a mesma codificada na chave.
     reversivel: true
+    causa: >
+      ide/serie e a série codificada na chave apontam para séries diferentes. Na
+      chave a série ocupa as posições 23 a 25, com três dígitos e zero à
+      esquerda. Quem monta a chave a partir de um template antigo, ou formata a
+      série como inteiro sem preencher, troca 002 por 001 sem perceber.
+    exemplo:
+      contexto: >
+        A nota é da série 2 e a chave foi montada com a série 1. Trocar a série
+        muda o dígito verificador junto — de 3 para 0.
+      destaque:
+        - 'Id="NFe43260812345678000100550010000012341123456783"'
+        - 'Id="NFe43260812345678000100550020000012341123456780"'
+        - "<cDV>3</cDV>"
+        - "<cDV>0</cDV>"
+      errado: |
+        <infNFe versao="4.00" Id="NFe43260812345678000100550010000012341123456783">
+          <ide>
+            <serie>2</serie>
+            <nNF>1234</nNF>
+            <cDV>3</cDV>
+          </ide>
+      corrigido: |
+        <infNFe versao="4.00" Id="NFe43260812345678000100550020000012341123456780">
+          <ide>
+            <serie>2</serie>
+            <nNF>1234</nNF>
+            <cDV>0</cDV>
+          </ide>
+      aviso: >
+        Não corrija só o trecho da série: qualquer dígito alterado muda o
+        verificador. Recalcule a chave inteira.
+    verificar:
+      - comando: fiscal-mcp chave 43260812345678000100550010000012341123456783
+        nota: >
+          O campo serie do resumo é a série que está dentro da chave. Compare
+          com o ide/serie do seu XML.
 
   "301":
     significa: Uso denegado — irregularidade fiscal do emitente.
@@ -60,6 +283,14 @@ rejeicoes:
       Não é erro de integração. A situação cadastral do emitente precisa ser
       regularizada junto à SEFAZ. Nota denegada não pode ser reemitida.
     reversivel: false
+    causa: >
+      A SEFAZ recebeu, processou e denegou. O emitente está com pendência
+      cadastral, e o documento fica registrado como denegado: a chave é
+      consumida e não vira autorizada depois. Reenviar o mesmo XML não muda o
+      resultado — e cada tentativa queima uma chave nova.
+    sem_exemplo: >
+      Não há XML errado para mostrar: o arquivo pode estar impecável. O bloqueio
+      é cadastral, e o caminho é a SEFAZ da UF do emitente, não o seu código.
 
   "302":
     significa: Uso denegado — irregularidade fiscal do destinatário.
@@ -68,6 +299,16 @@ rejeicoes:
       registrada e não pode ser cancelada nem reemitida para o mesmo destinatário
       sem regularização.
     reversivel: false
+    causa: >
+      Mesma mecânica da 301, com o bloqueio do outro lado: quem está irregular é
+      o destinatário. Do ponto de vista do código não há o que corrigir no XML —
+      o que existe é uma decisão de negócio sobre emitir ou não para aquele
+      destinatário enquanto a situação não se resolve.
+    sem_exemplo: >
+      Não há XML errado para mostrar. Se o caso é frequente na sua operação, o
+      que evita a denegação é conferir a situação cadastral antes de emitir —
+      consulta de cadastro é serviço da SEFAZ, e sai mais barato que uma chave
+      queimada.
 
   "539":
     significa: >
@@ -77,6 +318,39 @@ rejeicoes:
       Costuma indicar reemissão com código numérico (cNF) diferente. Consulte a
       nota já autorizada e use-a; não tente forçar nova emissão.
     reversivel: true
+    causa: >
+      Já existe nota autorizada com o mesmo número e série, mas com chave
+      diferente. Chave diferente com número igual significa cNF diferente:
+      alguém reemitiu sorteando um novo código numérico. É a sequência clássica
+      — a transmissão dá timeout, o retry cai na 204, alguém "resolve" gerando
+      cNF novo, e a tentativa seguinte cai na 539.
+    exemplo:
+      contexto: >
+        A nota 1234 da série 1 já está autorizada com o cNF 12345678. A
+        reemissão sorteou outro código numérico e virou outra chave para o mesmo
+        número.
+      destaque: ["<nNF>1234</nNF>", "<nNF>1235</nNF>"]
+      errado: |
+        <ide>
+          <serie>1</serie>
+          <nNF>1234</nNF>
+          <cNF>87654321</cNF>
+        </ide>
+      corrigido: |
+        <ide>
+          <serie>1</serie>
+          <nNF>1235</nNF>
+          <cNF>87654321</cNF>
+        </ide>
+      aviso: >
+        O corrigido só vale se a venda for outra. Para a mesma venda não existe
+        XML corrigido: a nota autorizada já é a sua — consulte pela chave e use.
+        O cNF não é o que identifica a nota; o número e a série são.
+    verificar:
+      - comando: fiscal-mcp rejeicao 204
+        nota: >
+          204 e 539 são a mesma família. Se você caiu numa e depois na outra, o
+          defeito está na rotina de retry, não no XML.
 
   "610":
     significa: Total da NF-e diferente do somatório dos itens.
@@ -84,6 +358,45 @@ rejeicoes:
       Some os vProd de todos os itens e compare com total/ICMSTot/vProd. A regra
       tot-produtos-confere pega isso antes de transmitir.
     reversivel: true
+    causa: >
+      A soma de det/prod/vProd não bate com total/ICMSTot/vProd. As duas origens
+      mais comuns: arredondamento item a item, quando qCom × vUnCom tem mais de
+      duas casas e cada item é arredondado por conta própria; e desconto
+      aplicado no total sem ser distribuído nos itens.
+    exemplo:
+      contexto: >
+        Dois itens somam 250,00. O total foi gravado com outro valor — aqui,
+        exagerado de propósito para o erro ficar visível.
+      destaque: ["<vProd>999.00</vProd>", "<vProd>250.00</vProd>"]
+      errado: |
+        <det nItem="1">
+          <prod><vProd>200.00</vProd></prod>
+        </det>
+        <det nItem="2">
+          <prod><vProd>50.00</vProd></prod>
+        </det>
+        <total>
+          <ICMSTot>
+            <vProd>999.00</vProd>
+          </ICMSTot>
+        </total>
+      corrigido: |
+        <det nItem="1">
+          <prod><vProd>200.00</vProd></prod>
+        </det>
+        <det nItem="2">
+          <prod><vProd>50.00</vProd></prod>
+        </det>
+        <total>
+          <ICMSTot>
+            <vProd>250.00</vProd>
+          </ICMSTot>
+        </total>
+    verificar:
+      - comando: fiscal-mcp validar nota.xml
+        nota: >
+          A regra tot-produtos-confere refaz a soma e mostra a diferença em
+          reais, sem transmitir nada.
 
   "999":
     significa: Erro não catalogado no processamento da SEFAZ.
@@ -91,3 +404,11 @@ rejeicoes:
       Erro genérico do lado da SEFAZ. Tente novamente depois; se persistir,
       verifique o status do serviço antes de investigar o seu documento.
     reversivel: true
+    causa: >
+      Erro não catalogado no processamento da SEFAZ. Em geral não é o seu
+      documento: é o serviço da UF instável, ou uma falha interna que nunca
+      ganhou código próprio. O que muda o diagnóstico é a repetição — 999
+      isolada some no retry; 999 constante para o mesmo XML merece investigação.
+    sem_exemplo: >
+      Não há campo a corrigir: a 999 não aponta para nenhum elemento do XML.
+      Antes de mexer no documento, confira o status do serviço da UF.

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rejeição 302: Uso denegado — irregularidade fiscal do destinatário · fiscal-mcp</title>
+<meta name="description" content="Rejeição 302 da SEFAZ na NF-e: Uso denegado — irregularidade fiscal do destinatário. O que aconteceu, o que fazer, e por que não há XML a corrigir — diagnóstico offline, sem certificado.">
+<link rel="canonical" href="https://josetorquato.dev/fiscal-mcp/rejeicoes/302.html">
+<link rel="icon" type="image/svg+xml" href="../logo.svg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rejeição 302: Uso denegado — irregularidade fiscal do destinatário · fiscal-mcp">
+<meta property="og:description" content="Rejeição 302 da SEFAZ na NF-e: Uso denegado — irregularidade fiscal do destinatário. O que aconteceu, o que fazer, e por que não há XML a corrigir — diagnóstico offline, sem certificado.">
+<meta property="og:url" content="https://josetorquato.dev/fiscal-mcp/rejeicoes/302.html">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+    <nav>
+      <a href="../#usar">Usar</a>
+      <a href="../#cobertura">Cobertura</a>
+      <a href="./">Rejeições</a>
+      <a href="https://pypi.org/project/fiscal-mcp/">PyPI</a>
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="dotted">
+  <div class="wrap topo">
+    <p class="trilha"><a href="../">fiscal-mcp</a> / <a href="./">rejeições</a> / 302</p>
+    <h1>Rejeição 302</h1>
+    <p class="lede">Uso denegado — irregularidade fiscal do destinatário.</p>
+    <div class="selos"><span class="selo selo-nao">irreversível — o documento não vira autorizado depois</span><span class="selo">NF-e · SEFAZ</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">01<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O que aconteceu</h2></div>
+    <div class="texto"><p>Mesma mecânica da 301, com o bloqueio do outro lado: quem está irregular é o destinatário. Do ponto de vista do código não há o que corrigir no XML — o que existe é uma decisão de negócio sobre emitir ou não para aquele destinatário enquanto a situação não se resolve.</p></div>
+  </div>
+</section>
+
+<section class="painel">
+  <div class="wrap">
+    <div class="shead"><span class="snum">02<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">Por que não há XML para corrigir</h2></div>
+    <div class="falta">
+      <h3>Esta rejeição não tem XML errado para mostrar</h3>
+      <p>Não há XML errado para mostrar. Se o caso é frequente na sua operação, o que evita a denegação é conferir a situação cadastral antes de emitir — consulta de cadastro é serviço da SEFAZ, e sai mais barato que uma chave queimada.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">03<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O que fazer</h2></div>
+    <div class="texto"><p>Confira a situação cadastral do destinatário. Nota denegada fica registrada e não pode ser cancelada nem reemitida para o mesmo destinatário sem regularização.</p></div>
+  </div>
+</section>
+
+<section class="painel">
+  <div class="wrap">
+    <div class="shead"><span class="snum">04<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">Reproduzir sem transmitir</h2></div>
+    <div class="texto"><p>Tudo aqui roda na sua máquina, sem certificado e sem enviar nada para lugar nenhum.</p></div>
+    <div class="cmd">
+      <pre><span class="c"># o que a SEFAZ quis dizer</span>
+fiscal-mcp rejeicao 302
+
+{
+  &quot;ok&quot;: true,
+  &quot;codigo&quot;: &quot;302&quot;,
+  &quot;significa&quot;: &quot;Uso denegado — irregularidade fiscal do destinatário.&quot;,
+  &quot;acao&quot;: &quot;Confira a situação cadastral do destinatário. Nota denegada fica registrada e não pode ser cancelada nem reemitida para o mesmo destinatário sem regularização.&quot;,
+  &quot;reversivel&quot;: false
+}</pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">05<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">A redação exata varia</h2></div>
+    <div class="texto">
+      <p>A mensagem que chega da SEFAZ muda de UF para UF e de versão para versão do
+      Manual de Orientação do Contribuinte — o que não muda é o código. O texto acima
+      é o significado consolidado no catálogo do fiscal-mcp, não a transcrição
+      literal de uma resposta.</p>
+      <p>Se a sua veio diferente, ou se o campo que resolveu foi outro,
+      <a href="https://github.com/JoseTorquato/fiscal-mcp/issues/new?title=rejei%C3%A7%C3%A3o%20302">abra uma issue</a> — o catálogo é um
+      <a href="https://github.com/JoseTorquato/fiscal-mcp/blob/main/regras/rejeicoes.yaml">YAML de umas poucas linhas</a>,
+      e é assim que ele fica melhor.</p>
+      <p><a href="./">← todas as rejeições catalogadas</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="../"><img src="../logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+      <div style="margin-top:10px">MIT · feito por
+        <a href="https://josetorquato.dev">José Torquato</a></div>
+    </div>
+    <div>
+      <a href="../">Landing</a> ·
+      <a href="./">Todas as rejeições</a> ·
+      <a href="https://pypi.org/project/fiscal-mcp/">PyPI</a> ·
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

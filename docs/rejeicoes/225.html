@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rejeição 225: Falha no schema XML — o arquivo não obedece ao leiaute · fiscal-mcp</title>
+<meta name="description" content="Rejeição 225 da SEFAZ na NF-e: Falha no schema XML — o arquivo não obedece ao leiaute. O que aconteceu, o XML errado e o corrigido, e o comando que reproduz o diagnóstico offline.">
+<link rel="canonical" href="https://josetorquato.dev/fiscal-mcp/rejeicoes/225.html">
+<link rel="icon" type="image/svg+xml" href="../logo.svg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rejeição 225: Falha no schema XML — o arquivo não obedece ao leiaute · fiscal-mcp">
+<meta property="og:description" content="Rejeição 225 da SEFAZ na NF-e: Falha no schema XML — o arquivo não obedece ao leiaute. O que aconteceu, o XML errado e o corrigido, e o comando que reproduz o diagnóstico offline.">
+<meta property="og:url" content="https://josetorquato.dev/fiscal-mcp/rejeicoes/225.html">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+    <nav>
+      <a href="../#usar">Usar</a>
+      <a href="../#cobertura">Cobertura</a>
+      <a href="./">Rejeições</a>
+      <a href="https://pypi.org/project/fiscal-mcp/">PyPI</a>
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="dotted">
+  <div class="wrap topo">
+    <p class="trilha"><a href="../">fiscal-mcp</a> / <a href="./">rejeições</a> / 225</p>
+    <h1>Rejeição 225</h1>
+    <p class="lede">Falha no schema XML — o arquivo não obedece ao leiaute.</p>
+    <div class="selos"><span class="selo selo-ok">reversível — corrija o documento e transmita de novo</span><span class="selo">NF-e · SEFAZ</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">01<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O que aconteceu</h2></div>
+    <div class="texto"><p>O XML não passou no XSD da versão declarada em infNFe/@versao. Isso é leiaute, não regra de negócio: elemento faltando, elemento fora da ordem que o schema exige, ou valor fora do tipo do campo. A mensagem completa da SEFAZ costuma trazer o elemento culpado — e é justamente a parte que muita integração descarta antes de gravar no log.</p></div>
+  </div>
+</section>
+
+<section class="painel">
+  <div class="wrap">
+    <div class="shead"><span class="snum">02<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O XML, antes e depois</h2></div>
+    <div class="texto"><p>Valor monetário gravado sem as duas casas decimais que o tipo do campo exige. Passa no seu código, não passa no XSD.</p></div>
+    <div class="par">
+      <div><p class="rotulo rotulo-r">o que foi transmitido</p>
+      <pre>&lt;prod&gt;
+  &lt;cProd&gt;P001&lt;/cProd&gt;
+  &lt;xProd&gt;Produto de exemplo&lt;/xProd&gt;
+  &lt;vUnCom&gt;125.00&lt;/vUnCom&gt;
+<span class="hl err">  &lt;vProd&gt;250&lt;/vProd&gt;</span>
+&lt;/prod&gt;</pre>
+      </div>
+      <div><p class="rotulo rotulo-g">o que a SEFAZ aceita</p>
+      <pre>&lt;prod&gt;
+  &lt;cProd&gt;P001&lt;/cProd&gt;
+  &lt;xProd&gt;Produto de exemplo&lt;/xProd&gt;
+  &lt;vUnCom&gt;125.00&lt;/vUnCom&gt;
+<span class="hl ok">  &lt;vProd&gt;250.00&lt;/vProd&gt;</span>
+&lt;/prod&gt;</pre>
+      </div>
+    </div>
+    <p class="nota" style="margin-top:22px;color:var(--dim);font-size:12px">Exemplo mínimo e fictício. Onde aparece CNPJ ou chave de acesso, o número não é de empresa nenhuma — nem passa no próprio dígito verificador.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">03<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O que fazer</h2></div>
+    <div class="texto"><p>Valide o XML contra o XSD da versão declarada antes de transmitir. A mensagem completa da SEFAZ costuma indicar o elemento culpado.</p></div>
+  </div>
+</section>
+
+<section class="painel">
+  <div class="wrap">
+    <div class="shead"><span class="snum">04<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">Reproduzir sem transmitir</h2></div>
+    <div class="texto"><p>Tudo aqui roda na sua máquina, sem certificado e sem enviar nada para lugar nenhum.</p></div>
+    <div class="cmd">
+      <pre><span class="c"># o que a SEFAZ quis dizer</span>
+fiscal-mcp rejeicao 225
+
+{
+  &quot;ok&quot;: true,
+  &quot;codigo&quot;: &quot;225&quot;,
+  &quot;significa&quot;: &quot;Falha no schema XML — o arquivo não obedece ao leiaute.&quot;,
+  &quot;acao&quot;: &quot;Valide o XML contra o XSD da versão declarada antes de transmitir. A mensagem completa da SEFAZ costuma indicar o elemento culpado.&quot;,
+  &quot;reversivel&quot;: true
+}</pre>
+    </div>
+    <div class="cmd">
+      <pre>fiscal-mcp validar nota.xml</pre>
+      <p class="nota">Pega parte dos casos — as regras de formato conferem os campos monetários. Validação completa por XSD ainda não está no pacote: está no roadmap, e até lá o XSD oficial do Portal da NF-e é a referência.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">05<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">A redação exata varia</h2></div>
+    <div class="texto">
+      <p>A mensagem que chega da SEFAZ muda de UF para UF e de versão para versão do
+      Manual de Orientação do Contribuinte — o que não muda é o código. O texto acima
+      é o significado consolidado no catálogo do fiscal-mcp, não a transcrição
+      literal de uma resposta.</p>
+      <p>Se a sua veio diferente, ou se o campo que resolveu foi outro,
+      <a href="https://github.com/JoseTorquato/fiscal-mcp/issues/new?title=rejei%C3%A7%C3%A3o%20225">abra uma issue</a> — o catálogo é um
+      <a href="https://github.com/JoseTorquato/fiscal-mcp/blob/main/regras/rejeicoes.yaml">YAML de umas poucas linhas</a>,
+      e é assim que ele fica melhor.</p>
+      <p><a href="./">← todas as rejeições catalogadas</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="../"><img src="../logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+      <div style="margin-top:10px">MIT · feito por
+        <a href="https://josetorquato.dev">José Torquato</a></div>
+    </div>
+    <div>
+      <a href="../">Landing</a> ·
+      <a href="./">Todas as rejeições</a> ·
+      <a href="https://pypi.org/project/fiscal-mcp/">PyPI</a> ·
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

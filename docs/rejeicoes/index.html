@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rejeições da SEFAZ na NF-e: código, causa e o XML corrigido · fiscal-mcp</title>
+<meta name="description" content="Catálogo de códigos de rejeição da NF-e explicados para quem integra: o que aconteceu, qual campo do XML mudar, e o comando que reproduz o diagnóstico offline.">
+<link rel="canonical" href="https://josetorquato.dev/fiscal-mcp/rejeicoes/">
+<link rel="icon" type="image/svg+xml" href="../logo.svg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rejeições da SEFAZ na NF-e: código, causa e o XML corrigido · fiscal-mcp">
+<meta property="og:description" content="Catálogo de códigos de rejeição da NF-e explicados para quem integra: o que aconteceu, qual campo do XML mudar, e o comando que reproduz o diagnóstico offline.">
+<meta property="og:url" content="https://josetorquato.dev/fiscal-mcp/rejeicoes/">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+    <nav>
+      <a href="../#usar">Usar</a>
+      <a href="../#cobertura">Cobertura</a>
+      <a href="./">Rejeições</a>
+      <a href="https://pypi.org/project/fiscal-mcp/">PyPI</a>
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="dotted">
+  <div class="wrap topo">
+    <p class="trilha"><a href="../">fiscal-mcp</a> / rejeições</p>
+    <h1>Rejeição da SEFAZ, explicada para quem integra</h1>
+    <p class="lede">
+      Uma página por código: o que de fato aconteceu, qual campo do XML mudar, e o
+      comando que reproduz o diagnóstico na sua máquina — sem certificado, sem
+      cadastro e sem transmitir nada.
+    </p>
+    <div class="selos"><span class="selo">12 códigos catalogados</span>
+      <span class="selo">8 com XML de antes e depois</span></div>
+  </div>
+</div>
+
+<section class="painel">
+  <div class="wrap">
+    <div class="shead"><span class="snum">01<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O catálogo</h2></div>
+    <div class="tw">
+    <table class="indice">
+      <thead><tr><th>código</th><th>o que significa</th><th>reversível</th>
+        <th>XML de exemplo</th></tr></thead>
+      <tbody>
+        <tr><td><a href="204.html">204</a></td><td>Duplicidade de NF-e — já existe nota autorizada com essa chave de acesso.</td><td>reversível</td><td>sim</td></tr>
+        <tr><td><a href="217.html">217</a></td><td>NF-e não consta na base de dados da SEFAZ.</td><td>reversível</td><td>—</td></tr>
+        <tr><td><a href="225.html">225</a></td><td>Falha no schema XML — o arquivo não obedece ao leiaute.</td><td>reversível</td><td>sim</td></tr>
+        <tr><td><a href="228.html">228</a></td><td>Data de emissão muito atrasada.</td><td>reversível</td><td>sim</td></tr>
+        <tr><td><a href="233.html">233</a></td><td>Inscrição estadual do destinatário não informada.</td><td>reversível</td><td>sim</td></tr>
+        <tr><td><a href="236.html">236</a></td><td>Chave de acesso com dígito verificador inválido.</td><td>reversível</td><td>sim</td></tr>
+        <tr><td><a href="266.html">266</a></td><td>Série da NF-e diferente da série informada na chave de acesso.</td><td>reversível</td><td>sim</td></tr>
+        <tr><td><a href="301.html">301</a></td><td>Uso denegado — irregularidade fiscal do emitente.</td><td style="color:var(--alerta)">irreversível</td><td>—</td></tr>
+        <tr><td><a href="302.html">302</a></td><td>Uso denegado — irregularidade fiscal do destinatário.</td><td style="color:var(--alerta)">irreversível</td><td>—</td></tr>
+        <tr><td><a href="539.html">539</a></td><td>Duplicidade de NF-e com diferença na chave de acesso — mesmo número e série já autorizados, mas com chave diferente.</td><td>reversível</td><td>sim</td></tr>
+        <tr><td><a href="610.html">610</a></td><td>Total da NF-e diferente do somatório dos itens.</td><td>reversível</td><td>sim</td></tr>
+        <tr><td><a href="999.html">999</a></td><td>Erro não catalogado no processamento da SEFAZ.</td><td>reversível</td><td>—</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">02<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">Por que estas páginas existem</h2></div>
+    <div class="texto">
+      <p>Rejeição chega tarde, custa uma transmissão e vem com mensagem críptica.
+      Quem integra não quer saber o que a legislação diz — quer saber qual campo
+      mudar e como reproduzir o erro antes de gastar outra transmissão.</p>
+      <p>As páginas são geradas a partir do
+      <a href="https://github.com/JoseTorquato/fiscal-mcp/blob/main/regras/rejeicoes.yaml">mesmo catálogo</a> que a
+      ferramenta <code>explicar_rejeicao</code> usa. Catálogo e documentação não
+      divergem porque são a mesma coisa.</p>
+      <p>O catálogo cobre as rejeições mais frequentes em integração nova, e está
+      longe de ser a lista completa. Onde falta exemplo, a página diz que falta:
+      inventar XML fiscal errado é pior do que a lacuna.</p>
+    </div>
+    <div class="aviso">
+      <h3>O que estas páginas não são</h3>
+      <ul>
+        <li>Não são a transcrição literal da mensagem da SEFAZ — a redação muda por
+          UF e por versão do Manual de Orientação do Contribuinte. O que não muda é
+          o código.</li>
+        <li>Não substituem o Manual de Orientação do Contribuinte nem a validação da
+          própria SEFAZ.</li>
+        <li>Levou um código que não está aqui?
+          <a href="https://github.com/JoseTorquato/fiscal-mcp/issues/new?title=rejei%C3%A7%C3%A3o%20">Abra uma issue</a> — é a contribuição mais
+          barata que existe no projeto.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="../"><img src="../logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+      <div style="margin-top:10px">MIT · feito por
+        <a href="https://josetorquato.dev">José Torquato</a></div>
+    </div>
+    <div>
+      <a href="../">Landing</a> ·
+      <a href="./">Todas as rejeições</a> ·
+      <a href="https://pypi.org/project/fiscal-mcp/">PyPI</a> ·
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

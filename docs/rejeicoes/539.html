@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rejeição 539: Duplicidade de NF-e com diferença na chave de acesso · fiscal-mcp</title>
+<meta name="description" content="Rejeição 539 da SEFAZ na NF-e: Duplicidade de NF-e com diferença na chave de acesso — mesmo número e série já autorizados, mas com chave diferente. O que aconteceu, o XML errado e o corrigido, e o comando que reproduz o diagnóstico offline.">
+<link rel="canonical" href="https://josetorquato.dev/fiscal-mcp/rejeicoes/539.html">
+<link rel="icon" type="image/svg+xml" href="../logo.svg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rejeição 539: Duplicidade de NF-e com diferença na chave de acesso · fiscal-mcp">
+<meta property="og:description" content="Rejeição 539 da SEFAZ na NF-e: Duplicidade de NF-e com diferença na chave de acesso — mesmo número e série já autorizados, mas com chave diferente. O que aconteceu, o XML errado e o corrigido, e o comando que reproduz o diagnóstico offline.">
+<meta property="og:url" content="https://josetorquato.dev/fiscal-mcp/rejeicoes/539.html">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+    <nav>
+      <a href="../#usar">Usar</a>
+      <a href="../#cobertura">Cobertura</a>
+      <a href="./">Rejeições</a>
+      <a href="https://pypi.org/project/fiscal-mcp/">PyPI</a>
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="dotted">
+  <div class="wrap topo">
+    <p class="trilha"><a href="../">fiscal-mcp</a> / <a href="./">rejeições</a> / 539</p>
+    <h1>Rejeição 539</h1>
+    <p class="lede">Duplicidade de NF-e com diferença na chave de acesso — mesmo número e série já autorizados, mas com chave diferente.</p>
+    <div class="selos"><span class="selo selo-ok">reversível — corrija o documento e transmita de novo</span><span class="selo">NF-e · SEFAZ</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">01<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O que aconteceu</h2></div>
+    <div class="texto"><p>Já existe nota autorizada com o mesmo número e série, mas com chave diferente. Chave diferente com número igual significa cNF diferente: alguém reemitiu sorteando um novo código numérico. É a sequência clássica — a transmissão dá timeout, o retry cai na 204, alguém &quot;resolve&quot; gerando cNF novo, e a tentativa seguinte cai na 539.</p></div>
+  </div>
+</section>
+
+<section class="painel">
+  <div class="wrap">
+    <div class="shead"><span class="snum">02<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O XML, antes e depois</h2></div>
+    <div class="texto"><p>A nota 1234 da série 1 já está autorizada com o cNF 12345678. A reemissão sorteou outro código numérico e virou outra chave para o mesmo número.</p></div>
+    <div class="par">
+      <div><p class="rotulo rotulo-r">o que foi transmitido</p>
+      <pre>&lt;ide&gt;
+  &lt;serie&gt;1&lt;/serie&gt;
+<span class="hl err">  &lt;nNF&gt;1234&lt;/nNF&gt;</span>
+  &lt;cNF&gt;87654321&lt;/cNF&gt;
+&lt;/ide&gt;</pre>
+      </div>
+      <div><p class="rotulo rotulo-g">o que a SEFAZ aceita</p>
+      <pre>&lt;ide&gt;
+  &lt;serie&gt;1&lt;/serie&gt;
+<span class="hl ok">  &lt;nNF&gt;1235&lt;/nNF&gt;</span>
+  &lt;cNF&gt;87654321&lt;/cNF&gt;
+&lt;/ide&gt;</pre>
+      </div>
+    </div>
+    <div class="aviso">
+      <h3>Antes de sair copiando</h3>
+      <p>O corrigido só vale se a venda for outra. Para a mesma venda não existe XML corrigido: a nota autorizada já é a sua — consulte pela chave e use. O cNF não é o que identifica a nota; o número e a série são.</p>
+    </div>
+    <p class="nota" style="margin-top:22px;color:var(--dim);font-size:12px">Exemplo mínimo e fictício. Onde aparece CNPJ ou chave de acesso, o número não é de empresa nenhuma — nem passa no próprio dígito verificador.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">03<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">O que fazer</h2></div>
+    <div class="texto"><p>Costuma indicar reemissão com código numérico (cNF) diferente. Consulte a nota já autorizada e use-a; não tente forçar nova emissão.</p></div>
+  </div>
+</section>
+
+<section class="painel">
+  <div class="wrap">
+    <div class="shead"><span class="snum">04<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">Reproduzir sem transmitir</h2></div>
+    <div class="texto"><p>Tudo aqui roda na sua máquina, sem certificado e sem enviar nada para lugar nenhum.</p></div>
+    <div class="cmd">
+      <pre><span class="c"># o que a SEFAZ quis dizer</span>
+fiscal-mcp rejeicao 539
+
+{
+  &quot;ok&quot;: true,
+  &quot;codigo&quot;: &quot;539&quot;,
+  &quot;significa&quot;: &quot;Duplicidade de NF-e com diferença na chave de acesso — mesmo número e série já autorizados, mas com chave diferente.&quot;,
+  &quot;acao&quot;: &quot;Costuma indicar reemissão com código numérico (cNF) diferente. Consulte a nota já autorizada e use-a; não tente forçar nova emissão.&quot;,
+  &quot;reversivel&quot;: true
+}</pre>
+    </div>
+    <div class="cmd">
+      <pre>fiscal-mcp rejeicao 204</pre>
+      <p class="nota">204 e 539 são a mesma família. Se você caiu numa e depois na outra, o defeito está na rotina de retry, não no XML.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead"><span class="snum">05<span style="color:var(--verde)">.</span></span>
+      <h2 class="stitle">A redação exata varia</h2></div>
+    <div class="texto">
+      <p>A mensagem que chega da SEFAZ muda de UF para UF e de versão para versão do
+      Manual de Orientação do Contribuinte — o que não muda é o código. O texto acima
+      é o significado consolidado no catálogo do fiscal-mcp, não a transcrição
+      literal de uma resposta.</p>
+      <p>Se a sua veio diferente, ou se o campo que resolveu foi outro,
+      <a href="https://github.com/JoseTorquato/fiscal-mcp/issues/new?title=rejei%C3%A7%C3%A3o%20539">abra uma issue</a> — o catálogo é um
+      <a href="https://github.com/JoseTorquato/fiscal-mcp/blob/main/regras/rejeicoes.yaml">YAML de umas poucas linhas</a>,
+      e é assim que ele fica melhor.</p>
+      <p><a href="./">← todas as rejeições catalogadas</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="../"><img src="../logo.svg" alt="">fiscal<span class="suf">-mcp</span></a>
+      <div style="margin-top:10px">MIT · feito por
+        <a href="https://josetorquato.dev">José Torquato</a></div>
+    </div>
+    <div>
+      <a href="../">Landing</a> ·
+      <a href="./">Todas as rejeições</a> ·
+      <a href="https://pypi.org/project/fiscal-mcp/">PyPI</a> ·
+      <a href="https://github.com/JoseTorquato/fiscal-mcp">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

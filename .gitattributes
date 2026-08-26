@@ -1,0 +1,6 @@
+# As páginas de docs/rejeicoes/ são geradas por script e versionadas, e um teste
+# compara o HTML do repositório byte a byte com o que o gerador produz. Sem isto,
+# o checkout no Windows converte para CRLF e o teste acusa desatualização que não
+# existe — o conteúdo é o mesmo, só a quebra de linha mudou.
+docs/rejeicoes/*.html eol=lf
+docs/estilo.css eol=lf
