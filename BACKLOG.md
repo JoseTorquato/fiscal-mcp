@@ -70,9 +70,9 @@ junto com o ADR-0003, se o gatilho disparar.
 |---|---|---|---|
 | B1 ⏳ falta o release | `mcp-name:` no README + release no PyPI | P | a string está na description publicada no PyPI, não só no GitHub |
 | B2 ⏳ falta publicar | `server.json` + `mcp-publisher publish` | P | `curl` no registry devolve o servidor |
-| B3 | PR no Awesome MCP Servers | P | merge feito |
+| B3 ⏳ | PR no Awesome MCP Servers | P | [PR #13005](https://github.com/punkpeye/awesome-mcp-servers/pull/13005) aberto em 27/08/2026, com o opt-in `🤖🤖🤖` de fast-track. Falta o merge |
 | B4 | Claim do listing no Glama | P | o listing deixa de ser genérico |
-| B5 ⏳ falta o PR | Dockerfile + PR no Docker MCP Catalog | M | `docker run` funciona; PR aberto |
+| B5 ⏳ | Dockerfile + PR no Docker MCP Catalog | M | `docker run` verificado; [PR #4803](https://github.com/docker/mcp-registry/pull/4803) aberto em 27/08/2026. Falta a revisão da Docker |
 | B6 | GitHub Action publicando no registry a cada release | P | só depois de B2 ter sido feito à mão uma vez |
 | B7 ✅ | `CHANGELOG.md` amarrado a nota técnica | P | primeira entrada com data de detecção e data de suporte |
 | B8 ✅ | Exemplo de config copiável para cliente MCP popular | P | copiar, colar, funcionar |
