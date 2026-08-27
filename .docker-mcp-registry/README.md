@@ -7,6 +7,14 @@ para que a submissão não precise ser reconstruída do zero e para que o
 
 O formato foi conferido contra os `server.yaml` reais do catálogo, não deduzido.
 
+> **Submetido em 27/08/2026:** https://github.com/docker/mcp-registry/pull/4803
+>
+> O `server.yaml` deste diretório é byte a byte o que foi enviado. O `task create`
+> exige Go, que não estava disponível; as verificações que ele faz — buildar a
+> imagem e conferir que ela lista tools — foram feitas à mão com Docker, contra o
+> commit referenciado no arquivo, e estão descritas no corpo do PR em vez de
+> omitidas.
+
 ## Como submeter
 
 ```bash
