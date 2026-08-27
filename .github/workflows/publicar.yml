@@ -48,23 +48,38 @@ jobs:
             exit 1
           fi
 
-      - name: o mcp-name do README bate com o server.json?
-        # É o item que faz a publicação no registry de MCP falhar, e o erro só
-        # aparece depois — quando o release já foi gasto. Confere aqui.
+      - name: o mcp-name está correto, inclusive nas maiúsculas?
+        # É o item que faz a publicação no registry falhar, e o erro só aparece
+        # depois — quando o release já foi gasto. Aconteceu de verdade na 0.2.0:
+        # README e server.json concordavam entre si, os dois em minúsculas, e o
+        # registry recusou porque concede `io.github.JoseTorquato/*` com a
+        # grafia exata do usuário do GitHub. Comparar os dois arquivos não bastava.
+        env:
+          DONO: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
         run: |
           set -euo pipefail
           python - <<'FIM'
-          import json, re, pathlib, sys
+          import json, os, re, pathlib, sys
           readme = pathlib.Path("README.md").read_text(encoding="utf-8")
           achado = re.search(r"mcp-name:\s*(\S+)", readme)
           servidor = json.loads(pathlib.Path("server.json").read_text(encoding="utf-8"))
+          esperado = f"io.github.{os.environ['DONO']}/{os.environ['REPO']}"
+
           if not achado:
-              sys.exit("README.md não traz a marca `mcp-name:` — o registry não vai conseguir verificar a posse")
+              sys.exit("README.md não traz a marca `mcp-name:` — o registry não verifica a posse sem ela")
           if achado.group(1) != servidor["name"]:
               sys.exit(f"mcp-name do README ({achado.group(1)}) != name do server.json ({servidor['name']})")
+          if servidor["name"] != esperado:
+              sys.exit(
+                  f"o nome ({servidor['name']}) não é o que o registry vai autorizar ({esperado}). "
+                  "A comparação é sensível a maiúsculas."
+              )
           if servidor["version"] != servidor["packages"][0]["version"]:
               sys.exit("server.json: a versão do servidor e a do pacote divergem")
-          print(f"ok: {achado.group(1)}")
+          if servidor["packages"][0]["version"] != os.environ.get("GITHUB_REF_NAME", "").lstrip("v"):
+              sys.exit("server.json: a versão do pacote não bate com a tag do release")
+          print(f"ok: {servidor['name']}")
           FIM
 
       - name: construir

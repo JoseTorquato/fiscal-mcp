@@ -1,4 +1,4 @@
-<!-- mcp-name: io.github.josetorquato/fiscal-mcp -->
+<!-- mcp-name: io.github.JoseTorquato/fiscal-mcp -->
 
 <img src="https://raw.githubusercontent.com/JoseTorquato/fiscal-mcp/main/docs/logo.svg" width="72" alt="fiscal-mcp">
 

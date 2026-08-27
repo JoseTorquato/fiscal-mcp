@@ -3,7 +3,7 @@
 # run` é a forma de usar a ferramenta sem instalar Python nem gerenciar venv.
 FROM python:3.12-slim
 
-LABEL io.modelcontextprotocol.server.name="io.github.josetorquato/fiscal-mcp"
+LABEL io.modelcontextprotocol.server.name="io.github.JoseTorquato/fiscal-mcp"
 LABEL org.opencontainers.image.source="https://github.com/JoseTorquato/fiscal-mcp"
 LABEL org.opencontainers.image.description="Valida NF-e, NFC-e e NFS-e offline, com schema XSD oficial e sem certificado."
 LABEL org.opencontainers.image.licenses="MIT"

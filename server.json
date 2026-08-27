@@ -1,19 +1,21 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.josetorquato/fiscal-mcp",
+  "name": "io.github.JoseTorquato/fiscal-mcp",
   "title": "Fiscal MCP",
   "description": "Valida NF-e, NFC-e e NFS-e offline, com schema XSD oficial e sem certificado.",
   "repository": {
     "url": "https://github.com/JoseTorquato/fiscal-mcp",
     "source": "github"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "fiscal-mcp",
-      "version": "0.2.0",
-      "transport": { "type": "stdio" }
+      "version": "0.2.1",
+      "transport": {
+        "type": "stdio"
+      }
     }
   ]
 }

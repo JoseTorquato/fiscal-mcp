@@ -9,4 +9,4 @@ tempo, mas por decisão. Ver docs/adr/0010-fatia-zero-sem-credencial.md e
 docs/adr/0011-validacao-e-o-produto.md.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"

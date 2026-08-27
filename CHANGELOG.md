@@ -17,6 +17,27 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ---
 
+## 0.2.1 — 2026-08-26
+
+Correção de publicação. Nenhuma mudança de comportamento do validador.
+
+### Corrigido
+
+- **O identificador do servidor MCP estava com a grafia errada.** Era
+  `io.github.josetorquato/fiscal-mcp`; o correto é
+  `io.github.JoseTorquato/fiscal-mcp`, com a grafia exata do usuário do GitHub.
+
+  O registry autoriza o namespace de forma **sensível a maiúsculas**, e a
+  verificação de posse procura a string exata na description publicada no PyPI.
+  Como a description só muda com um novo release, corrigir o README não bastava —
+  daí esta versão existir.
+
+  A trava do CI comparava o README com o `server.json` e os dois concordavam
+  entre si, ambos errados. Agora ela confere também contra o dono e o nome do
+  repositório, que é o que o registry realmente autoriza.
+
+---
+
 ## 0.2.0 — 2026-08-25
 
 Primeira versão com a Camada A de IBS/CBS e validação por schema XSD.
