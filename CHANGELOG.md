@@ -117,6 +117,25 @@ Duas regras nascem como **aviso** de propósito, e a razão está em cada uma:
   parcela estadual e municipal não está confirmada em fonte oficial. Enquanto a
   dúvida existir, a regra não reprova.
 
+### Validação contra documento real
+
+Em **26/08/2026**, depois da publicação da 0.2.0, o validador foi rodado em duas
+NF-e reais **autorizadas pela SEFAZ em ambiente de produção**:
+
+- **nota com o grupo IBS/CBS preenchido** (emitida em 26/08/2026): zero achados,
+  de qualquer severidade, nas 28 regras e no XSD oficial;
+- **nota anterior ao grupo** (emitida em 09/04/2026): zero erros e um aviso —
+  `ibs-grupo-ausente`, com o texto da postergação.
+
+Que as regras não estavam dormentes foi verificado por contraprova sobre o mesmo
+documento: corrompendo o `cClassTrib`, três regras disparam; corrompendo o `CST`,
+duas.
+
+**Ainda não coberto por nota real:** monofasia (CST 620), redução de alíquota,
+crédito presumido, ajuste de competência e nota com mais de um item. A regra
+`ibs-subgrupos-obrigatorios` continua como aviso — a promoção a erro exige três
+XMLs reais distintos sem falso positivo, e há um.
+
 ### Nota sobre códigos de rejeição
 
 Nenhuma mensagem deste projeto cita um código numérico de rejeição, e há teste

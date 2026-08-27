@@ -146,15 +146,46 @@ perder a confiança de quem trabalha com fiscal:
 
 | | Camadas | Regras | Testado contra |
 |---|---|---|---|
-| NF-e / NFC-e | schema XSD + regras + chave | 28 | XML sintético **e 17 amostras de formato real** da `nfelib` |
+| NF-e / NFC-e | schema XSD + regras + chave | 28 | ✅ **duas NF-e reais autorizadas em produção**, 17 amostras públicas e XML sintético |
 | NFS-e nacional | regras + chave | 10 | ✅ uma nota autorizada de verdade |
 
-⚠️ **A NF-e ainda não passou por uma nota real de contribuinte.** As 17 amostras
-são públicas e MIT, com estrutura de documento real — 15 passam com zero erros, e
-as duas que não passam são explicáveis: uma é inválida no XSD oficial de
-propósito, a outra tem valores de preenchimento incoerentes entre si (`vIBS = 0`
-com `vIBSUF = 16`). **Nenhuma regra de tabela acusa nenhuma delas**, e há teste
-que trava isso.
+### Contra nota real, autorizada em produção
+
+Em 26/08/2026 o validador rodou em duas NF-e reais, ambas **autorizadas pela
+SEFAZ em ambiente de produção**:
+
+| Nota | Grupo IBS/CBS | Erros | Avisos |
+|---|---|---|---|
+| emitida em 26/08/2026 | presente e preenchido | **0** | **0** |
+| emitida em 09/04/2026 | ausente (anterior ao grupo) | **0** | 1 — `ibs-grupo-ausente` |
+
+A primeira é o caso que importa: uma nota da reforma, aceita pela SEFAZ, passou
+limpa nas 28 regras e no XSD oficial. Qualquer achado ali seria falso positivo
+por definição. A segunda mostra o outro lado — a ferramenta **não reprovou** uma
+nota pré-reforma, apontou a ausência como aviso, que é a leitura correta da
+postergação da UB12-10.
+
+Que as regras não estavam apenas dormentes foi verificado por contraprova:
+corrompendo o `cClassTrib` da nota real, três regras disparam; corrompendo o
+`CST`, duas.
+
+**O que isso ainda não cobre.** Duas notas, de um item cada, do mesmo emissor,
+no caminho tributado normal. Monofasia (CST 620), redução de alíquota, crédito
+presumido e ajuste de competência continuam testados só contra fixture. A regra
+`ibs-subgrupos-obrigatorios` segue como **aviso** até rodar contra três XMLs
+reais distintos sem falso positivo — o contrato está no
+[CHANGELOG](https://github.com/JoseTorquato/fiscal-mcp/blob/main/CHANGELOG.md).
+
+**Tem nota real para contribuir?** Continua sendo o que mais ajuda, e agora tem
+ferramenta para isso: `python scripts/anonimizar.py nota.xml`.
+
+### Contra o corpus público
+
+As 17 amostras MIT da `nfelib` têm estrutura de documento real — 15 passam com
+zero erros, e as duas que não passam são explicáveis: uma é inválida no XSD
+oficial de propósito, a outra tem valores de preenchimento incoerentes entre si
+(`vIBS = 0` com `vIBSUF = 16`). **Nenhuma regra de tabela acusa nenhuma delas**,
+e há teste que trava isso.
 
 Das 28 regras de NF-e, **17 são da Camada A de IBS/CBS**: CST e `cClassTrib`
 conferidos contra a **tabela oficial embarcada** da SVRS — 18 CST e 164

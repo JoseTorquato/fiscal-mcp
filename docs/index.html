@@ -129,9 +129,13 @@ fiscal-mcp validar nota.xml
           testado contra uma nota autorizada de verdade.</li>
         <li><strong style="color:var(--title)">NF-e / NFC-e</strong> — schema XSD
           oficial + 28 regras, das quais 17 são de IBS/CBS, conferidas contra a
-          tabela oficial da SVRS embarcada no repositório com sha256. Mas testado
-          <strong style="color:var(--atencao)">apenas contra XML sintético</strong>.
-          Ainda não passou por uma nota real.</li>
+          tabela oficial da SVRS embarcada no repositório com sha256.
+          <strong style="color:var(--verde)">Validado contra duas NF-e reais
+          autorizadas em produção</strong>: a que traz o grupo IBS/CBS passou com
+          zero achados; a anterior à reforma passou com zero erros e o aviso
+          correto. Ainda <strong style="color:var(--atencao)">não cobre nota real
+          com monofasia, redução de alíquota ou crédito presumido</strong> — esses
+          caminhos só foram testados contra fixture.</li>
         <li>A regra de <strong style="color:var(--title)">grupo IBS/CBS ausente</strong>
           emite só aviso: a NT 2025.002 v1.51 reclassificou a rejeição
           correspondente como implementação futura, então a nota não é recusada
