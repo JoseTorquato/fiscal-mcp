@@ -171,6 +171,20 @@ def test_recorte_mal_configurado_falha_no_carregamento(tmp_path, chave, valor, m
         carrega(raiz=tmp_path)
 
 
+@pytest.mark.parametrize("chave,exemplo", [
+    ("exceto", 'exceto: ["550002"]'),
+    ("somente", 'somente: ["550002"]'),
+    ("modelos", 'modelos: ["55"]'),
+    ("exceto_nos_modelos", 'exceto_nos_modelos: ["55"]'),
+])
+def test_mensagem_de_recorte_mal_escrito_traz_exemplo_da_propria_chave(tmp_path, chave, exemplo):
+    campos = {**CLASS_MODELO, "exceto": ["550002"], chave: "solto"}
+    _regra_yaml(tmp_path, **campos)
+    with pytest.raises(ValueError) as erro:
+        carrega(raiz=tmp_path)
+    assert exemplo in str(erro.value)
+
+
 def test_yaml_sem_aspas_com_zero_a_esquerda_e_recusado(tmp_path):
     """O caso real: `exceto: [000006]` escrito à mão, sem aspas."""
     caminho = tmp_path / "nfe" / "t.yaml"

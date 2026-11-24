@@ -314,6 +314,16 @@ def _confere_configuracao(r: Regra, onde: str) -> None:
 MODELOS = {"55": "NF-e", "65": "NFC-e"}
 
 
+# Exemplo de valor certo para cada chave de recorte, usado na mensagem de erro.
+# Um exemplo único confundia: `modelos: ["550002"]` não é modelo de documento.
+_EXEMPLO_DE_RECORTE = {
+    "somente": '["550002"]',
+    "exceto": '["550002"]',
+    "modelos": '["55"]',
+    "exceto_nos_modelos": '["55"]',
+}
+
+
 def _lista_de_textos(bruto: dict, chave: str, onde: str) -> tuple[str, ...]:
     """Lista de strings, ou erro de configuração.
 
@@ -324,9 +334,10 @@ def _lista_de_textos(bruto: dict, chave: str, onde: str) -> tuple[str, ...]:
     if valor is None:
         return ()
     if not isinstance(valor, list) or not all(isinstance(v, str) for v in valor):
+        exemplo = _EXEMPLO_DE_RECORTE.get(chave, '["..."]')
         raise ValueError(
             f"{onde}: '{chave}' precisa ser uma lista de textos entre aspas, "
-            f"ex.: {chave}: [\"550002\"] — veio {valor!r}"
+            f"ex.: {chave}: {exemplo} — veio {valor!r}"
         )
     return tuple(valor)
 
