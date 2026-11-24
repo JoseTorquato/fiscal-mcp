@@ -119,6 +119,37 @@ def test_regra_com_recorte_por_codigo_tem_filtro():
         assert r.filtro, f"{r.id}: o recorte por código só faz sentido com filtro"
 
 
+def _sem_irma_de_existencia(regras) -> list[str]:
+    """Regras em_tabela com filtro ou recorte que não têm irmã julgando existência.
+
+    Regra com filtro (ou recorte por código/modelo) não diz nada sobre código
+    inexistente. Quem diz é a irmã sem filtro e sem recorte, no mesmo campo,
+    tabela e coluna. Sem ela, código inexistente passaria calado.
+    """
+    def restrita(r):
+        return bool(r.filtro or r.somente or r.exceto or r.modelos or r.exceto_nos_modelos)
+
+    tabela = [r for r in regras if r.tipo == "em_tabela"]
+    plenas = {(r.campo, r.tabela, r.coluna) for r in tabela if not restrita(r)}
+    return [r.id for r in tabela if restrita(r) and (r.campo, r.tabela, r.coluna) not in plenas]
+
+
+def test_toda_regra_em_tabela_restrita_tem_irma_que_julga_existencia():
+    from fiscal_mcp.regras import carrega
+
+    assert _sem_irma_de_existencia(carrega()) == []
+
+
+def test_o_guarda_acusa_regra_restrita_sem_irma():
+    """Contraprova: sem a ibs-cclasstrib-existe, as duas de modelo ficam órfãs."""
+    from fiscal_mcp.regras import carrega
+
+    sem_existe = [r for r in carrega() if r.id != "ibs-cclasstrib-existe"]
+    assert set(_sem_irma_de_existencia(sem_existe)) == {
+        "ibs-cclasstrib-modelo", "ibs-cclasstrib-modelo-transicao",
+    }
+
+
 # ---- L-04 · cClassTrib permitido no modelo -------------------------------
 
 def test_cclasstrib_nao_permitido_no_modelo_e_reprovado():
