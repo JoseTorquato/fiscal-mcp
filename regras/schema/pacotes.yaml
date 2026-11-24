@@ -17,6 +17,17 @@
 
 versao: 1
 
+# Qual nfelib embarca qual pacote (wheels do PyPI lidos em 24/11/2026, só os
+# arquivos, sem instalar). É a evidência da proposta de mínimo `nfelib>=2.6.0`
+# no extra [xsd] — o pyproject ainda diz `>=2.5`:
+#
+#   2.5.3  25/09/2026  sem SCHEMA_PACKAGE; XSD fora deste registro; sem
+#                      gIBSMonoAdRem (não tem a monofasia da NT 2025.002 v1.50)
+#   2.6.0  26/09/2026  declara PL_010f_v1.04; XSD = PL 010f v1.04 deste registro
+#   3.0.0 a 3.3.0      idem (3.3.0 de 05/11/2026); nenhuma traz o PL 010h
+#
+# A 2.5.3 é a versão imediatamente anterior à 2.6.0 no PyPI.
+
 # Os arquivos que identificam o pacote. São os do leiaute da NF-e que a
 # validação usa (nfe_v4.00.xsd e o que ele importa).
 arquivos:
@@ -31,8 +42,7 @@ pacotes:
   - nome: PL_010e_v1.02
     publicacao: 2026-07-10
     cobre: NT 2025.002 v1.40
-    # link direto do ZIP não registrado; ele está na lista de Esquemas XML
-    zip: https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w=
+    zip: https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=c14derMqb2Y=
     zip_sha256: d44ae5aa6a0d1cabf6235d2d2d47b75be5dd87bc6b90a7ec3dcec99c3d41bda1
     baixado_em: 2026-11-24
     sha256:

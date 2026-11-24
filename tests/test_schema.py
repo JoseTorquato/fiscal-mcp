@@ -300,6 +300,31 @@ def test_achado_de_schema_entra_no_mesmo_laudo():
 
 # ---- zero rede -----------------------------------------------------------
 
+def test_identificar_o_pacote_nao_abre_socket(monkeypatch, tmp_path):
+    """Identificar o pacote é ler arquivo local e calcular hash — nada de rede.
+
+    Mesmos moldes do teste de zero-rede das tabelas. Roda com e sem o extra:
+    `identifica()` sobre arquivos locais sempre; `pacote()` quando a nfelib
+    está instalada.
+    """
+    import socket
+
+    def proibido(*_a, **_k):
+        raise AssertionError("a identificação do pacote tentou abrir socket")
+
+    monkeypatch.setattr(socket.socket, "connect", proibido)
+    monkeypatch.setattr(socket, "create_connection", proibido)
+
+    (tmp_path / "a.xsd").write_bytes(b"a")
+    assert schema.identifica(tmp_path).startswith("pacote não identificado")
+    if schema.disponivel():
+        schema.pacote.cache_clear()
+        try:
+            assert schema.pacote()
+        finally:
+            schema.pacote.cache_clear()
+
+
 @precisa_do_extra
 def test_a_camada_de_schema_nao_abre_socket(monkeypatch):
     """`XMLSchema` do lxml resolve xs:include e poderia buscar import remoto."""
