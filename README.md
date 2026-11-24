@@ -188,7 +188,7 @@ oficial de propósito, a outra tem valores de preenchimento incoerentes entre si
 e há teste que trava isso.
 
 Das 28 regras de NF-e, **17 são da Camada A de IBS/CBS**: CST e `cClassTrib`
-conferidos contra a **tabela oficial embarcada** da SVRS — 18 CST e 164
+conferidos contra a **tabela oficial embarcada** da SVRS — 18 CST e 173
 classificações, versionadas no repositório com URL de origem, data e sha256
 ([procedência](https://github.com/JoseTorquato/fiscal-mcp/blob/main/regras/tabelas/PROCEDENCIA.md)).
 Mais aritmética por item, exclusividade de regime, presença condicional e as

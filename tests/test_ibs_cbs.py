@@ -104,6 +104,81 @@ def test_cclasstrib_nao_permitido_no_modelo_e_reprovado():
     assert "modelo 55" in achado[0]["detalhe"]
 
 
+# ---- tabela da SVRS publicada em 01/10/2026 e 30/10/2026 ------------------
+#
+# As regras L-01 a L-04 não mudaram: o que muda é o dado que elas consultam.
+# Estes testes travam o comportamento que a tabela nova trouxe, para que uma
+# troca de tabela futura que desfaça algo disso apareça como teste vermelho.
+
+REGRAS_DE_TABELA = {
+    "ibs-cst-existe", "ibs-cclasstrib-prefixo-cst",
+    "ibs-cclasstrib-existe", "ibs-cclasstrib-modelo",
+}
+
+
+@pytest.mark.parametrize("cst,cclasstrib", [
+    ("550", "550026"), ("550", "550027"), ("550", "550028"), ("550", "550029"),
+])
+def test_cclasstrib_novo_com_o_cst_correto_e_aceito_em_nfe(cst, cclasstrib):
+    """Os quatro códigos novos de CST 550 valem em NF-e (IndNfe) desde 01/10/2026."""
+    xml = quebra(
+        ("<CST>000</CST>", f"<CST>{cst}</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", f"<cClassTrib>{cclasstrib}</cClassTrib>"),
+    )
+    assert not ids(xml, "erro") & REGRAS_DE_TABELA, ids(xml, "erro")
+
+
+def test_cclasstrib_novo_com_o_cst_errado_continua_reprovado():
+    xml = quebra(("<cClassTrib>000001</cClassTrib>", "<cClassTrib>550026</cClassTrib>"))
+    assert "ibs-cclasstrib-prefixo-cst" in ids(xml, "erro")
+
+
+def test_000006_existe_mas_so_vale_para_nfse():
+    """`000006` (autônomo) é novo, mas a tabela marca IndNfe e IndNfce falsos.
+
+    Em NF-e ele deixa de ser "código inexistente" e passa a ser "código fora do
+    modelo" — o laudo precisa dizer a coisa certa.
+    """
+    xml = quebra(("<cClassTrib>000001</cClassTrib>", "<cClassTrib>000006</cClassTrib>"))
+    erros = ids(xml, "erro")
+    assert "ibs-cclasstrib-existe" not in erros
+    assert "ibs-cclasstrib-prefixo-cst" not in erros
+    assert "ibs-cclasstrib-modelo" in erros
+
+
+@pytest.mark.parametrize("cclasstrib", ["410022", "410023", "410024", "410025"])
+def test_cclasstrib_que_passou_a_valer_em_nfe_e_aceito(cclasstrib):
+    """A publicação de 01/10/2026 ligou IndNfe nestes quatro códigos de CST 410."""
+    xml = quebra(
+        ("<CST>000</CST>", "<CST>410</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", f"<cClassTrib>{cclasstrib}</cClassTrib>"),
+    )
+    assert "ibs-cclasstrib-modelo" not in ids(xml, "erro"), ids(xml, "erro")
+
+
+def test_550002_deixou_de_valer_em_nfe():
+    """A publicação de 01/10/2026 desligou IndNfe no `550002`."""
+    xml = quebra(
+        ("<CST>000</CST>", "<CST>550</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>550002</cClassTrib>"),
+    )
+    assert "ibs-cclasstrib-modelo" in ids(xml, "erro")
+
+
+def test_410014_deixou_de_exigir_credito_presumido():
+    """A publicação de 01/10/2026 desligou IndPermiteCredPres no `410014`.
+
+    Indicador falso veda o subgrupo: o aviso não pode mais pedir
+    `gCredPresOper` a quem não o tem.
+    """
+    xml = quebra(
+        ("<CST>000</CST>", "<CST>410</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>410014</cClassTrib>"),
+    )
+    detalhes = [a["detalhe"] for a in achados(xml) if a["id"] == "ibs-subgrupos-obrigatorios"]
+    assert not any("gCredPresOper" in d for d in detalhes), detalhes
+
+
 # ---- L-05 · subgrupos exigidos pelos indicadores -------------------------
 
 def test_subgrupo_exigido_pela_classificacao_e_acusado_como_aviso():

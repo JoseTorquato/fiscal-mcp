@@ -1,7 +1,7 @@
 {
   "tabela": "cst-cclasstrib",
   "fonte": "https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria",
-  "publicacao_declarada_pela_fonte": "2026-06-22",
+  "publicacao_declarada_pela_fonte": "2026-10-30",
   "campos_descartados": [
     "AnexoNew",
     "Anexos",
@@ -65,6 +65,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art4",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -107,6 +108,7 @@
           "TexRegIbs": "Art. 12. Considera-se local da operação com:\r\nVIII - serviço de exploração de via, mediante cobrança de valor a qualquer título, incluindo tarifas, pedágios e quaisquer outras formas de cobrança, o território de cada Município e Estado, ou do Distrito Federal, proporcionalmente à correspondente extensão da via explorada;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art11",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -149,6 +151,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art311",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -191,6 +194,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art312",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -233,6 +237,50 @@
           "TexRegIbs": "Art. 266. Nas operações com EAC:\r\nI - o adquirente de EAC destinado à mistura com gasolina A que realizar a saída do biocombustível com destinação diversa fica obrigado a recolher o IBS incidente sobre o biocombustível, devendo emitir documento fiscal de saída com o valor a ser recolhido de acordo com a alíquota vigente no ato da operação;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art179\r\n",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
+          "TipoRbSn": 1
+        },
+        {
+          "CodClassTrib": "000006",
+          "Cst": "000",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": false,
+          "IndDuimp": false,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": false,
+          "IndNfgas": false,
+          "IndNfse": true,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": false,
+          "NomeClassTrib": "Situações tributadas integralmente pelo IBS e CBS realizadas por autônomo",
+          "NomeReduzido": "Situações tributadas integralmente pelo IBS e CBS.realizadas por autônomo",
+          "PercRedCbs": 0.0,
+          "PercRedIbs": 0.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": null,
+          "TexRegIbs": null,
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art4",
+          "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         }
       ]
@@ -292,6 +340,7 @@
           "TexRegIbs": "Art. 308. As operações relacionadas ao Fundo de Garantia do Tempo de Serviço (FGTS) são sujeitas à incidência do IBS, por alíquotas nacionalmente uniformes.\r\n...\r\nArt. 481. Observado o disposto no art. 308, ficam sujeitas ao disposto nesta Seção as operações relacionadas ao FGTS, assim entendidas aquelas necessárias à aplicação da Lei nº 8.036, de 11 de maio de 1990, realizadas:\r\nII - pelos agentes financeiros do FGTS; e\r\nIII - pelos demais estabelecimentos bancários.\r\nArt. 482. A alíquota do IBS incidente sobre as operações de que trata o art. 481 será:\r\nII - para as operações previstas nos incisos II e III, em 2026, 0,1% (um décimo por cento);\r\nIII - para as operações previstas nos incisos II e III, de modo que a soma das alíquotas do IBS e da CBS corresponda:\r\na) em 2027, a 1,0% (um inteiro por cento);\r\nb) em 2028, a 1,0% (um inteiro por cento);\r\nc) em 2029, a 1,2% (um inteiro e dois décimos por cento);\r\nd) em 2030, a 1,4% (um inteiro e quatro décimos por cento);\r\ne) em 2031, a 1,6% (um inteiro e seis décimos por cento);\r\nf) em 2032, a 1,8% (um inteiro e oito décimos por cento); e\r\ng) a partir de 2033, a 3,0% (três inteiros por cento).",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art212",
           "TipoAliq": 5,
+          "TipoDoacao": 2,
           "TipoRbSn": 9
         },
         {
@@ -334,6 +383,7 @@
           "TexRegIbs": "Art. 479. A alíquota do IBS incidente sobre os serviços financeiros será:\r\nI - em 2026, 0,1% (um décimo por cento);\r\nII - em 2027 e 2028, 0,1%, sendo 0,05% (cinco centésimos por cento) como alíquota estadual e 0,05% (cinco centésimos por cento) como alíquota municipal;\r\nIII - de 2029 a 2033, aquelas fixadas de acordo com as regras previstas no art. 480; e\r\nIV - a partir de 2034, aquela fixada para 2033.\r\nArt. 480. De 2027 a 2033, a soma das alíquotas do IBS e da CBS incidentes sobre os serviços financeiros de que trata o art. 269 calculada nos termos do inciso II do § 1º do art. 10 da Emenda Constitucional\r\nnº 132, de 20 de dezembro de 2023, corresponderá:\r\nI - em 2027 e 2028, a 10,85% (dez inteiros e oitenta e cinco centésimos por cento);\r\nII - em 2029, a 11,00% (onze por cento);\r\nIII - em 2030, a 11,15% (onze inteiros e quinze centésimos por cento);\r\nIV - em 2031, a 11,30% (onze inteiros e trinta centésimos por cento);\r\nV - em 2032, a 11,50% (onze inteiros e cinquenta centésimos por cento); e\r\nVI - em 2033, a 12,50% (doze inteiros e cinquenta centésimos por cento).",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art233\r\n",
           "TipoAliq": 5,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         }
       ]
@@ -393,6 +443,7 @@
           "TexRegIbs": "Art. 345. Os planos de assistência funerária ficam sujeitos ao disposto nos arts. 330 a 344.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art236",
           "TipoAliq": 4,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -435,6 +486,7 @@
           "TexRegIbs": "Art. 336. As alíquotas de IBS no regime específico de planos de assistência à saúde são nacionalmente uniformes e correspondem às alíquotas de referência de cada esfera federativa, reduzidas em 60% (sessenta por cento).",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art237",
           "TipoAliq": 4,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -477,6 +529,7 @@
           "TexRegIbs": "Art. 340. Os serviços de intermediação de planos de assistência à saúde ficam sujeitos à incidência do IBS sobre o valor da operação pela mesma alíquota aplicável ao plano de assistência à saúde. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art240",
           "TipoAliq": 4,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -519,6 +572,7 @@
           "TexRegIbs": "Art. 353. As alíquotas do IBS sobre concursos de prognósticos são nacionalmente uniformes e correspondem à soma das alíquotas de referência das esferas federativas. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art246",
           "TipoAliq": 4,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -561,6 +615,7 @@
           "TexRegIbs": "Art. 346. Os planos de assistência à saúde de animais domésticos ficam sujeitos ao disposto nos arts. 330 a 344, com exceção das alíquotas aplicáveis, que serão nacionalmente uniformes e corresponderão à soma das alíquotas de referência de cada esfera federativa, reduzidas em 30% (trinta por cento), vedado o crédito ao adquirente.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art243",
           "TipoAliq": 4,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         }
       ]
@@ -585,12 +640,12 @@
           "Cst": "200",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
           "IndCte": true,
-          "IndCteos": true,
+          "IndCteos": false,
           "IndDere": false,
           "IndDir": false,
           "IndDuimp": false,
@@ -620,6 +675,7 @@
           "TexRegIbs": "Art. 183. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre os serviços de transporte:\r\nI - dos bens de que tratam os arts. 179 e 180 até as zonas de processamento de exportação; e\r\nII - dos bens exportados a partir das zonas de processamento de exportação.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art103",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 3
         },
         {
@@ -627,7 +683,7 @@
           "Cst": "200",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -662,6 +718,7 @@
           "TexRegIbs": "Art. 197. Ficam reduzidas a zero as alíquotas do IBS no fornecimento e na importação:\r\nI - de tratores, máquinas e implementos agrícolas, destinados a produtor rural não contribuinte de que trata o art. 239; e\r\nII - de veículos de transporte de carga destinados a transportador autônomo de carga pessoa física não contribuinte de que trata o art. 250.\r\nParágrafo único. A redução de alíquotas de que trata:\r\nI - o inciso I do caput deste artigo se aplica aos bens relacionados na Tabela II do Anexo IV;\r\nII - o inciso II do caput deste artigo se aplica aos bens relacionados na Tabela III do Anexo IV",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art110",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -704,6 +761,7 @@
           "TexRegIbs": "Art. 199. Fica reduzida a zero a alíquota do IBS incidente sobre as vendas de produtos destinados à alimentação humana relacionados no Anexo I da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH, que compõem a Cesta Básica Nacional de Alimentos, criada nos termos do art. 8º da Emenda Constitucional nº 132, de 20 de dezembro de 2023.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art125",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -746,6 +804,7 @@
           "TexRegIbs": "Art. 220. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre o fornecimento dos dispositivos médicos relacionados:\r\nI - no Anexo XII da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art144",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -788,6 +847,7 @@
           "TexRegIbs": "Art. 220. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre o fornecimento dos dispositivos médicos relacionados: (Art. 144 da LC 214/2025)\r\nII - no Anexo IV da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH, caso adquiridos por:\r\na) órgãos da administração pública direta, autarquias e fundações públicas; e\r\nb) as entidades de saúde imunes ao IBS que possuam Certificação de Entidade Beneficente de Assistência Social (CEBAS) por comprovarem a prestação de serviços ao SUS, nos termos dos arts. 9º a 11 da Lei Complementar nº 187, de 16 de dezembro de 2021.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art144",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -830,6 +890,7 @@
           "TexRegIbs": "Art. 220. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre o fornecimento dos dispositivos médicos relacionados:\r\n§ 3º Em caso de emergência de saúde pública reconhecida pelo Poder Legislativo federal, estadual, distrital ou municipal competente, ato conjunto do Ministro de Estado da Fazenda e do CGIBS poderá ser editado, a qualquer momento, para incluir dispositivos não listados no Anexo XII da Lei Complementar nº 214, de 2025, limitada a vigência do benefício ao período e à localidade da emergência de saúde pública.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art144",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -872,6 +933,7 @@
           "TexRegIbs": "Art. 221. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre o fornecimento dos dispositivos de acessibilidade próprios para pessoas com deficiência relacionados: \r\nI - no Anexo XIII da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art145",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -914,6 +976,7 @@
           "TexRegIbs": "Art. 221. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre o fornecimento dos dispositivos de acessibilidade próprios para pessoas com deficiência relacionados: \r\nII - no Anexo V da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH, quando adquiridos por:\r\na) órgãos da administração pública direta, autarquias e fundações públicas; e\r\nb) as entidades de saúde imunes ao IBS que possuam CEBAS por comprovarem a prestação de serviços ao SUS, nos termos dos arts. 9º a 11 da Lei Complementar nº 187, de 16 de dezembro de 2021.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art145",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -956,6 +1019,7 @@
           "TexRegIbs": "Art. 222. São reduzidas a zero as alíquotas do IBS sobre o fornecimento dos medicamentos registrados na Anvisa, desde que destinados, de acordo com o registro sanitário, a: \r\nI - doenças raras;\r\nII - doenças negligenciadas;\r\nIII - oncologia;\r\nIV - diabetes;\r\nV - HIV/aids e outras infecções sexualmente transmissíveis (IST);\r\nVI - doenças cardiovasculares; e\r\nVII - Programa Farmácia Popular do Brasil ou equivalente.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art146",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -998,6 +1062,7 @@
           "TexRegIbs": "Art. 222.\r\n§ 1º São também reduzidas a zero as alíquotas do IBS sobre o fornecimento de medicamentos registrados na Anvisa quando:\r\nI - adquiridos por órgãos da administração pública direta, por autarquias e por fundações públicas;\r\nII - adquiridos por entidades de saúde imunes ao IBS que possuam CEBAS por comprovarem a prestação de serviços ao SUS, nos termos dos arts. 9º a 11 da Lei Complementar nº 187, de 16 de dezembro de 2021;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art146",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1040,6 +1105,7 @@
           "TexRegIbs": "Art. 222.\r\n§ 2º A redução de alíquotas de que trata o caput deste artigo aplica-se também ao fornecimento de composições para nutrição enteral e parenteral, composições especiais e fórmulas nutricionais destinadas às pessoas com erros inatos do metabolismo relacionadas no Anexo VI da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH, quando adquiridas por órgãos e entidades mencionados nos incisos I e II do § 1º",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art146",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1047,14 +1113,14 @@
           "Cst": "200",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
           "IndCte": false,
           "IndCteos": false,
           "IndDere": false,
-          "IndDir": true,
+          "IndDir": false,
           "IndDuimp": true,
           "IndEstornoCred": false,
           "IndMonoDif": false,
@@ -1082,6 +1148,7 @@
           "TexRegIbs": "Art. 222.\r\n§ 4º Em caso de emergência de saúde pública reconhecida pelo Poder Legislativo federal, estadual, distrital ou municipal competente, ato conjunto do Ministro da Fazenda, do Ministério da Saúde e do CGIBS poderá ser editado, a qualquer momento, tão somente para incluir medicamentos e linhas de cuidado não contemplados na redução de alíquota a que se refere este artigo, limitada a vigência do benefício ao período da respectiva emergência de saúde pública.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art146",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1124,6 +1191,7 @@
           "TexRegIbs": "Art. 223. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre o fornecimento dos seguintes produtos de cuidados básicos à saúde menstrual:\r\nI - tampões higiênicos classificados no código 9619.00.00 da NCM/SH;\r\nII - absorventes higiênicos internos ou externos, descartáveis ou reutilizáveis, e calcinhas absorventes classificados no código 9619.00.00 da NCM/SH; e\r\nIII - coletores menstruais classificados no código 9619.00.00 da NCM/SH.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art147",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1166,6 +1234,7 @@
           "TexRegIbs": "Art. 224. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre o fornecimento dos produtos hortícolas, frutas e ovos relacionados no Anexo XV da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art148",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1208,6 +1277,7 @@
           "TexRegIbs": "Art. 225. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre a venda de automóveis de passageiros de fabricação nacional de, no mínimo, 4 (quatro) portas, inclusive a de acesso ao bagageiro, quando adquiridos por:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art149",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1250,6 +1320,7 @@
           "TexRegIbs": "Art. 232. São reduzidas a zero as alíquotas do IBS incidentes sobre a prestação de serviços de pesquisa e desenvolvimento por Instituição Científica, Tecnológica e de Inovação (ICT) sem fins lucrativos, bem como por fundações de apoio credenciadas na forma da lei, para: \r\nI - a administração pública direta, autarquias e fundações públicas; ou\r\nII - contribuinte sujeito ao regime regular do IBS e da CBS.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art156",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -1292,6 +1363,7 @@
           "TexRegIbs": "Art. 481. Observado o disposto no art. 308, ficam sujeitas ao disposto nesta Seção as operações relacionadas ao FGTS, assim entendidas aquelas necessárias à aplicação da Lei nº 8.036, de 11 de maio de 1990, realizadas:\r\nI - pelo agente operador do FGTS;\r\nArt. 482. A alíquota do IBS incidente sobre as operações de que trata o art. 481 será: \r\nI - para as operações previstas no inciso I, zero;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art212",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -1334,6 +1406,7 @@
           "TexRegIbs": "Art. 322. As operações de resseguro e retrocessão, de que trata o inciso XII do art. 269, ficam sujeitas à alíquota zero, inclusive quando os prêmios de resseguro e retrocessão forem cedidos ao exterior. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art223",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -1376,6 +1449,7 @@
           "TexRegIbs": "Art. 328. Os serviços financeiros de que trata o art. 269, quando forem considerados importados, nos termos da Seção II do Capítulo III do Título I deste Livro, ficam sujeitos à incidência do IBS pela mesma alíquota aplicável aos respectivos serviços financeiros adquiridos de fornecedores domiciliados no País. \r\n§ 1º Na importação de serviços financeiros:\r\nII - nas hipóteses em que o importador dos serviços financeiros seja contribuinte do IBS sujeito ao regime regular e tenha direito de apropriação de crédito na aquisição do mesmo serviço financeiro no País, de acordo com o disposto neste Capítulo, será aplicada alíquota zero na importação, e não serão apropriados créditos do IBS;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art231",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -1418,6 +1492,7 @@
           "TexRegIbs": "Art. 391. As sociedades cooperativas poderão optar por regime específico do IBS no qual, nos termos do disposto neste Capítulo, ficam reduzidas a zero as alíquotas do tributo incidente na operação em que:\r\nI - o associado fornece bem ou serviço à cooperativa de que participa; e\r\nII - a cooperativa fornece bem ou serviço a associado sujeito ao regime regular do IBS.\r\n§ 1º O disposto no inciso II do caput deste artigo aplica-se também ao fornecimento, pelas cooperativas, de serviços financeiros a seus associados, inclusive cobrados mediante tarifas e comissões.\r\n§ 2º O disposto no caput deste artigo aplica-se também:\r\nI - às operações realizadas entre cooperativas singulares, centrais, federações, confederações, quando associadas entre si, e às originárias dos seus respectivos bancos cooperativos de que as cooperativas participam; ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art271",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1460,6 +1535,7 @@
           "TexRegIbs": "Art. 416. As alíquotas do IBS relativas às operações de que trata esta Seção ficam reduzidas na seguinte forma: \r\nII - em 100% (cem por cento) para serviço de transporte público coletivo de passageiros ferroviário e hidroviário de caráter urbano, semiurbano e metropolitano.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art285",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1502,6 +1578,7 @@
           "TexRegIbs": "Art. 516. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre operação originada fora da Zona Franca de Manaus, inclusive a procedente de Área de Livre Comércio, que destine bem material industrializado de origem nacional a contribuinte estabelecido na Zona Franca de Manaus que seja:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art445",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1544,6 +1621,7 @@
           "TexRegIbs": "Art. 519. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre operação realizada por indústria incentivada que destine bem material intermediário para outra indústria incentivada na Zona Franca de Manaus, desde que a entrega ou disponibilização dos bens ocorra dentro da referida área.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art448",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1586,6 +1664,7 @@
           "TexRegIbs": "Art. 527. Ficam reduzidas a zero as alíquotas do IBS incidentes sobre operação originada fora da Área de Livre Comércio, inclusive a procedente de outra Área de Livre Comércio ou da Zona Franca de Manaus, que destine bem material industrializado de origem nacional a contribuinte estabelecido na Área de Livre Comércio que seja:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art463",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -1628,6 +1707,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art308",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -1670,6 +1750,7 @@
           "TexRegIbs": "Art. 234. Observado o disposto neste Capítulo, ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS sobre operações relacionadas a projetos de reabilitação urbana de zonas históricas e de áreas críticas de recuperação e reconversão urbanística dos Municípios ou do Distrito Federal, delimitadas por lei municipal ou distrital. \r\n§ 3º Na hipótese de locação de imóveis prevista no inciso VI do caput do art. 236, a redução de alíquotas de que trata o caput deste artigo será de 80% (oitenta por cento).",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art158",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 9
         },
         {
@@ -1712,6 +1793,7 @@
           "TexRegIbs": "Art. 379. \r\nParágrafo único. A alíquota do IBS relativa às operações de locação, cessão onerosa e arrendamento de bens imóveis fica reduzida em 70% (setenta por cento).",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art261",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -1754,6 +1836,7 @@
           "TexRegIbs": "Art. 204. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos serviços de educação relacionados no Anexo II da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NBS. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art129",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -1796,6 +1879,7 @@
           "TexRegIbs": "Art. 205. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos serviços de saúde relacionados no Anexo III da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NBS. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art130",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -1838,6 +1922,7 @@
           "TexRegIbs": "Art. 206. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos dispositivos médicos relacionados no Anexo IV da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art131",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -1880,6 +1965,7 @@
           "TexRegIbs": "Art. 207. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos dispositivos de acessibilidade próprios para pessoas com deficiência relacionados no Anexo V da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art132",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -1922,6 +2008,7 @@
           "TexRegIbs": "Art. 208. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos medicamentos registrados na Anvisa ou produzidos por farmácias de manipulação, ressalvados os medicamentos sujeitos à alíquota zero de que trata o art. 222.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art133",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -1929,14 +2016,14 @@
           "Cst": "200",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
           "IndCte": false,
           "IndCteos": false,
           "IndDere": false,
-          "IndDir": true,
+          "IndDir": false,
           "IndDuimp": true,
           "IndEstornoCred": false,
           "IndMonoDif": false,
@@ -1964,6 +2051,7 @@
           "TexRegIbs": "Art. 208.\r\n§ 1º A redução de alíquotas prevista no caput deste artigo aplica-se também às operações de fornecimento das composições para nutrição enteral e parenteral, composições especiais e fórmulas nutricionais destinadas às pessoas com erros inatos do metabolismo relacionadas no Anexo VI da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art133",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2006,6 +2094,7 @@
           "TexRegIbs": "Art. 210. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos alimentos destinados ao consumo humano relacionados no Anexo VII da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art135",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2048,6 +2137,7 @@
           "TexRegIbs": "Art. 211. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos produtos de higiene pessoal e limpeza relacionados no Anexo VIII da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art136",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2090,6 +2180,7 @@
           "TexRegIbs": "Art. 212. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento de produtos agropecuários, aquícolas, pesqueiros, florestais e extrativistas vegetais, quando in natura. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art137",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2132,6 +2223,7 @@
           "TexRegIbs": "Art. 212.\r\n§ 3º Para fins do disposto no caput deste artigo, considera-se fornecimento de produto florestal inclusive o fornecimento dos serviços ambientais de conservação ou recuperação da vegetação nativa, mesmo que fornecidos sob a forma de manejo sustentável de sistemas agrícolas, agroflorestais e agrossilvopastoris, em conformidade com as definições e requisitos da legislação específica.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art137",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2174,6 +2266,7 @@
           "TexRegIbs": "Art. 213. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos insumos agropecuários e aquícolas relacionados no Anexo IX da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH e da NBS.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art138",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2216,6 +2309,7 @@
           "TexRegIbs": "Art. 215. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos bens e serviços listados no Anexo X da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NCM/SH e NBS, nos casos relacionados com as seguintes produções nacionais artísticas, culturais, de eventos, jornalísticas e audiovisuais:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art139",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2258,6 +2352,7 @@
           "TexRegIbs": "Art. 216. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre o fornecimento dos seguintes serviços de comunicação institucional à administração pública direta, autarquias e fundações públicas: ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art140",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2300,6 +2395,7 @@
           "TexRegIbs": "Art. 217. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre as seguintes operações relacionadas a atividades desportivas: \r\nI - fornecimento de serviço de educação desportiva, classificado no código 1.2205.12.00 da NBS;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art141",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2342,6 +2438,7 @@
           "TexRegIbs": "Art. 217. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre as seguintes operações relacionadas a atividades desportivas:\r\nII - gestão e exploração do desporto por associações e clubes esportivos filiados ao órgão estadual ou federal responsável pela coordenação dos desportos, inclusive por meio de venda de ingressos para eventos desportivos, fornecimento oneroso ou não de bens e serviços, inclusive ingressos, por meio de programas de sócio-torcedor, cessão dos direitos desportivos dos atletas e transferência de atletas para outra entidade desportiva ou seu retorno à atividade em outra entidade desportiva.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art141",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2384,6 +2481,7 @@
           "TexRegIbs": "Art. 218. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS sobre: \r\nI - fornecimento à administração pública direta, autarquias e fundações públicas dos serviços e dos bens relativos à soberania e à segurança nacional, à segurança da informação e à segurança cibernética relacionados no Anexo XI da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NBS e da NCM/SH;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art142",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2426,6 +2524,7 @@
           "TexRegIbs": "Art. 218. Ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS sobre:\r\nII - fornecimento de serviços de segurança da informação e segurança cibernética desenvolvidos por sociedade que tenha sócio brasileiro com o mínimo de 20% (vinte por cento) do seu capital social, relacionados no Anexo XI da Lei Complementar nº 214, de 2025, com a especificação das respectivas classificações da NBS.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art142",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2468,6 +2567,7 @@
           "TexRegIbs": "Art. 234. Observado o disposto neste Capítulo, ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS sobre operações relacionadas a projetos de reabilitação urbana de zonas históricas e de áreas críticas de recuperação e reconversão urbanística dos Municípios ou do Distrito Federal, delimitadas por lei municipal ou distrital. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art158",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2510,6 +2610,7 @@
           "TexRegIbs": "Art. 379. A alíquota do IBS relativa às operações de que trata este Capítulo fica reduzida em 50% (cinquenta por cento). ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art261",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2552,6 +2653,7 @@
           "TexRegIbs": "Art. 400. As alíquotas do IBS relativas às operações de que trata o art. 396 ficam reduzidas em 40% (quarenta por cento).",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art275",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2594,6 +2696,7 @@
           "TexRegIbs": "Art. 405. As alíquotas do IBS relativas às operações de que trata esta Seção ficam reduzidas em 40% (quarenta por cento). ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art281",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2636,6 +2739,7 @@
           "TexRegIbs": "Art. 416. As alíquotas do IBS relativas às operações de que trata esta Seção ficam reduzidas na seguinte forma:\r\nI - em 40% (quarenta por cento) para:\r\na) transporte coletivo de passageiros rodoviário, ferroviário e hidroviário intermunicipais e interestaduais;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art286",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2678,6 +2782,7 @@
           "TexRegIbs": "Art. 416. As alíquotas do IBS relativas às operações de que trata esta Seção ficam reduzidas na seguinte forma:\r\nI - em 40% (quarenta por cento) para:\r\nb) transporte aéreo regional coletivo de passageiros ou cargas;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art287",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2720,6 +2825,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art289",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2762,6 +2868,7 @@
           "TexRegIbs": "Art. 202. Ficam reduzidas em 30% (trinta por cento) as alíquotas do IBS incidentes sobre a prestação de serviços pelos seguintes profissionais, que exercerem atividades intelectuais de natureza científica, literária ou artística, submetidas à fiscalização por conselho profissional: \r\nI - administradores;\r\nII - advogados;\r\nIII - arquitetos e urbanistas;\r\nIV - assistentes sociais;\r\nV - bibliotecários;\r\nVI - biólogos;\r\nVII - contabilistas;\r\nVIII - economistas;\r\nIX - economistas domésticos;\r\nX - profissionais de educação física;\r\nXI - engenheiros e agrônomos;\r\nXII - estatísticos;\r\nXIII - médicos veterinários e zootecnistas;\r\nXIV - museólogos;\r\nXV - químicos;\r\nXVI - profissionais de relações públicas;\r\nXVII - técnicos industriais; e\r\nXVIII - técnicos agrícolas.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art127",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 1
         },
         {
@@ -2804,6 +2911,7 @@
           "TexRegIbs": "Art. 222.\r\n§ 1º São também reduzidas a zero as alíquotas do IBS sobre o fornecimento de medicamentos registrados na Anvisa quando:\r\nIII - classificados como soros ou vacinas, conforme regulamentação sanitária específica",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art146",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -2846,7 +2954,94 @@
           "TexRegIbs": "Art. 391. As sociedades cooperativas poderão optar por regime específico do IBS no qual, nos termos do disposto neste Capítulo, ficam reduzidas a zero as alíquotas do tributo incidente na operação em que:\r\n§ 2º O disposto no caput deste artigo aplica-se também:\r\nII - à operação de fornecimento de bem material pela cooperativa de produção agropecuária a associado não sujeito ao regime regular do IBS, desde que anulados os créditos por ela apropriados referentes ao bem fornecido.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art271\r\n",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
+        },
+        {
+          "CodClassTrib": "200055",
+          "Cst": "200",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": false,
+          "IndDuimp": false,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": false,
+          "IndNfgas": false,
+          "IndNfse": true,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": false,
+          "NomeClassTrib": "Fornecimento dos serviços com redução de alíquota de 60% realizado por autônomo, observado o art. 128 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Fornecimento dos serviços com redução de alíquota de 60% realizado por autônomo",
+          "PercRedCbs": 60.0,
+          "PercRedIbs": 60.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": "Art. 203. Desde que observadas as definições e demais disposições deste Capítulo, ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre operações com:I - serviços de educação;II - serviços de saúde;VIII - produtos agropecuários, aquícolas, pesqueiros, florestais e extrativistas vegetais in natura;IX - insumos agropecuários e aquícolas;X - produções nacionais artísticas, culturais, de eventos, jornalísticas e audiovisuais;XI - comunicação institucional;XII - atividades desportivas; e XIII - bens e serviços relacionados à soberania e à segurança nacional, à segurança da informação e à segurança cibernética.",
+          "TexRegIbs": "Art. 203. Desde que observadas as definições e demais disposições deste Capítulo, ficam reduzidas em 60% (sessenta por cento) as alíquotas do IBS incidentes sobre operações com:I - serviços de educação;II - serviços de saúde;VIII - produtos agropecuários, aquícolas, pesqueiros, florestais e extrativistas vegetais in natura;IX - insumos agropecuários e aquícolas;X - produções nacionais artísticas, culturais, de eventos, jornalísticas e audiovisuais;XI - comunicação institucional;XII - atividades desportivas; eXIII - bens e serviços relacionados à soberania e à segurança nacional, à segurança da informação e à segurança cibernética.",
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art128",
+          "TipoAliq": 2,
+          "TipoDoacao": 2,
+          "TipoRbSn": 1
+        },
+        {
+          "CodClassTrib": "200056",
+          "Cst": "200",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": false,
+          "IndDuimp": false,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": false,
+          "IndNfgas": false,
+          "IndNfse": true,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": false,
+          "NomeClassTrib": "Fornecimento dos serviços com redução de alíquota de 30% realizado por autônomo, observado o art. 127 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Fornecimento dos serviços com redução de alíquota de 30% realizado por autônomo",
+          "PercRedCbs": 30.0,
+          "PercRedIbs": 30.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": "Art. 202. Ficam reduzidas em 30% (trinta por cento) as alíquotas do IBS incidentes sobre a prestação de serviços pelos seguintes profissionais, que exercerem atividades intelectuais de natureza científica, literária ou artística, submetidas à fiscalização por conselho profissional: I - administradores; II - advogados; III - arquitetos e urbanistas; IV - assistentes sociais; V - bibliotecários; VI - biólogos; VII - contabilistas; VIII - economistas; IX - economistas domésticos; X - profissionais de educação física; XI - engenheiros e agrônomos; XII - estatísticos; XIII - médicos veterinários e zootecnistas; XIV - museólogos; XV - químicos; XVI - profissionais de relações públicas; XVII - técnicos industriais; e XVIII - técnicos agrícolas.",
+          "TexRegIbs": "Art. 202. Ficam reduzidas em 30% (trinta por cento) as alíquotas do IBS incidentes sobre a prestação de serviços pelos seguintes profissionais, que exercerem atividades intelectuais de natureza científica, literária ou artística, submetidas à fiscalização por conselho profissional: I - administradores; II - advogados; III - arquitetos e urbanistas; IV - assistentes sociais; V - bibliotecários; VI - biólogos; VII - contabilistas; VIII - economistas; IX - economistas domésticos; X - profissionais de educação física; XI - engenheiros e agrônomos; XII - estatísticos; XIII - médicos veterinários e zootecnistas; XIV - museólogos; XV - químicos; XVI - profissionais de relações públicas; XVII - técnicos industriais; e XVIII - técnicos agrícolas.",
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art127",
+          "TipoAliq": 2,
+          "TipoDoacao": 2,
+          "TipoRbSn": 1
         }
       ]
     },
@@ -2905,6 +3100,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art485",
           "TipoAliq": 1,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -2947,6 +3143,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art485",
           "TipoAliq": 1,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -2989,6 +3186,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art486",
           "TipoAliq": 1,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         }
       ]
@@ -3048,6 +3246,7 @@
           "TexRegIbs": "Art. 463. O contribuinte que realizar locação, cessão onerosa ou arrendamento de bem imóvel decorrente de contratos firmados por prazo determinado poderá optar, de forma irretratável, pelo recolhimento de IBS com base na receita bruta recebida. \r\n§ 2º As operações sujeitas ao regime de que trata este artigo estarão sujeitas ao pagamento de IBS e de CBS em montante equivalente a 3,65% (três inteiros e sessenta e cinco centésimos por cento) da receita bruta recebida.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art484\r\n",
           "TipoAliq": 1,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -3090,6 +3289,7 @@
           "TexRegIbs": "Art. 461. O contribuinte que realizar incorporação imobiliária submetida ao patrimônio de afetação, nos termos dos arts. 31-A a 31-E da Lei nº 4.591, de 16 de dezembro de 1964, que tenha realizado o pedido de opção pelo regime específico instituído pelo art. 1º e tenha o pedido efetivado nos termos do art. 2º, ambos da Lei nº 10.931, de 2 de agosto de 2004, antes de 1º de janeiro de 2029, pode optar, de forma irretratável, pelo recolhimento de IBS e de CBS, da seguinte forma: \r\nI - a incorporação imobiliária submetida ao regime especial de tributação previsto nos arts. 4º e 8º da Lei nº 10.931, de 2 de agosto de 2004, ficará sujeita ao pagamento de IBS e de CBS em montante equivalente a 2,08% (dois inteiros e oito centésimos por cento) da receita mensal recebida;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art485",
           "TipoAliq": 1,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -3132,6 +3332,7 @@
           "TexRegIbs": "Art. 461. O contribuinte que realizar incorporação imobiliária submetida ao patrimônio de afetação, nos termos dos arts. 31-A a 31-E da Lei nº 4.591, de 16 de dezembro de 1964, que tenha realizado o pedido de opção pelo regime específico instituído pelo art. 1º e tenha o pedido efetivado nos termos do art. 2º, ambos da Lei nº 10.931, de 2 de agosto de 2004, antes de 1º de janeiro de 2029, pode optar, de forma irretratável, pelo recolhimento de IBS e de CBS, da seguinte forma: \r\nII - a incorporação imobiliária submetida ao regime especial de tributação prevista no §§ 6º e 8º do art. 4º e no parágrafo único do art. 8º, todos da Lei nº 10.931, de 2 de agosto de 2004, ficará sujeita ao pagamento de IBS e de CBS em montante equivalente a 0,53% (cinquenta e três centésimos por cento) da receita mensal recebida.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art485",
           "TipoAliq": 1,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -3174,6 +3375,7 @@
           "TexRegIbs": "Art. 462. O contribuinte que realizar alienação de imóvel decorrente de parcelamento do solo, que tenha o pedido de registro do parcelamento, nos termos da Lei nº 6.766, de 19 de dezembro de 1979, efetivado antes de 1º de janeiro de 2029, pode optar, de forma irretratável, pelo recolhimento de IBS e de CBS com base na receita bruta recebida.\r\n§ 1º As operações sujeitas ao regime de que trata este artigo estarão sujeitas ao pagamento de IBS e de CBS em montante equivalente a 3,65% (três inteiros e sessenta e cinco centésimos por cento) da receita bruta recebida.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art486",
           "TipoAliq": 1,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         }
       ]
@@ -3233,6 +3435,7 @@
           "TexRegIbs": "Art. 13.\r\n§ 7º No transporte internacional de passageiros, caso os trechos de ida e volta sejam vendidos em conjunto, a base de cálculo será a metade do valor cobrado.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art12",
           "TipoAliq": 2,
+          "TipoDoacao": 2,
           "TipoRbSn": 5
         }
       ]
@@ -3292,6 +3495,7 @@
           "TexRegIbs": "Art. 233. Fica isento do IBS o fornecimento de serviços de transporte público coletivo de passageiros rodoviário e metroviário de caráter urbano, semiurbano e metropolitano, sob regime de autorização, permissão ou concessão pública.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art157",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -3334,7 +3538,94 @@
           "TexRegIbs": "Art. 233. Fica isento do IBS o fornecimento de serviços de transporte público coletivo de passageiros rodoviário e metroviário de caráter urbano, semiurbano e metropolitano, sob regime de autorização, permissão ou concessão pública.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art157",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
+        },
+        {
+          "CodClassTrib": "400003",
+          "Cst": "400",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": true,
+          "IndDuimp": true,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": false,
+          "IndNfgas": false,
+          "IndNfse": false,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": false,
+          "NomeClassTrib": "Bagagens de viajantes e de tripulantes, acompanhadas ou desacompanhadas, observado o art. 94 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Bagagens",
+          "PercRedCbs": 0.0,
+          "PercRedIbs": 0.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": "Art. 94. São isentas do pagamento do IBS na importação de bens materiais: (Art. 94 da LC 214/2025)I - bagagens de viajantes e de tripulantes, acompanhadas ou desacompanhadas;",
+          "TexRegIbs": "Art. 202. Ficam reduzidas em 30% (trinta por cento) as alíquotas do IBS incidentes sobre a prestação de serviços pelos seguintes profissionais, que exercerem atividades intelectuais de natureza científica, literária ou artística, submetidas à fiscalização por conselho profissional: I - administradores; II - advogados; III - arquitetos e urbanistas; IV - assistentes sociais; V - bibliotecários; VI - biólogos; VII - contabilistas; VIII - economistas; IX - economistas domésticos; X - profissionais de educação física; XI - engenheiros e agrônomos; XII - estatísticos; XIII - médicos veterinários e zootecnistas; XIV - museólogos; XV - químicos; XVI - profissionais de relações públicas; XVII - técnicos industriais; e XVIII - técnicos agrícolas.",
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art94",
+          "TipoAliq": 3,
+          "TipoDoacao": 0,
+          "TipoRbSn": 0
+        },
+        {
+          "CodClassTrib": "400004",
+          "Cst": "400",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": true,
+          "IndDuimp": true,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": false,
+          "IndNfgas": false,
+          "IndNfse": false,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": false,
+          "NomeClassTrib": "Remessas internacionais, observado o art. 94 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Remessas internacionais",
+          "PercRedCbs": 0.0,
+          "PercRedIbs": 0.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": "Art. 171. São isentas do pagamento do IBS na importação de bens materiais: (Art. 94 da LC 214/2025)II - remessas internacionais, desde que:a) sejam isentas do Imposto sobre a Importação;b) o remetente e o destinatário sejam pessoas físicas;c) não tenha ocorrido a intermediação de plataforma digital.",
+          "TexRegIbs": "Art. 171. São isentas do pagamento da CBS na importação de bens materiais: (Art. 94 da Lei Complementar nº 214, de 16 de janeiro de 2025)II - remessas internacionais, desde que:a) sejam isentas do Imposto sobre a Importação;b) o remetente e o destinatário sejam pessoas físicas; ec) não tenha ocorrido a intermediação de plataforma digital.\"",
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art94",
+          "TipoAliq": 3,
+          "TipoDoacao": 0,
+          "TipoRbSn": 0
         }
       ]
     },
@@ -3393,6 +3684,7 @@
           "TexRegIbs": "Art. 5º O IBS também incide sobre as seguintes operações: \r\nII - fornecimento de brindes e bonificações;\r\n§ 2º O disposto no inciso II do caput deste artigo:\r\nI - não se aplica às bonificações que constem do respectivo documento fiscal e que não dependam de evento posterior",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art5",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -3435,6 +3727,7 @@
           "TexRegIbs": "Art. 6º O IBS não incide sobre:\r\nII - transferência de bens entre estabelecimentos pertencentes ao mesmo contribuinte;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art6",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -3442,14 +3735,14 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-30",
           "IndBpe": true,
           "IndBpeta": true,
           "IndBpetm": false,
           "IndCte": true,
           "IndCteos": true,
           "IndDere": true,
-          "IndDir": false,
+          "IndDir": true,
           "IndDuimp": true,
           "IndEstornoCred": false,
           "IndMonoDif": false,
@@ -3468,15 +3761,16 @@
           "IndPbioDiferenca": false,
           "IndPermiteCredPres": false,
           "IndTribRegular": false,
-          "NomeClassTrib": "Doações que não tenham por objeto bens ou serviços que tenham permitido a apropriação de créditos pelo doador, observado o art. 6º da Lei Complementar nº 214, de 2025.\r\n",
-          "NomeReduzido": "Doações sem contraprestação em benefício do doador\r\n",
+          "NomeClassTrib": "Doações e amostras grátis que não tenham por objeto bens ou serviços que tenham permitido a apropriação de créditos pelo doador, observado o art. 6º da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Doações e amostras grátis sem contraprestação em benefício do doador",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
           "PossuiIndDfe": true,
-          "TexRegCbs": "Art. 6º A CBS não incide sobre:\r\nVIII - doações sem contraprestação em benefício do doador;\r\n",
-          "TexRegIbs": "Art. 6º O IBS não incide sobre:\r\nVIII - doações sem contraprestação em benefício do doador;",
+          "TexRegCbs": "Art. 6º A CBS não incide sobre: VIII - doações sem contraprestação em benefício do doador; § 4º Compreende-se na não incidência prevista no inciso VIII do caputa amostra grátis, assim considerado o bem ou serviço, de diminuto ou nenhum valor comercial, que constitui objeto da atividade econômica do fornecedor e que, atendidos os requisitos estabelecidos em ato conjunto da Secretaria Especial da Receita Federal do Brasil do Ministério da Fazenda - RFB e do Comitê Gestor do Imposto sobre Bens e Serviços - CGIBS, observe os seguintes critérios:I - no caso de bem material, seja fornecido em quantidade necessária para dar conhecimento de sua natureza e qualidade; e II - no caso de serviço e de bem imaterial, seja fornecido em período pré-determinado necessário para dar conhecimento de sua natureza e qualidade pelo prazo máximo trinta e um dias corridos.",
+          "TexRegIbs": "Art. 6º O IBS não incide sobre: VIII - doações sem contraprestação em benefício do doador; § 4º Compreende-se na não incidência prevista no inciso VIII do caput deste artigo a amostra grátis, assim considerado o bem ou serviço, de diminuto ou nenhum valor comercial, que constitui objeto da atividade econômica do fornecedor e que, atendidos os requisitos estabelecidos em ato conjunto da RFB e do CGIBS, observe os seguintes critérios: I - no caso de bem material, seja fornecido em quantidade necessária para dar conhecimento de sua natureza e qualidade; e II - no caso de serviço e de bem imaterial, seja fornecido em período predeterminado necessário para dar conhecimento de sua natureza e qualidade pelo prazo máximo de 31 (trinta e um) dias corridos.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art6",
           "TipoAliq": 3,
+          "TipoDoacao": 1,
           "TipoRbSn": 0
         },
         {
@@ -3519,6 +3813,7 @@
           "TexRegIbs": "Art. 9º São imunes ao IBS as exportações de bens e de serviços, nos termos do Capítulo IV deste Título. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art8",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 3
         },
         {
@@ -3561,6 +3856,7 @@
           "TexRegIbs": "Art. 10. São imunes também ao IBS os fornecimentos:\r\nI - realizados pela União, pelos Estados, pelo Distrito Federal e pelos Municípios;\r\n§ 1º A imunidade prevista no inciso I do caput deste artigo é extensiva às autarquias e às fundações instituídas e mantidas pelo poder público e à empresa pública prestadora de serviço postal, bem como:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art9",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -3603,6 +3899,7 @@
           "TexRegIbs": "Art. 10. São imunes também ao IBS os fornecimentos:\r\nII - realizados por entidades religiosas e templos de qualquer culto, inclusive suas organizações assistenciais e beneficentes;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art9",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -3645,6 +3942,7 @@
           "TexRegIbs": "Art. 10. São imunes também ao IBS os fornecimentos:\r\nIII - realizados por partidos políticos, inclusive seus institutos e fundações, entidades sindicais dos trabalhadores e instituições de educação e de assistência social, sem fins lucrativos;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art9",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -3687,6 +3985,7 @@
           "TexRegIbs": "Art. 10. São imunes também ao IBS os fornecimentos:\r\nIV - de livros, jornais, periódicos e do papel destinado a sua impressão;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art9",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 2
         },
         {
@@ -3729,6 +4028,7 @@
           "TexRegIbs": "Art. 10. São imunes também ao IBS os fornecimentos:\r\nV - de fonogramas e videofonogramas musicais produzidos no Brasil contendo obras musicais ou literomusicais de autores brasileiros e/ou obras em geral interpretadas por artistas brasileiros, bem como os suportes materiais ou arquivos digitais que os contenham, salvo na etapa de replicação industrial de mídias ópticas de leitura a laser;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art9",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 2
         },
         {
@@ -3771,6 +4071,7 @@
           "TexRegIbs": "Art. 10. São imunes também ao IBS os fornecimentos:\r\nVI - de serviço de comunicação nas modalidades de radiodifusão sonora e de sons e imagens de recepção livre e gratuita;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art9",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 2
         },
         {
@@ -3813,6 +4114,7 @@
           "TexRegIbs": "Art. 10. São imunes também ao IBS os fornecimentos:\r\nVII - de ouro, quando definido em lei como ativo financeiro ou instrumento cambial.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art9",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 2
         },
         {
@@ -3855,6 +4157,7 @@
           "TexRegIbs": "Art. 25. Não são contribuintes do IBS, ressalvado o disposto no inciso III do art. 19: \r\nI - o condomínio edilício;\r\n§ 4º Em relação ao condomínio edilício de que trata o inciso I do caput deste artigo:\r\nI - caso exerça a opção pelo regime regular, nos termos do § 1º, o IBS incidirá sobre todas as taxas e demais valores cobrados pelo condomínio dos seus condôminos e de terceiros; e\r\nII - caso não exerça a opção pelo regime regular e desde que as taxas e demais valores condominiais cobrados de seus condôminos representem menos de 80% (oitenta por cento) da receita total do condomínio:\r\na) ficará sujeito à incidência do IBS sobre as operações com bens e com serviços que realizar de acordo com o disposto no inciso I do caput do art. 19; e\r\nb) apropriará créditos na proporção da receita decorrente das operações tributadas na forma da alínea “a”, em relação à receita total do condomínio.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art26",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -3897,6 +4200,7 @@
           "TexRegIbs": "Art. 103. Considera-se comprovada a exportação de combustível ou lubrificante fornecido para abastecimento de aeronaves em tráfego internacional e com destino ao exterior, quando formalizado o despacho aduaneiro de exportação, observado o disposto no art. 96. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art98",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 3
         },
         {
@@ -3904,7 +4208,7 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -3928,7 +4232,7 @@
           "IndNfse": true,
           "IndNfsvia": false,
           "IndPbioDiferenca": false,
-          "IndPermiteCredPres": true,
+          "IndPermiteCredPres": false,
           "IndTribRegular": false,
           "NomeClassTrib": "Fornecimento de produtor rural não contribuinte, observado o art. 164 da Lei Complementar nº 214, de 2025.",
           "NomeReduzido": "Fornecimento de produtor rural não contribuinte",
@@ -3939,6 +4243,7 @@
           "TexRegIbs": "Art. 239. Não são considerados contribuintes do IBS:\r\nI - o produtor rural pessoa física ou jurídica que auferir, no ano-calendário, receita inferior a R$ 3.600.000,00 (três milhões e seiscentos mil reais);\r\nII - o produtor rural integrado, pessoa física ou jurídica.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art164",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -3981,6 +4286,7 @@
           "TexRegIbs": "Art. 250. O contribuinte de IBS sujeito ao regime regular poderá apropriar créditos presumidos do referido tributo relativos às aquisições de serviço de transporte de carga de transportador autônomo pessoa física que não seja contribuinte do referido tributo ou que seja inscrito como MEI.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art169",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4023,6 +4329,7 @@
           "TexRegIbs": "Art. 256. O contribuinte de IBS sujeito ao regime regular poderá apropriar créditos presumidos do referido tributo relativos às aquisições de resíduos sólidos de coletores incentivados para utilização em processo de destinação final ambientalmente adequada.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art170",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -4065,6 +4372,7 @@
           "TexRegIbs": "Art. 258. O contribuinte de IBS sujeito ao regime regular poderá apropriar créditos presumidos do referido tributo relativos às aquisições, para revenda, de bem móvel usado de pessoa física que não seja contribuinte do referido tributo ou que seja inscrita como MEI",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art171",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -4107,6 +4415,7 @@
           "TexRegIbs": "Art. 309. Não ficam sujeitas à incidência do IBS as operações relacionadas aos demais fundos garantidores e executores de políticas públicas, inclusive de habitação e de desenvolvimento regional, previstos em lei. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art213",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4149,6 +4458,7 @@
           "TexRegIbs": "Art. 399. A base de cálculo do IBS, para efeitos desta Seção, é o valor da operação de fornecimento de alimentação e das bebidas sujeitas ao regime específico de que trata o art. 396. \r\n§ 1º Ficam excluídos da base de cálculo:\r\nI - a gorjeta incidente no fornecimento de alimentação sujeita ao regime específico, desde que:\r\na) seja repassada integralmente ao empregado, sem prejuízo dos valores da gorjeta que forem retidos pelo empregador em virtude de determinação legal; e\r\nb) seu valor não exceda a 15% (quinze por cento) do valor total do fornecimento de alimentação e de bebidas.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art274",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -4191,6 +4501,7 @@
           "TexRegIbs": "Art. 399. A base de cálculo do IBS, para efeitos desta Seção, é o valor da operação de fornecimento de alimentação e das bebidas sujeitas ao regime específico de que trata o art. 396. \r\n§ 1º Ficam excluídos da base de cálculo:\r\nII - os valores não repassados aos bares e restaurantes pelo serviço de entrega e intermediação de pedidos de alimentação e de bebidas por plataforma digital.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art274",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -4233,6 +4544,7 @@
           "TexRegIbs": "Art. 13. A base de cálculo do IBS é o valor da operação, salvo disposição em contrário prevista neste Regulamento.\r\n§ 2º Não integram a base de cálculo do IBS:\r\nVI - a contribuição de que trata o art. 149-A da Constituição Federal.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art12",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4240,7 +4552,7 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-09-30",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -4259,7 +4571,7 @@
           "IndNfag": false,
           "IndNfce": false,
           "IndNfcom": false,
-          "IndNfe": false,
+          "IndNfe": true,
           "IndNfgas": false,
           "IndNfse": false,
           "IndNfsvia": false,
@@ -4275,6 +4587,7 @@
           "TexRegIbs": "Art. 294. Na alienação de bens móveis ou imóveis que tenham sido objeto de garantia constituída em favor de credor sujeito ao regime específico desta Seção, cuja propriedade tenha sido por ele consolidada ou a ele transmitida em pagamento da dívida, deverá ser observado o seguinte: \r\nI - a consolidação da propriedade do bem pelo credor não estará sujeita à incidência do IBS;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art200",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -4282,7 +4595,7 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-09-30",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -4301,7 +4614,7 @@
           "IndNfag": false,
           "IndNfce": false,
           "IndNfcom": false,
-          "IndNfe": false,
+          "IndNfe": true,
           "IndNfgas": false,
           "IndNfse": false,
           "IndNfsvia": false,
@@ -4317,6 +4630,7 @@
           "TexRegIbs": "Art. 294. Na alienação de bens móveis ou imóveis que tenham sido objeto de garantia constituída em favor de credor sujeito ao regime específico desta Seção, cuja propriedade tenha sido por ele consolidada ou a ele transmitida em pagamento da dívida, deverá ser observado o seguinte: \r\nII - na alienação do bem pelo credor:\r\na) não haverá incidência do IBS, se o prestador da garantia não for contribuinte do IBS no regime regular; ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art200",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4324,7 +4638,7 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-09-30",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -4343,7 +4657,7 @@
           "IndNfag": false,
           "IndNfce": false,
           "IndNfcom": false,
-          "IndNfe": false,
+          "IndNfe": true,
           "IndNfgas": false,
           "IndNfse": false,
           "IndNfsvia": false,
@@ -4359,6 +4673,7 @@
           "TexRegIbs": "Art. 299. Na administração de consórcio de que trata o inciso VII do caput do art. 269, para fins de determinação da base de cálculo, as receitas dos serviços compreendem todas as tarifas, comissões e taxas, bem como os respectivos encargos, multas e juros, decorrentes de contrato de participação em grupo de consórcio, efetivamente pagas, pelo regime de caixa.\r\n§ 5º Na execução de garantia de consorciado, com recebimento dos valores pelo grupo de consórcio, deverá ser observado o seguinte:\r\nI - a consolidação da propriedade do bem pelo grupo de consórcio não estará sujeita à incidência do IBS;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art204",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -4366,7 +4681,7 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-09-30",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -4385,7 +4700,7 @@
           "IndNfag": false,
           "IndNfce": false,
           "IndNfcom": false,
-          "IndNfe": false,
+          "IndNfe": true,
           "IndNfgas": false,
           "IndNfse": false,
           "IndNfsvia": false,
@@ -4401,6 +4716,7 @@
           "TexRegIbs": "Art. 299. Na administração de consórcio de que trata o inciso VII do caput do art. 269, para fins de determinação da base de cálculo, as receitas dos serviços compreendem todas as tarifas, comissões e taxas, bem como os respectivos encargos, multas e juros, decorrentes de contrato de participação em grupo de consórcio, efetivamente pagas, pelo regime de caixa.\r\n§ 5º Na execução de garantia de consorciado, com recebimento dos valores pelo grupo de consórcio, deverá ser observado o seguinte:\r\nII - na alienação do bem pelo grupo de consórcio:\r\na) não haverá incidência do IBS, se o consorciado não for contribuinte do IBS;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art204",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4408,7 +4724,7 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-09-30",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-30",
           "IndBpe": true,
           "IndBpeta": true,
           "IndBpetm": false,
@@ -4434,15 +4750,16 @@
           "IndPbioDiferenca": false,
           "IndPermiteCredPres": false,
           "IndTribRegular": false,
-          "NomeClassTrib": "Doações sem contraprestação em benefício do doador, com anulação de crédito apropriados pelo doador referente ao fornecimento doado, observado o art. 6º da Lei Complementar nº 214, de 2025.\r\n",
-          "NomeReduzido": "Doação com anulação de crédito\r\n",
+          "NomeClassTrib": "Doações e amostras grátis sem contraprestação em benefício do doador, com anulação de crédito apropriados pelo doador referente ao fornecimento doado, observado o art. 6º da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Doações e amostras grátis com anulação de crédito",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
           "PossuiIndDfe": true,
-          "TexRegCbs": "Art. 6º A CBS não incide sobre:\r\nVIII - doações sem contraprestação em benefício do doador;\r\n§ 2º Caso as doações de que trata o inciso VIII do caput tenham por objeto bens ou serviços que tenham permitido a apropriação de créditos pelo doador, inclusive na produção:\r\nII - por opção do contribuinte, os créditos serão anulados.",
-          "TexRegIbs": "Art. 6º O IBS não incide sobre:\r\nVIII - doações sem contraprestação em benefício do doador;\r\n§ 2º Caso as doações de que trata o inciso VIII do caput deste artigo tenham por objeto bens ou serviços que tenham permitido a apropriação de créditos pelo doador, inclusive na produção:\r\nII - por opção do contribuinte, os créditos serão anulados.",
+          "TexRegCbs": "Art. 6º A CBS não incide sobre: VIII - doações sem contraprestação em benefício do doador; § 2º Caso as doações de que trata o inciso VIII do caput tenham por objeto bens ou serviços que tenham permitido a apropriação de créditos pelo doador, inclusive na produção: II - por opção do contribuinte, os créditos serão anulados. § 4º Compreende-se na não incidência prevista no inciso VIII do caputa amostra grátis, assim considerado o bem ou serviço, de diminuto ou nenhum valor comercial, que constitui objeto da atividade econômica do fornecedor e que, atendidos os requisitos estabelecidos em ato conjunto da Secretaria Especial da Receita Federal do Brasil do Ministério da Fazenda - RFB e do Comitê Gestor do Imposto sobre Bens e Serviços - CGIBS, observe os seguintes critérios: I - no caso de bem material, seja fornecido em quantidade necessária para dar conhecimento de sua natureza e qualidade; e II - no caso de serviço e de bem imaterial, seja fornecido em período pré-determinado necessário para dar conhecimento de sua natureza e qualidade pelo prazo máximo trinta e um dias corridos.",
+          "TexRegIbs": "Art. 6º O IBS não incide sobre: VIII - doações sem contraprestação em benefício do doador; § 2º Caso as doações de que trata o inciso VIII do caput deste artigo tenham por objeto bens ou serviços que tenham permitido a apropriação de créditos pelo doador, inclusive na produção: II - por opção do contribuinte, os créditos serão anulados. § 4º Compreende-se na não incidência prevista no inciso VIII do caput deste artigo a amostra grátis, assim considerado o bem ou serviço, de diminuto ou nenhum valor comercial, que constitui objeto da atividade econômica do fornecedor e que, atendidos os requisitos estabelecidos em ato conjunto da RFB e do CGIBS, observe os seguintes critérios: I - no caso de bem material, seja fornecido em quantidade necessária para dar conhecimento de sua natureza e qualidade; e II - no caso de serviço e de bem imaterial, seja fornecido em período predeterminado necessário para dar conhecimento de sua natureza e qualidade pelo prazo máximo de 31 (trinta e um) dias corridos.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art6\r\n",
           "TipoAliq": 3,
+          "TipoDoacao": 1,
           "TipoRbSn": 0
         },
         {
@@ -4485,6 +4802,7 @@
           "TexRegIbs": "Art. 92. Para fins do disposto no art. 90, considera-se exportação de serviço ou de bem imaterial, inclusive direitos, o fornecimento para residente ou domiciliado no exterior e consumo no exterior.\r\nII - o fornecimento dos seguintes bens e serviços, desde que vinculados direta e exclusivamente à exportação de bens materiais ou associados à entrega no exterior de bens materiais:\r\na) intermediação na distribuição de mercadorias no exterior (comissão de agente);\r\nb) seguro de cargas;\r\nc) despacho aduaneiro;\r\nd) armazenagem de mercadorias;\r\ne) transporte rodoviário, ferroviário, aéreo, aquaviário ou multimodal de cargas;\r\nf) manuseio de cargas;\r\ng) manuseio de contêineres;\r\nh) unitização ou desunitização de cargas;\r\ni) consolidação ou desconsolidação documental de cargas;\r\nj) agenciamento de transporte de carga;\r\nk) remessas expressas;\r\nl) pesagem e medição de cargas;\r\nm) refrigeração de cargas;\r\nn) arrendamento mercantil operacional ou locação de contêineres;\r\no) instalação e montagem de mercadorias exportadas; e\r\np) treinamento para uso de mercadorias exportadas.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art80",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 3
         },
         {
@@ -4492,7 +4810,7 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-11-19",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -4507,13 +4825,13 @@
           "IndMonoRetem": false,
           "IndMonoVal": false,
           "IndNf3e": false,
-          "IndNfabi": true,
+          "IndNfabi": false,
           "IndNfag": false,
           "IndNfce": false,
           "IndNfcom": false,
           "IndNfe": false,
           "IndNfgas": false,
-          "IndNfse": true,
+          "IndNfse": false,
           "IndNfsvia": false,
           "IndPbioDiferenca": false,
           "IndPermiteCredPres": false,
@@ -4522,11 +4840,12 @@
           "NomeReduzido": "Operações com bens imóveis realizadas por pessoas físicas não consideradas contribuintes",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
-          "PossuiIndDfe": true,
+          "PossuiIndDfe": false,
           "TexRegCbs": "Art. 382. As pessoas físicas que realizarem operações com bens imóveis serão consideradas contribuintes do regime regular da CBS e sujeitas ao regime de que trata este Capítulo, nas seguintes hipóteses:",
           "TexRegIbs": "Art. 382. As pessoas físicas que realizarem operações com bens imóveis serão consideradas contribuintes do regime regular do IBS e sujeitas ao regime de que trata este Capítulo, nas seguintes hipóteses:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art251",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4569,6 +4888,7 @@
           "TexRegIbs": "Art. 4º O IBS incide sobre operações onerosas com bens ou com serviços.\r\n§ 2º Para fins do disposto neste artigo, considera-se operação onerosa com bens ou com serviços qualquer fornecimento com contraprestação, incluindo o decorrente de:\r\nI - compra e venda, troca ou permuta, dação em pagamento e demais espécies de alienação;\r\nII - locação;\r\nIII - licenciamento, concessão, cessão;\r\nIV - mútuo oneroso;\r\nV - doação com contraprestação em benefício do doador;\r\nVI - instituição onerosa de direitos reais;\r\nVII - arrendamento, inclusive mercantil; e\r\nVIII - prestação de serviços.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art4",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -4611,6 +4931,7 @@
           "TexRegIbs": "Art. 48. Caso o bem adquirido venha a perecer, deteriorar-se ou ser objeto de roubo, furto ou extravio, os créditos relacionados à sua aquisição, inclusive os de serviços, deverão ser estornados, mediante emissão de documento fiscal vinculado ao documento fiscal de aquisição, com a indicação dos valores de IBS referentes ao bem adquirido, de forma discriminada. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art47",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -4653,6 +4974,7 @@
           "TexRegIbs": null,
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art544",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -4695,6 +5017,7 @@
           "TexRegIbs": "Art. 13. A base de cálculo do IBS é o valor da operação, salvo disposição em contrário prevista neste Regulamento.\r\n§ 2º Não integram a base de cálculo do IBS:\r\nV - o montante incidente na operação dos tributos a que se referem o inciso II do caput do art. 155, inclusive aquele retido por substituição tributária nas operações anteriores, o inciso III do caput do art. 156 e a alínea “b” do inciso I e o inciso IV do caput do art. 195 da Constituição Federal, e da Contribuição para os Programas de Integração Social e de Formação do Patrimônio do Servidor Público (Contribuição para o PIS/Pasep) a que se refere o art. 239 da Constituição Federal, de 1º de janeiro de 2026 a 31 de dezembro de 2032;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art12",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -4737,6 +5060,7 @@
           "TexRegIbs": "Art. 25.\r\n§ 7º Para fins do disposto no inciso V do caput deste artigo, não são contribuintes do IBS:\r\nI - os Fundos de Investimento Imobiliário (FII) e os Fundos de Investimento nas Cadeias Produtivas do Agronegócio (Fiagro), de que trata a Lei nº 8.668, de 25 de junho de 1993, que realizem operações com bens imóveis, inclusive operações com direitos reais sobre bens imóveis, e que, cumulativamente:\r\n(...)\r\nII - os FII e os Fiagro que realizem operações com bens imóveis, inclusive operações com direitos reais sobre bens imóveis, e que não atendam às condições estabelecidas no inciso I deste parágrafo, cujas cotas sejam detidas, direta ou indiretamente, em mais de 95% (noventa e cinco por cento), por:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art26",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4744,13 +5068,13 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2026-01-01",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
           "IndCte": false,
           "IndCteos": false,
-          "IndDere": true,
+          "IndDere": false,
           "IndDir": false,
           "IndDuimp": false,
           "IndEstornoCred": false,
@@ -4774,11 +5098,12 @@
           "NomeReduzido": "Operações de fundos de investimento",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
-          "PossuiIndDfe": true,
+          "PossuiIndDfe": false,
           "TexRegCbs": "Art. 25.\r\n§ 7º Para fins do disposto no inciso V do caput, não são contribuintes da CBS:\r\nIII - os demais fundos de investimento cujo patrimônio seja constituído exclusivamente por aplicações em participações societárias, certificados, direitos, títulos, valores mobiliários e demais ativos financeiros permitidos pela Comissão de Valores Mobiliários, observado o disposto nos § 9º e § 11.",
           "TexRegIbs": "Art. 25.\r\n§ 7º Para fins do disposto no inciso V do caput deste artigo, não são contribuintes do IBS:\r\nIII - os demais fundos de investimento cujo patrimônio seja constituído exclusivamente por aplicações em participações societárias, certificados, direitos, títulos, valores mobiliários e demais ativos financeiros permitidos pela Comissão de Valores Mobiliários, observado o disposto nos §§ 9º e 11.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art26",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4821,6 +5146,7 @@
           "TexRegIbs": "Art. 25. Não são contribuintes do IBS, ressalvado o disposto no inciso III do art. 19: \r\nIV - o nanoempreendedor, assim entendido a pessoa física que tenha auferido receita bruta inferior a 50% (cinquenta por cento) do limite estabelecido para adesão ao regime do Microempreendedor Individual (MEI) previsto no § 1º do art. 18-A, observado, ainda, o disposto nos §§ 4º e 4º-B do referido artigo, todos da Lei Complementar nº 123, de 14 de dezembro de 2006, e não tenha aderido a esse regime;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art26",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -4828,7 +5154,7 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2026-01-01",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -4854,8 +5180,8 @@
           "IndPbioDiferenca": false,
           "IndPermiteCredPres": false,
           "IndTribRegular": false,
-          "NomeClassTrib": "Descontos incondicionais, observado o art. 12 da Lei Complementar nº 214, de 2025.",
-          "NomeReduzido": "Descontos incondicionais",
+          "NomeClassTrib": "Descontos financeiros em nota fatura, observado o art. 12 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Descontos financeiros em nota fatura",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
           "PossuiIndDfe": true,
@@ -4863,6 +5189,7 @@
           "TexRegIbs": "Art. 13. A base de cálculo do IBS é o valor da operação, salvo disposição em contrário prevista neste Regulamento.\r\n§ 2º Não integram a base de cálculo do IBS:\r\nIII - os descontos incondicionais;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art12",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -4870,15 +5197,15 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2026-01-01",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
           "IndCte": false,
           "IndCteos": false,
           "IndDere": false,
-          "IndDir": false,
-          "IndDuimp": false,
+          "IndDir": true,
+          "IndDuimp": true,
           "IndEstornoCred": false,
           "IndMonoDif": false,
           "IndMonoRet": false,
@@ -4900,11 +5227,12 @@
           "NomeReduzido": "Importação de bens materiais sem incidência de IBS e CBS",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
-          "PossuiIndDfe": false,
+          "PossuiIndDfe": true,
           "TexRegCbs": "Art. 76. Não constituem fatos geradores da CBS sobre a importação os bens materiais: \r\nI - que retornem ao País, ao respectivo exportador, nas seguintes hipóteses:\r\na) enviados em consignação e não vendidos no prazo autorizado;\r\nb) devolvidos por motivo de defeito técnico, para reparo ou para substituição;\r\nc) por motivo de modificações na sistemática de importação por parte do País importador;\r\nd) por motivo de guerra ou de calamidade pública; ou\r\ne) por outros fatores alheios à vontade do exportador;\r\nIII - que sejam idênticos, em igual quantidade e valor, e que se destinem à reposição de outros anteriormente importados que se tenham revelado, após sua liberação pela autoridade aduaneira, defeituosos ou imprestáveis para o fim a que se destinavam;\r\nVII - aos quais tenha sido aplicado o regime de exportação temporária;",
           "TexRegIbs": "Art. 76. Não constituem fatos geradores do IBS sobre a importação os bens materiais: I - que retornem ao País, ao respectivo exportador, nas seguintes hipóteses:\r\na) enviados em consignação e não vendidos no prazo autorizado;\r\nb) devolvidos por motivo de defeito técnico, para reparo ou para substituição;\r\nc) por motivo de modificações na sistemática de importação por parte do país importador;\r\nd) por motivo de guerra ou de calamidade pública; ou\r\ne) por outros fatores alheios à vontade do exportador;\r\nIII - que sejam idênticos, em igual quantidade e valor, e que se destinem à reposição de outros anteriormente importados que se tenham revelado, após sua liberação pela autoridade aduaneira, defeituosos ou imprestáveis para o fim a que se destinavam;\r\nVII - aos quais tenha sido aplicado o regime de exportação temporária;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art66",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -4912,14 +5240,14 @@
           "Cst": "410",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-30",
           "IndBpe": true,
           "IndBpeta": true,
           "IndBpetm": true,
           "IndCte": true,
           "IndCteos": true,
           "IndDere": false,
-          "IndDir": false,
+          "IndDir": true,
           "IndDuimp": true,
           "IndEstornoCred": false,
           "IndMonoDif": false,
@@ -4947,6 +5275,7 @@
           "TexRegIbs": "Art. 4º O IBS incide sobre operações onerosas com bens ou com serviços.\r\n§ 1º As operações não onerosas com bens ou com serviços serão tributadas nas hipóteses expressamente previstas neste Regulamento.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art4",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         }
       ]
@@ -5006,6 +5335,7 @@
           "TexRegIbs": "Art. 22. Nas operações com energia elétrica ou com direitos a ela relacionados, o recolhimento do IBS relativo a importação, geração, comercialização, distribuição e transmissão será realizado exclusivamente:\r\n§ 1º O recolhimento do IBS incidente nas operações com energia elétrica, ou com direitos a ela relacionados, relativas a importação, geração, comercialização, distribuição e transmissão ocorrerá somente no fornecimento:\r\nI - para consumo; ou\r\nII - para contribuinte não sujeito ao regime regular do IBS.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art28",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 2
         }
       ]
@@ -5065,6 +5395,7 @@
           "TexRegIbs": "Art. 214. Fica diferido o recolhimento do IBS nas seguintes operações com insumos agropecuários e aquícolas mencionados no art. 213:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art138\r\n",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         }
       ]
@@ -5124,6 +5455,7 @@
           "TexRegIbs": "Art. 97. Poderá ser suspenso o pagamento do IBS no fornecimento de bens materiais com o fim específico de exportação a empresa comercial exportadora que atenda cumulativamente aos seguintes requisitos: ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art82",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 4
         },
         {
@@ -5150,7 +5482,7 @@
           "IndNfag": false,
           "IndNfce": false,
           "IndNfcom": false,
-          "IndNfe": true,
+          "IndNfe": false,
           "IndNfgas": false,
           "IndNfse": false,
           "IndNfsvia": false,
@@ -5166,6 +5498,7 @@
           "TexRegIbs": "Art. 152. Fica suspenso o pagamento do IBS incidente na importação enquanto os bens materiais estiverem submetidos ao regime aduaneiro especial de trânsito aduaneiro, em qualquer de suas modalidades, observada a disciplina estabelecida na legislação aduaneira. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art84",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5173,7 +5506,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5204,10 +5537,11 @@
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
           "PossuiIndDfe": true,
-          "TexRegCbs": "Art. 154. Fica suspenso o pagamento da CBS incidente na importação enquanto os bens materiais estiverem submetidos a regime aduaneiro especial de depósito, observada a disciplina estabelecida na legislação aduaneira. ",
-          "TexRegIbs": "Art. 154. Fica suspenso o pagamento do IBS incidente na importação enquanto os bens materiais estiverem submetidos a regime aduaneiro especial de depósito, observada a disciplina estabelecida na legislação aduaneira.",
+          "TexRegCbs": "Art. 154. Fica suspenso o pagamento da CBS incidente na importação enquanto os bens materiais estiverem submetidos a regime aduaneiro especial de depósito, observada a disciplina estabelecida na legislação aduaneira. Art. 156. Para fins da suspensão do pagamento da CBS de que tratam o art. 154 e o art. 155, são espécies de regimes aduaneiros especiais de depósito: I - entreposto aduaneiro na importação e na exportação; II - depósito especial; III - depósito afiançado; VI - entreposto internacional da Zona Franca de Manaus na importação.",
+          "TexRegIbs": "Art. 154. Fica suspenso o pagamento do IBS incidente na importação enquanto os bens materiais estiverem submetidos a regime aduaneiro especial de depósito, observada a disciplina estabelecida na legislação aduaneira. Art. 156. Para fins da suspensão do pagamento do IBS de que tratam os arts. 154 e 155, são espécies de regimes aduaneiros especiais de depósito: I - entreposto aduaneiro na importação e na exportação; II - depósito especial; III - depósito afiançado; VI - entreposto internacional da Zona Franca de Manaus na importação.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art85",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5250,6 +5584,7 @@
           "TexRegIbs": "Art. 158. Fica suspenso o pagamento do IBS incidente na importação e na aquisição no mercado interno enquanto os bens materiais estiverem submetidos a regime aduaneiro especial de lojas francas, observada a disciplina estabelecida na legislação aduaneira. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art87",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 4
         },
         {
@@ -5292,6 +5627,7 @@
           "TexRegIbs": "Art. 102. Considera-se efetivada a exportação de bens materiais destinados ao uso ou consumo de bordo, em aeronaves exclusivamente em tráfego internacional com destino ao exterior e entregues em zona primária alfandegada ou área de porto organizado alfandegado, quando formalizado o despacho aduaneiro de exportação, observado o disposto no art. 96.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art87",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 4
         },
         {
@@ -5299,7 +5635,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5325,8 +5661,8 @@
           "IndPbioDiferenca": false,
           "IndPermiteCredPres": false,
           "IndTribRegular": true,
-          "NomeClassTrib": "Regimes de Permanência Temporária, observado o art. 88 da Lei Complementar nº 214, de 2025.",
-          "NomeReduzido": "Regimes de Permanência Temporária",
+          "NomeClassTrib": "Regimes de Permanência Temporária com suspensão total, observado o art. 88 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Regimes de Permanência Temporária com suspensão total",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
           "PossuiIndDfe": true,
@@ -5334,6 +5670,7 @@
           "TexRegIbs": "Art. 159. São espécies de regimes aduaneiros especiais de permanência temporária:\r\nI - admissão temporária; § 1º Fica suspenso o pagamento do IBS incidente na importação enquanto os bens materiais estivere \r\nsubmetidos ao regime aduaneiro especial de que trata o inciso I do caput deste artigo, observada a disciplina estabelecida na legislação aduaneira. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art88",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5341,7 +5678,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5367,15 +5704,16 @@
           "IndPbioDiferenca": false,
           "IndPermiteCredPres": false,
           "IndTribRegular": true,
-          "NomeClassTrib": "Regimes de Aperfeiçoamento, observado o art. 90 da Lei Complementar nº 214, de 2025.",
-          "NomeReduzido": "Regimes de Aperfeiçoamento",
+          "NomeClassTrib": "Regimes de Aperfeiçoamento (Recof), observado o art. 90 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Regimes de Aperfeiçoamento (Recof)",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
           "PossuiIndDfe": true,
-          "TexRegCbs": "Art. 161. São espécies de regimes aduaneiros especiais de aperfeiçoamento: \r\nI - entreposto industrial sob controle aduaneiro informatizado (Recof);\r\nII - drawback, na modalidade de suspensão;\r\nIII - admissão temporária para aperfeiçoamento ativo;\r\n§ 1º Fica suspenso o pagamento da CBS incidente na importação enquanto os bens materiais estiverem submetidos aos regimes aduaneiros especiais de aperfeiçoamento de que tratam os incisos I a III do caput, observada a disciplina estabelecida na legislação aduaneira",
-          "TexRegIbs": "Art. 161. São espécies de regimes aduaneiros especiais de aperfeiçoamento: \r\nI - entreposto industrial sob controle aduaneiro informatizado (Recof);\r\nII - drawback, na modalidade de suspensão;\r\nIII - admissão temporária para aperfeiçoamento ativo; \r\n§ 1º Fica suspenso o pagamento do IBS incidente na importação enquanto os bens materiais estiverem submetidos aos regimes aduaneiros especiais de aperfeiçoamento de que tratam os incisos I a III do caput deste artigo, observada a disciplina estabelecida na legislação aduaneira.",
+          "TexRegCbs": "Art. 161. São espécies de regimes aduaneiros especiais de aperfeiçoamento: I - entreposto industrial sob controle aduaneiro informatizado (Recof);§ 1º Fica suspenso o pagamento da CBS incidente na importação enquanto os bens materiais estiverem submetidos aos regimes aduaneiros especiais de aperfeiçoamento de que tratam os incisos I a III do caput, observada a disciplina estabelecida na legislação aduaneira",
+          "TexRegIbs": "Art. 161. São espécies de regimes aduaneiros especiais de aperfeiçoamento: I - entreposto industrial sob controle aduaneiro informatizado (Recof);§ 1º Fica suspenso o pagamento da CBS incidente na importação enquanto os bens materiais estiverem submetidos aos regimes aduaneiros especiais de aperfeiçoamento de que tratam os incisos I a III do caput, observada a disciplina estabelecida na legislação aduaneira",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art90",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5383,7 +5721,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5418,6 +5756,7 @@
           "TexRegIbs": "Art. 164. Observada a disciplina estabelecida na legislação aduaneira, fica suspenso o pagamento do IBS enquanto os bens materiais estiverem submetidos ao Regime Aduaneiro Especial Aplicável ao Setor de Petróleo e Gás (Repetro), nas seguintes operações:\r\nI - importação de bens destinados às atividades de exploração, de desenvolvimento e de produção de petróleo, de gás natural e de outros hidrocarbonetos fluidos previstas na legislação específica, cuja permanência no País seja de natureza temporária (Repetro-Temporário);",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art93",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5425,7 +5764,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5460,6 +5799,7 @@
           "TexRegIbs": "Art. 164. Observada a disciplina estabelecida na legislação aduaneira, fica suspenso o pagamento do IBS enquanto os bens materiais estiverem submetidos ao Regime Aduaneiro Especial Aplicável ao Setor de Petróleo e Gás (Repetro), nas seguintes operações:\r\nII - importação de bens destinados às atividades de transporte, movimentação, transferência, armazenamento ou regaseificação de gás natural liquefeito (GNL-Temporário);",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art93",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5467,7 +5807,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5502,6 +5842,7 @@
           "TexRegIbs": "Art. 164. Observada a disciplina estabelecida na legislação aduaneira, fica suspenso o pagamento do IBS enquanto os bens materiais estiverem submetidos ao Regime Aduaneiro Especial Aplicável ao Setor de Petróleo e Gás (Repetro), nas seguintes operações:\r\nIII - importação de bens cuja permanência no País seja definitiva e que sejam destinados às atividades a que se refere o inciso I do caput deste artigo (Repetro-Permanente);",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art93",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5509,7 +5850,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5544,6 +5885,7 @@
           "TexRegIbs": "Art. 164. Observada a disciplina estabelecida na legislação aduaneira, fica suspenso o pagamento do IBS enquanto os bens materiais estiverem submetidos ao Regime Aduaneiro Especial Aplicável ao Setor de Petróleo e Gás (Repetro), nas seguintes operações:\r\nIV - importação ou aquisição no mercado interno de matérias-primas, produtos intermediários e materiais de embalagem para serem utilizados integralmente no processo produtivo de produto final a ser fornecido a empresa que o destine às atividades a que se refere o inciso I do caput deste artigo (RepetroIndustrialização);",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art93",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -5551,7 +5893,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5586,6 +5928,7 @@
           "TexRegIbs": "Art. 164. Observada a disciplina estabelecida na legislação aduaneira, fica suspenso o pagamento do IBS enquanto os bens materiais estiverem submetidos ao Regime Aduaneiro Especial Aplicável ao Setor de Petróleo e Gás (Repetro), nas seguintes operações:\r\nV - aquisição de produto final a que se refere o inciso IV do caput deste artigo (Repetro-Nacional);",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art93",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -5593,7 +5936,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5628,6 +5971,7 @@
           "TexRegIbs": "Art. 164. Observada a disciplina estabelecida na legislação aduaneira, fica suspenso o pagamento do IBS enquanto os bens materiais estiverem submetidos ao Regime Aduaneiro Especial Aplicável ao Setor de Petróleo e Gás (Repetro), nas seguintes operações:\r\nVI - importação ou aquisição no mercado interno de bens para conversão ou construção de outros bens no País, contratada por empresa sediada no exterior, cujo produto final deverá ser destinado às atividades a que se refere o inciso I do caput deste artigo (Repetro-Entreposto).",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art93",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -5635,7 +5979,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5661,15 +6005,16 @@
           "IndPbioDiferenca": false,
           "IndPermiteCredPres": false,
           "IndTribRegular": true,
-          "NomeClassTrib": "Zona de Processamento de Exportação, observado os arts. 99, 100 e 102 da Lei Complementar nº 214, de 2025.",
+          "NomeClassTrib": "Zona de Processamento de Exportação, observado os arts. 99 e 100 da Lei Complementar nº 214, de 2025.",
           "NomeReduzido": "Zona de Processamento de Exportação",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
           "PossuiIndDfe": true,
-          "TexRegCbs": "Art. 179. As importações ou as aquisições no mercado interno de máquinas, de aparelhos, de instrumentos e de equipamentos realizadas por empresa autorizada a operar em zonas de processamento de exportação serão efetuadas com suspensão do pagamento da CBS.\r\nArt. 180. As importações ou as aquisições no mercado interno de matérias-primas, de produtos intermediários e de materiais de embalagem realizadas por empresa autorizada a operar em zonas de processamento de exportação serão efetuadas com suspensão do pagamento da CBS.\r\nArt. 182. Aplica-se o tratamento estabelecido nos art. 179 e art. 180 às aquisições de máquinas, de aparelhos, de instrumentos, de equipamentos, de matérias-primas, de produtos intermediários e de materiais de embalagem realizadas entre empresas autorizadas a operar em zonas de processamento de exportação.",
-          "TexRegIbs": "Art. 179. As importações ou as aquisições no mercado interno de máquinas, de aparelhos, de instrumentos e de equipamentos realizadas por empresa autorizada a operar em zonas de processamento de exportação serão efetuadas com suspensão do pagamento do IBS.\r\nArt. 180. As importações ou as aquisições no mercado interno de matérias-primas, de produtos intermediários e de materiais de embalagem realizadas por empresa autorizada a operar em zonas de processamento de exportação serão efetuadas com suspensão do pagamento do IBS.\r\nArt. 182. Aplica-se o tratamento estabelecido nos arts. 179 e 180 às aquisições de máquinas, de aparelhos, de instrumentos, de equipamentos, de matérias-primas, de produtos intermediários e de materiais de embalagem realizadas entre empresas autorizadas a operar em zonas de processamento de exportação. ",
+          "TexRegCbs": "Art. 179. As importações ou as aquisições no mercado interno de máquinas, de aparelhos, de instrumentos e de equipamentos realizadas por empresa autorizada a operar em zonas de processamento de exportação serão efetuadas com suspensão do pagamento da CBS.Art. 180. As importações ou as aquisições no mercado interno de matérias-primas, de produtos intermediários e de materiais de embalagem realizadas por empresa autorizada a operar em zonas de processamento de exportação serão efetuadas com suspensão do pagamento da CBS.",
+          "TexRegIbs": "Art. 179. As importações ou as aquisições no mercado interno de máquinas, de aparelhos, de instrumentos e de equipamentos realizadas por empresa autorizada a operar em zonas de processamento de exportação serão efetuadas com suspensão do pagamento do IBS.Art. 180. As importações ou as aquisições no mercado interno de matérias-primas, de produtos intermediários e de materiais de embalagem realizadas por empresa autorizada a operar em zonas de processamento de exportação serão efetuadas com suspensão do pagamento do IBS.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art99",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 4
         },
         {
@@ -5677,7 +6022,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5712,6 +6057,7 @@
           "TexRegIbs": "Art. 186. Observada a disciplina estabelecida na legislação específica, serão efetuadas com suspensão do pagamento do IBS as importações e as aquisições no mercado interno de máquinas, equipamentos, peças de reposição e outros bens realizadas diretamente pelos beneficiários do Regime Tributário para Incentivo à Modernização e à Ampliação da Estrutura Portuária (Reporto) e destinadas ao seu ativo imobilizado para utilização exclusiva na execução de serviços de:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art105",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -5754,6 +6100,7 @@
           "TexRegIbs": "Art. 187. Observada a disciplina estabelecida na legislação específica, serão efetuadas com suspensão do pagamento do IBS as importações e as aquisições no mercado interno de máquinas, aparelhos, instrumentos e equipamentos, novos, e de materiais de construção, realizadas diretamente pelos beneficiários do Regime Especial de Incentivos para o Desenvolvimento da Infraestrutura (Reidi) para utilização ou incorporação em obras de infraestrutura destinadas ao ativo imobilizado. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art106",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -5796,6 +6143,7 @@
           "TexRegIbs": "Art. 189. O Regime Tributário para Incentivo à Atividade Econômica Naval (Renaval) permite aos beneficiários previamente habilitados, suspensão do pagamento de IBS:\r\nI - nos fornecimentos de embarcações registradas ou pré-registradas no Registro Especial Brasileiro (REB), instituído pelo art. 11 da Lei nº 9.432, de 8 de janeiro de 1997, para incorporação ao ativo imobilizado de adquirente sujeito ao regime regular do IBS;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art107",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -5803,7 +6151,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-05-05",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5838,6 +6186,7 @@
           "TexRegIbs": "Art. 196. As importações e aquisições no mercado interno, por contribuinte no regime regular, de bens de capital referidos na Tabela I do Anexo IV serão realizadas com suspensão do pagamento do IBS, não se aplicando o disposto no art. 195. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art109",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -5880,6 +6229,7 @@
           "TexRegIbs": "Art. 514. Fica suspensa a incidência do IBS na importação de bem material realizada por indústria incentivada para utilização na Zona Franca de Manaus.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art443",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5922,6 +6272,7 @@
           "TexRegIbs": "Art. 525. Fica suspensa a incidência do IBS na importação de bem material realizada por indústria habilitada na forma do inciso II do caput do art. 438 e sujeita ao regime regular do IBS para incorporação em seu processo produtivo. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art461",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -5929,7 +6280,7 @@
           "Cst": "550",
           "DthFimVig": null,
           "DthIniVig": "2025-09-30",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -5937,7 +6288,7 @@
           "IndCteos": false,
           "IndDere": false,
           "IndDir": false,
-          "IndDuimp": true,
+          "IndDuimp": false,
           "IndEstornoCred": false,
           "IndMonoDif": false,
           "IndMonoRet": false,
@@ -5964,6 +6315,7 @@
           "TexRegIbs": "Art. 99. Também fica suspenso o pagamento do IBS no fornecimento de produtos agropecuários in natura, nos termos do § 1º do art. 212, para contribuinte do regime regular que promova industrialização destinada à exportação para o exterior:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art82\r\n",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 4
         },
         {
@@ -6006,6 +6358,7 @@
           "TexRegIbs": "Art. 188. O disposto no art. 187 aplica-se também aos beneficiários do Regime Especial de Incentivos para a Produção de Hidrogênio de Baixa Emissão de Carbono (Rehidro), instituído pela Lei nº 14.948, de 2 de agosto de 2024, desde que previamente habilitados.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art106",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -6048,6 +6401,7 @@
           "TexRegIbs": "Art. 259.\r\n§ 3º Ato conjunto da RFB e do CGIBS preverá hipóteses de suspensão do IBS e da CBS incidentes nas operações com hidrocarbonetos líquidos derivados de petróleo não combustíveis ou de gás natural, inclusive nafta, desde que:\r\nI - os adquirentes sejam Centrais Petroquímicas devidamente autorizadas pela ANP;\r\nII - sejam utilizados como insumo pela indústria petroquímica; e\r\nIII - obedeçam a critérios e condições estabelecidos no referido ato conjunto.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art172",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -6063,7 +6417,7 @@
           "IndCteos": false,
           "IndDere": false,
           "IndDir": false,
-          "IndDuimp": false,
+          "IndDuimp": true,
           "IndEstornoCred": false,
           "IndMonoDif": false,
           "IndMonoRet": false,
@@ -6085,11 +6439,12 @@
           "NomeReduzido": "Regime Tributário para Incentivo à Atividade Naval - Renaval (Art. 107, II)",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
-          "PossuiIndDfe": false,
+          "PossuiIndDfe": true,
           "TexRegCbs": "Art. 189. O Regime Tributário para Incentivo à Atividade Econômica Naval – Renaval permite aos beneficiários previamente habilitados, a suspensão do pagamento de CBS: \r\nII - nas importações e nas aquisições no mercado interno de máquinas, equipamentos e veículos destinados a utilização nas atividades de que trata o inciso III do caput, efetuadas para incorporação a seu ativo imobilizado; ",
           "TexRegIbs": "Art. 189. O Regime Tributário para Incentivo à Atividade Econômica Naval (Renaval) permite aos beneficiários previamente habilitados, suspensão do pagamento de IBS:\r\nII - nas importações e nas aquisições no mercado interno de máquinas, equipamentos e veículos destinados a utilização nas atividades de que trata o inciso III do caput deste artigo, efetuadas para incorporação a seu ativo imobilizado; ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art107",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
         },
         {
@@ -6105,7 +6460,7 @@
           "IndCteos": false,
           "IndDere": false,
           "IndDir": false,
-          "IndDuimp": false,
+          "IndDuimp": true,
           "IndEstornoCred": false,
           "IndMonoDif": false,
           "IndMonoRet": false,
@@ -6127,12 +6482,185 @@
           "NomeReduzido": "Regime Tributário para Incentivo à Atividade Naval - Renaval (Art. 107, III)",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
-          "PossuiIndDfe": false,
+          "PossuiIndDfe": true,
           "TexRegCbs": "Art. 189. O Regime Tributário para Incentivo à Atividade Econômica Naval – Renaval permite aos beneficiários previamente habilitados, a suspensão do pagamento de CBS: \r\nIII - nas importações e nas aquisições no mercado interno de matérias-primas, produtos intermediários, partes, peças e componentes para utilização na construção, na conservação, na modernização e no reparo de embarcações pré-registradas ou registradas no REB.",
           "TexRegIbs": "Art. 189. O Regime Tributário para Incentivo à Atividade Econômica Naval (Renaval) permite aos beneficiários previamente habilitados, suspensão do pagamento de IBS: \r\nIII - nas importações e nas aquisições no mercado interno de matérias-primas, produtos intermediários, partes, peças e componentes para utilização na construção, conservação, modernização e reparo de embarcações pré-registradas ou registradas no REB.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art107",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 1
+        },
+        {
+          "CodClassTrib": "550026",
+          "Cst": "550",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": false,
+          "IndDuimp": true,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": true,
+          "IndNfgas": false,
+          "IndNfse": false,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": true,
+          "NomeClassTrib": "Regimes de admissão temporária com suspensão total do pagamento dos tributos durante o período de sua permanência na Zona Franca de Manaus, observado o art. 89 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Regimes de admissão temporária com suspensão total do pagamento dos tributos (ZFM)",
+          "PercRedCbs": 0.0,
+          "PercRedIbs": 0.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": "Art. 160. § 3º O disposto nocaputnão se aplica:II - até a data estabelecida pelo art. 92-A do Ato das Disposições Constitucionais Transitórias, aos bens importados temporariamente e para utilização econômica por empresas que se enquadrem nas disposições do Decreto-Lei nº 288, de 28 de fevereiro de 1967, durante o período de sua permanência na Zona Franca de Manaus, os quais serão submetidos ao regime de admissão temporária com suspensão total do pagamento dos tributos.",
+          "TexRegIbs": "Art. 160. § 3º O disposto no caput deste artigo não se aplica:II - até a data estabelecida pelo art. 92-A do Ato das Disposições Constitucionais Transitórias, aos bens importados temporariamente e para utilização econômica por empresas que se enquadrem nas disposições do Decreto-Lei nº 288, de 28 de fevereiro de 1967, durante o período de sua permanência na Zona Franca de Manaus, os quais serão submetidos ao regime de admissão temporária com suspensão total do pagamento dos tributos.",
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art89",
+          "TipoAliq": 3,
+          "TipoDoacao": 0,
+          "TipoRbSn": 0
+        },
+        {
+          "CodClassTrib": "550027",
+          "Cst": "550",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": false,
+          "IndDuimp": true,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": true,
+          "IndNfgas": false,
+          "IndNfse": false,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": true,
+          "NomeClassTrib": "Regimes de Aperfeiçoamento (Drawback), observado o art. 90 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Regimes de Aperfeiçoamento (Drawback)",
+          "PercRedCbs": 0.0,
+          "PercRedIbs": 0.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": "Art. 161. São espécies de regimes aduaneiros especiais de aperfeiçoamento: II - drawback, na modalidade de suspensão;§ 1º Fica suspenso o pagamento da CBS incidente na importação enquanto os bens materiais estiverem submetidos aos regimes aduaneiros especiais de aperfeiçoamento de que tratam os incisos I a III do caput, observada a disciplina estabelecida na legislação aduaneira",
+          "TexRegIbs": "Art. 161. São espécies de regimes aduaneiros especiais de aperfeiçoamento: II - drawback, na modalidade de suspensão;§ 1º Fica suspenso o pagamento do IBS incidente na importação enquanto os bens materiais estiverem submetidos aos regimes aduaneiros especiais de aperfeiçoamento de que tratam os incisos I a III do caput deste artigo, observada a disciplina estabelecida na legislação aduaneira.",
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art90",
+          "TipoAliq": 3,
+          "TipoDoacao": 0,
+          "TipoRbSn": 0
+        },
+        {
+          "CodClassTrib": "550028",
+          "Cst": "550",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": false,
+          "IndDuimp": true,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": true,
+          "IndNfgas": false,
+          "IndNfse": false,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": true,
+          "NomeClassTrib": "Regimes de Aperfeiçoamento (Admissão temporária), observado o art. 90 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Regimes de Aperfeiçoamento (Admissão temporária)",
+          "PercRedCbs": 0.0,
+          "PercRedIbs": 0.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": "Art. 161. São espécies de regimes aduaneiros especiais de aperfeiçoamento: III - admissão temporária para aperfeiçoamento ativo;§ 1º Fica suspenso o pagamento da CBS incidente na importação enquanto os bens materiais estiverem submetidos aos regimes aduaneiros especiais de aperfeiçoamento de que tratam os incisos I a III do caput, observada a disciplina estabelecida na legislação aduaneira",
+          "TexRegIbs": "Art. 161. São espécies de regimes aduaneiros especiais de aperfeiçoamento: III - admissão temporária para aperfeiçoamento ativo; § 1º Fica suspenso o pagamento do IBS incidente na importação enquanto os bens materiais estiverem submetidos aos regimes aduaneiros especiais de aperfeiçoamento de que tratam os incisos I a III do caput deste artigo, observada a disciplina estabelecida na legislação aduaneira.",
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art90",
+          "TipoAliq": 3,
+          "TipoDoacao": 0,
+          "TipoRbSn": 0
+        },
+        {
+          "CodClassTrib": "550029",
+          "Cst": "550",
+          "DthFimVig": null,
+          "DthIniVig": "2026-01-01",
+          "DthPublicacao": "2026-10-01",
+          "IndBpe": false,
+          "IndBpeta": false,
+          "IndBpetm": false,
+          "IndCte": false,
+          "IndCteos": false,
+          "IndDere": false,
+          "IndDir": false,
+          "IndDuimp": false,
+          "IndEstornoCred": false,
+          "IndMonoDif": false,
+          "IndMonoRet": false,
+          "IndMonoRetem": false,
+          "IndMonoVal": false,
+          "IndNf3e": false,
+          "IndNfabi": false,
+          "IndNfag": false,
+          "IndNfce": false,
+          "IndNfcom": false,
+          "IndNfe": true,
+          "IndNfgas": false,
+          "IndNfse": false,
+          "IndNfsvia": false,
+          "IndPbioDiferenca": false,
+          "IndPermiteCredPres": false,
+          "IndTribRegular": true,
+          "NomeClassTrib": "Zona de Processamento de Exportação, observado os art. 102 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Zona de Processamento de Exportação",
+          "PercRedCbs": 0.0,
+          "PercRedIbs": 0.0,
+          "PossuiIndDfe": true,
+          "TexRegCbs": "Art. 182. Aplica-se o tratamento estabelecido nos art. 179 e art. 180 às aquisições de máquinas, de aparelhos, de instrumentos, de equipamentos, de matérias-primas, de produtos intermediários e de materiais de embalagem realizadas entre empresas autorizadas a operar em zonas de processamento de exportação.",
+          "TexRegIbs": "Art. 182. Aplica-se o tratamento estabelecido nos arts. 179 e 180 às aquisições de máquinas, de aparelhos, de instrumentos, de equipamentos, de matérias-primas, de produtos intermediários e de materiais de embalagem realizadas entre empresas autorizadas a operar em zonas de processamento de exportação.",
+          "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art99",
+          "TipoAliq": 3,
+          "TipoDoacao": 0,
+          "TipoRbSn": 4
         }
       ]
     },
@@ -6191,6 +6719,7 @@
           "TexRegIbs": "Art. 259. O IBS incidirá uma única vez sobre as operações, ainda que iniciadas no exterior, com os seguintes combustíveis, qualquer que seja a sua finalidade:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art172",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6233,6 +6762,7 @@
           "TexRegIbs": "Art. 265. Fica atribuída à refinaria de petróleo ou suas bases, à CPQ, ao formulador de combustíveis e ao importador, relativamente ao percentual de biocombustível utilizado na mistura, nas operações com gasolina A, a responsabilidade pela retenção e pelo recolhimento do IBS incidente nas importações de EAC ou sobre as saídas do estabelecimento produtor de EAC. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art178",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6275,6 +6805,7 @@
           "TexRegIbs": "Art. 265. Fica atribuída à refinaria de petróleo ou suas bases, à CPQ, ao formulador de combustíveis e ao importador, relativamente ao percentual de biocombustível utilizado na mistura, nas operações com gasolina A, a responsabilidade pela retenção e pelo recolhimento do IBS incidente nas importações de EAC ou sobre as saídas do estabelecimento produtor de EAC. \r\n§ 3º O produtor de EAC emitirá documento fiscal por ocasião da saída, fazendo constar no campo próprio a expressão “IBS com incidência monofásica com recolhimento realizado por terceiros”.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art178",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6317,6 +6848,7 @@
           "TexRegIbs": "Art. 266. Nas operações com EAC: \r\nII - a distribuidora de combustíveis que realizar mistura de EAC com gasolina A em percentual:\r\na) superior ao obrigatório, fica obrigada a recolher o IBS de que trata o art. 259 em relação ao volume de biocombustível correspondente ao que exceder ao percentual obrigatório de mistura;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art179",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6359,6 +6891,7 @@
           "TexRegIbs": "Art. 266. Nas operações com EAC: \r\nII - a distribuidora de combustíveis que realizar mistura de EAC com gasolina A em percentual:\r\nb) inferior ao obrigatório, ouvida a ANP, e que o tributo tenha sido recolhido anteriormente, terá direito ao ressarcimento do IBS de que trata o art. 259, nos termos de procedimentos a serem estabelecidos em ato conjunto da RFB e do CGIBS, em relação ao volume de biocombustível correspondente ao misturado a menor do que o percentual obrigatório de mistura.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art179",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6401,6 +6934,7 @@
           "TexRegIbs": "Art. 267. É vedada a apropriação de créditos em relação às aquisições de combustíveis sujeitos à incidência única do IBS, quando destinadas à distribuição, à comercialização ou à revenda. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art180",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 2
         },
         {
@@ -6443,6 +6977,7 @@
           "TexRegIbs": "Art. 48. Caso o bem adquirido venha a perecer, deteriorar-se ou ser objeto de roubo, furto ou extravio, os créditos relacionados à sua aquisição, inclusive os de serviços, deverão ser estornados, mediante emissão de documento fiscal vinculado ao documento fiscal de aquisição, com a indicação dos valores de IBS referentes ao bem adquirido, de forma discriminada. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art47",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         }
       ]
@@ -6502,6 +7037,7 @@
           "TexRegIbs": "Art. 55. É vedada a transferência, a qualquer título, para outra pessoa ou entidade sem personalidade jurídica, de créditos do IBS.\r\nParágrafo único. Na hipótese de fusão, cisão ou incorporação, os créditos apropriados e ainda não utilizados poderão ser transferidos para a pessoa jurídica sucessora, ficando preservada a data original da apropriação dos créditos para efeitos da contagem do prazo de que trata o art. 54.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art55",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -6544,6 +7080,7 @@
           "TexRegIbs": "Art. 394. O associado sujeito ao regime regular do IBS, inclusive as cooperativas singulares, que realizar operações com a redução de alíquota de que trata o inciso I do caput do art. 391 poderá transferir os créditos das operações antecedentes às operações em que fornece bens e serviços e os créditos presumidos à cooperativa de que participa, não se aplicando o disposto no art. 55.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art272",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         }
       ]
@@ -6603,6 +7140,7 @@
           "TexRegIbs": "Art. 521. Ficam concedidos à indústria incentivada na Zona Franca de Manaus créditos presumidos de IBS relativos à operação que destine ao território nacional, inclusive para a própria Zona Franca de Manaus, bem material produzido pela própria indústria incentivada na referida área, nos termos do projeto técnicoeconômico aprovado, exceto em relação às operações previstas no art. 519.\r\n§ 1º O crédito presumido de IBS de que trata o caput deste artigo será calculado mediante a aplicação dos seguintes percentuais sobre o saldo devedor do IBS no período de apuração:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art450",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         }
       ]
@@ -6662,6 +7200,7 @@
           "TexRegIbs": "Art. 52. A imunidade e a isenção acarretarão a anulação dos créditos relativos às operações anteriores.\r\n§ 1º A anulação dos créditos de que trata o caput deste artigo:\r\nI - será proporcional ao valor das operações imunes e isentas sobre o valor de todas as operações do fornecedor no mesmo período de apuração;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art51\r\n",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -6704,6 +7243,7 @@
           "TexRegIbs": "Art. 44. Para cada período de apuração, o contribuinte deverá apurar o saldo do IBS, que corresponderá à diferença entre os valores:\r\n§ 1º O contribuinte poderá realizar ajustes positivos ou negativos no saldo apurado na forma do caput deste artigo mediante a emissão de documento fiscal.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art45\r\n",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -6746,6 +7286,7 @@
           "TexRegIbs": "Art. 41. O regime regular do IBS compreende todas as regras de incidência e de apuração previstas neste Regulamento, incluindo aquelas aplicáveis aos regimes diferenciados e aos regimes específicos. \r\n§ 2º Os contribuintes optantes pelo Simples Nacional ou pelo MEI ficam sujeitos às regras desses regimes.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art41\r\n",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         }
       ]
@@ -6805,6 +7346,7 @@
           "TexRegIbs": "Art. 330. Os planos de assistência à saúde ficam sujeitos a regime específico de incidência do IBS, de acordo com o disposto neste Capítulo, nos casos em que esses serviços sejam prestados por: ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art234",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6847,6 +7389,7 @@
           "TexRegIbs": "Art. 345. Os planos de assistência funerária ficam sujeitos ao disposto nos arts. 330 a 344.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art236",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6889,6 +7432,7 @@
           "TexRegIbs": "Art. 346. Os planos de assistência à saúde de animais domésticos ficam sujeitos ao disposto nos arts. 330 a 344, com exceção das alíquotas aplicáveis, que serão nacionalmente uniformes e corresponderão à soma das alíquotas de referência de cada esfera federativa, reduzidas em 30% (trinta por cento), vedado o crédito ao adquirente. ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art243",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6931,6 +7475,7 @@
           "TexRegIbs": "Art. 355. Os contribuintes sujeitos ao regime específico de que trata este Capítulo ficam obrigados a apresentar, mediante entrega da DeRE, referida no Capítulo II do Título II deste Livro, no mínimo as informações necessárias para a identificação:",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art248",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -6973,6 +7518,7 @@
           "TexRegIbs": "Art. 363. Considera-se ocorrido o fato gerador do IBS no momento:\r\nI - do ato de alienação, na alienação de bem imóvel;\r\n§ 1º Para fins do disposto no inciso I do caput deste artigo, considera-se alienação:\r\nI - a adjudicação;\r\nII - a celebração, inclusive de quaisquer ajustes posteriores, do contrato de alienação, ainda que mediante:\r\na) instrumento de promessa;\r\nb) carta de reserva com princípio de pagamento; ou\r\nc) qualquer outro documento representativo de compromisso; ou\r\nIII - quando implementada a condição suspensiva a que estiver sujeita a alienação.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art254",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -7015,6 +7561,7 @@
           "TexRegIbs": "Art. 12. Considera-se local da operação com:\r\nVIII - serviço de exploração de via, mediante cobrança de valor a qualquer título, incluindo tarifas, pedágios e quaisquer outras formas de cobrança, o território de cada Município e Estado, ou do Distrito Federal, proporcionalmente à correspondente extensão da via explorada;",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art11\r\n",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -7057,6 +7604,7 @@
           "TexRegIbs": "Art. 269. Os seguintes fornecimentos são considerados serviços financeiros e ficam sujeitos a regime específico de incidência do IBS de acordo com o disposto neste Capítulo: ",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art181",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 9
         },
         {
@@ -7099,6 +7647,7 @@
           "TexRegIbs": "Art. 11. Considera-se ocorrido o fato gerador do IBS no momento do fornecimento nas operações com bens ou com serviços, ainda que de execução continuada ou fracionada.\r\n§ 3º Nas operações de execução continuada ou fracionada, considera-se ocorrido o fato gerador na primeira entre as seguintes ocorrências:\r\nI - quando se torna exigível a parte da contraprestação correspondente a cada pagamento assim considerada a data em que constituído o direito de recebimento do fornecedor contra o adquirente; ou\r\nII - pagamento da obrigação decorrente do fornecimento.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art10",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         },
         {
@@ -7106,7 +7655,7 @@
           "Cst": "820",
           "DthFimVig": null,
           "DthIniVig": "2026-01-01",
-          "DthPublicacao": "2026-06-22",
+          "DthPublicacao": "2026-10-01",
           "IndBpe": false,
           "IndBpeta": false,
           "IndBpetm": false,
@@ -7132,8 +7681,8 @@
           "IndPbioDiferenca": false,
           "IndPermiteCredPres": false,
           "IndTribRegular": false,
-          "NomeClassTrib": "Cobrança relativa a fornecimentos declarados em outro documento, observado o art. 60 da Lei Complementar nº 214, de 2025.",
-          "NomeReduzido": "Cobrança relativa a fornecimentos declarados em outro documento",
+          "NomeClassTrib": "Fornecimentos declarados e tributados em outro documento, observado o art. 60 da Lei Complementar nº 214, de 2025.",
+          "NomeReduzido": "Fornecimentos declarados e tributados em outro documento",
           "PercRedCbs": 0.0,
           "PercRedIbs": 0.0,
           "PossuiIndDfe": true,
@@ -7141,6 +7690,7 @@
           "TexRegIbs": "Art. 112. O sujeito passivo do IBS, ao realizar operações com bens ou serviços, inclusive exportações e importações, deverá emitir documento fiscal eletrônico, nos termos de ato conjunto da RFB e do CGIBS, que definirá as respectivas datas de início de obrigatoriedade de emissão.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art60",
           "TipoAliq": 3,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         }
       ]
@@ -7200,6 +7750,7 @@
           "TexRegIbs": "Art. 15. Exclui-se da base de cálculo do IBS o valor da energia elétrica fornecida pela distribuidora à unidade consumidora, na quantidade correspondente à energia injetada na rede de distribuição pela mesma unidade consumidora, acrescido do valor dos créditos de energia elétrica originados na própria unidade consumidora no mesmo mês, em meses anteriores ou em outra unidade consumidora do mesmo titular.\r\n§ 1º A exclusão de que trata o caput deste artigo aplica-se somente:\r\nI - a consumidores participantes do Sistema de Compensação de Energia Elétrica, de que trata a Lei nº 14.300, de 6 de janeiro de 2022;\r\nII - à compensação de energia elétrica produzida por microgeração e minigeração, cuja potência instalada seja, respectivamente, menor ou igual a 75 kW e superior a 75 kW e menor ou igual a 1 MW.",
           "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art28",
           "TipoAliq": 2,
+          "TipoDoacao": 0,
           "TipoRbSn": 0
         }
       ]

@@ -94,7 +94,7 @@ def test_em_tabela_reprova_codigo_inexistente():
     doc = nota("<IBSCBS><CST>999</CST></IBSCBS>")
     d = detalhe(doc, regra(**CST_EXISTE))
     assert "imposto/IBSCBS/CST = '999' não existe na tabela cst-cclasstrib" in d
-    assert "2026-06-22" in d, "o achado precisa dizer contra qual versão validou"
+    assert "2026-10-30" in d, "o achado precisa dizer contra qual versão validou"
 
 
 def test_em_tabela_aprova_codigo_oficial():

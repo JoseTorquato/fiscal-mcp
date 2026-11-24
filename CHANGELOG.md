@@ -17,6 +17,54 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ---
 
+## Não publicado
+
+### Absorvido da legislação
+
+- **Tabela de Classificação Tributária (CST × cClassTrib) atualizada.** A SVRS
+  republicou a tabela duas vezes depois da versão embarcada (22/06/2026): em
+  **01/10/2026** e em **30/10/2026** (maior `DthPublicacao`). Comparando o
+  arquivo embarcado com o que estava no ar em 24/11/2026:
+
+  - **9 cClassTrib novos**, todos com início de vigência em 01/01/2026:
+    `000006`, `200055`, `200056` (autônomo — só NFS-e), `400003`, `400004`
+    (bagagens e remessas internacionais — DIR e DUIMP), `550026` a `550029`
+    (admissão temporária na ZFM, drawback, admissão temporária em
+    aperfeiçoamento e ZPE — valem em NF-e).
+  - **Nenhum CST ou cClassTrib removido.** Os 18 CST continuam os mesmos.
+  - **164 cClassTrib alterados.** Em todos, o campo novo `TipoDoacao` (124 com
+    `0`, 38 com `2`, 2 com `1`). Em 33 deles há mudança além disso:
+    - indicadores de documento: `IndNfe` (5 — passou a valer em NF-e para
+      `410022` a `410025`, deixou de valer para `550002`), `IndDir` (5),
+      `IndDuimp` (4), `PossuiIndDfe` (5), `IndCteos`, `IndNfabi`, `IndNfse` e
+      `IndDere` (1 cada);
+    - indicador de crédito: `IndPermiteCredPres` desligado em `410014`;
+    - texto: `NomeClassTrib` (7), `NomeReduzido` (6), `TexRegIbs` e `TexRegCbs`
+      (5 cada) — doações passam a citar amostras grátis, `410036` passa de
+      "descontos incondicionais" a "descontos financeiros em nota fatura";
+    - `DthPublicacao` (30), sendo 9 só com a data nova.
+  - **Nenhuma vigência (`DthIniVig`/`DthFimVig`) mudou.**
+
+  O que muda no comportamento do validador, sem nenhuma regra alterada: os 9
+  códigos novos deixam de ser "cClassTrib inexistente"; em NF-e, `410022` a
+  `410025` e `550026` a `550029` passam a ser aceitos e `550002` passa a ser
+  reprovado pela `ibs-cclasstrib-modelo`; `000006`, `200055` e `200056` existem,
+  mas são reprovados em NF-e por serem só de NFS-e; para `410014`, o aviso de
+  subgrupos deixa de exigir `gCredPresOper` e passa a não admiti-lo.
+
+  Código: `regras/tabelas/cst-cclasstrib.json` baixado de novo por
+  `scripts/baixar_tabelas.py`, sha256 e contagens atualizados na
+  `PROCEDENCIA.md`, testes travando os casos acima.
+
+  Detectado pelo monitor de fontes em **28/09/2026** (4 alterados, ainda sem
+  publicação nova), **05/10/2026** (publicação de 01/10/2026) e **12/10/2026**
+  (campo `TipoDoacao` em todos os 164). A republicação de 30/10/2026 foi
+  encontrada no download de **24/11/2026**. Vigência dos códigos novos declarada
+  pela fonte: desde **01/01/2026**.
+  Fonte: Portal da Conformidade Fácil (SVRS), Tabela de Classificação Tributária.
+
+---
+
 ## 0.2.1 — 2026-08-26
 
 Correção de publicação. Nenhuma mudança de comportamento do validador.
