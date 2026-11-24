@@ -191,13 +191,38 @@ def test_codigo_fora_do_modelo_continua_erro_apesar_da_transicao():
     assert "ibs-cclasstrib-modelo-transicao" not in ids(xml)
 
 
+def test_550002_em_nfce_continua_erro():
+    """Em NFC-e o 550002 nunca valeu (IndNfce falso nas duas tabelas).
+
+    A transição é só de NF-e: em NFC-e a regra principal continua reprovando,
+    e a de transição — cujo texto fala de NF-e — não pode aparecer.
+    """
+    xml = quebra(
+        ("<mod>55</mod>", "<mod>65</mod>"),
+        ("<CST>000</CST>", "<CST>550</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>550002</cClassTrib>"),
+    )
+    achado = [a for a in achados(xml, "erro") if a["id"] == "ibs-cclasstrib-modelo"]
+    assert achado, ids(xml, "erro")
+    assert "modelo 65" in achado[0]["detalhe"]
+    assert "ibs-cclasstrib-modelo-transicao" not in ids(xml)
+
+
 def test_todo_codigo_excluido_tem_regra_que_cuida_dele():
-    """`exceto` sem regra irmã com `somente` seria código caindo no vão."""
+    """`exceto` sem regra irmã com `somente` seria código caindo no vão.
+
+    A irmã precisa cobrir os mesmos modelos em que a exclusão vale — senão o
+    código cai no vão justamente no modelo excluído.
+    """
     regras = carrega()
-    cuidados = {(r.campo, c) for r in regras for c in r.somente}
     for r in regras:
         for codigo in r.exceto:
-            assert (r.campo, codigo) in cuidados, f"{r.id} exclui {codigo} e ninguém o avalia"
+            irmas = [
+                s for s in regras
+                if s.campo == r.campo and codigo in s.somente
+                and set(s.modelos or ("55", "65")) >= set(r.exceto_nos_modelos or ("55", "65"))
+            ]
+            assert irmas, f"{r.id} exclui {codigo} em {r.exceto_nos_modelos} e ninguém o avalia"
 
 
 def test_410014_deixou_de_exigir_credito_presumido():

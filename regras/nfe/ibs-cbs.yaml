@@ -98,8 +98,11 @@ regras:
     filtro: modelo_do_documento
     mensagem: cClassTrib não é permitido neste modelo de documento
     referencia: Indicadores IndNfe e IndNfce da tabela oficial
-    # Código em transição: quem cuida dele é a regra abaixo, como aviso.
+    # Código em transição em NF-e: quem cuida dele ali é a regra abaixo, como
+    # aviso. Em NFC-e ele nunca valeu (IndNfce falso nas duas tabelas) e continua
+    # erro aqui.
     exceto: ["550002"]
+    exceto_nos_modelos: ["55"]
     acao: >
       A tabela oficial diz, para cada cClassTrib, em quais documentos ele vale.
       Este código existe, mas não para o modelo desta nota — escolha a
@@ -108,9 +111,11 @@ regras:
   # O 550002 valia em NF-e na tabela de 22/06/2026 e não vale na publicada em
   # 30/10/2026 (IndNfe desligado), sem mudança de vigência: DthFimVig continua
   # vazio, e a própria linha ainda traz DthPublicacao 22/06/2026. O IT 2025.002
-  # registra a desativação na sua v1.60; nenhuma data dela é citada aqui. O motor não olha a data de emissão, então nota emitida enquanto o
-  # código valia seria reprovada hoje — e não há fonte primária de que a SEFAZ
-  # rejeite cClassTrib × modelo em produção. Até haver, é aviso.
+  # registra a desativação na sua v1.60 (§07.08, "Desativação para NFe:
+  # 550002"); nenhuma data dela é citada aqui. O motor não olha a data de
+  # emissão, então nota emitida enquanto o código valia seria reprovada hoje — e
+  # não há fonte primária de que a SEFAZ rejeite cClassTrib × modelo em
+  # produção. Até haver, é aviso. Só em NF-e: é o único modelo em que ele valia.
   - id: ibs-cclasstrib-modelo-transicao
     tipo: em_tabela
     escopo: item
@@ -120,6 +125,7 @@ regras:
     coluna: cclasstrib
     filtro: modelo_do_documento
     somente: ["550002"]
+    modelos: ["55"]
     mensagem: >-
       cClassTrib deixou de ser permitido em NF-e a partir da tabela SVRS
       publicada em 30/10/2026 (IT 2025.002 v1.71)
@@ -132,9 +138,11 @@ regras:
       observacao: >
         Aviso de transição, e não erro, porque a tabela desligou o IndNfe sem
         fim de vigência e não há fonte primária de rejeição ativa em produção.
-        Reavaliar em 14/12/2026, próximo marco oficial do cronograma (aviso
-        CGIBS/RFB de 12/11/2026): sem fonte de rejeição até lá, mover a data;
-        com fonte, promover a erro e tirar o código do `exceto` da regra acima.
+        14/12/2026 é checkpoint de revisão do projeto, não data trazida por
+        fonte oficial: o aviso CGIBS/RFB de 12/11/2026 não trata da tabela, e a
+        data só foi alinhada às demais revisões. Sem fonte de rejeição até lá,
+        mover a data; com fonte, promover a erro e tirar o código do `exceto`
+        da regra acima.
     acao: >
       A tabela oficial vigente não prevê mais este cClassTrib em NF-e. Em nota
       nova, escolha na tabela (`fiscal-mcp tabelas`) a classificação prevista
