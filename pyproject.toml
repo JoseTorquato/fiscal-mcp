@@ -1,6 +1,6 @@
 [project]
 name = "fiscal-mcp"
-version = "0.2.1"
+version = "0.3.0"
 description = "Validador de NF-e, NFC-e e NFS-e offline: schema XSD oficial, IBS/CBS e chave de acesso, sem certificado"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -22,7 +22,9 @@ dependencies = ["lxml>=5.0", "pyyaml>=6.0"]
 servidor = ["mcp>=2.0"]
 # Validação por schema XSD. A nfelib (MIT) entra só pelos arquivos .xsd oficiais
 # que ela empacota — a validação em si é do lxml, que já é dependência do núcleo.
-xsd = ["nfelib>=2.5"]
+# >=2.6.0: primeira versão que embarca o PL 010f v1.04 (monofasia da NT 2025.002
+# v1.50). A evidência está no cabeçalho de regras/schema/pacotes.yaml.
+xsd = ["nfelib>=2.6.0"]
 
 [project.urls]
 Homepage = "https://josetorquato.dev/fiscal-mcp/"

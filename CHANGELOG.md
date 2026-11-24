@@ -17,7 +17,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ---
 
-## Não publicado
+## 0.3.0 — 2026-11-24
 
 ### Absorvido da legislação
 
@@ -173,6 +173,16 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 ### Fontes monitoradas
 
 - `regras/fontes.yaml` foi semeado com as Notas Técnicas no ar em 24/11/2026.
+
+### Alterado
+
+- **Mínimo do extra `[xsd]` passa a `nfelib>=2.6.0`** (era `>=2.5`). A 2.6.0 é
+  a primeira versão que embarca o **PL 010f v1.04**, com os XSD idênticos aos
+  do ZIP oficial, e cobre a monofasia da NT 2025.002 v1.50, em produção desde
+  16/11/2026. A 2.5.3, imediatamente anterior no PyPI, não declara pacote e não
+  tem `gIBSMonoAdRem`: com ela, nota com a estrutura nova recebia aviso de
+  "não conhecido pelo pacote" em vez de passar. Evidência no cabeçalho de
+  `regras/schema/pacotes.yaml`.
 
 ### Corrigido
 
