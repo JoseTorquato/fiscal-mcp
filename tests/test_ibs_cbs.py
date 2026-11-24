@@ -91,6 +91,65 @@ def test_cclasstrib_inexistente_e_reprovado():
     assert "ibs-cclasstrib-existe" in ids(xml, "erro")
 
 
+@pytest.mark.parametrize("modelo", ["55", "65"])
+def test_cclasstrib_inexistente_gera_so_o_erro_de_existencia(modelo):
+    """Código que não existe não pode ganhar também "existe, mas não para o modelo".
+
+    CST correto e prefixo coerente, para isolar o cClassTrib: o único achado de
+    tabela tem de ser `ibs-cclasstrib-existe`.
+    """
+    xml = quebra(
+        ("<mod>55</mod>", f"<mod>{modelo}</mod>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>000999</cClassTrib>"),
+    )
+    de_tabela = {a["id"] for a in achados(xml) if a["id"].startswith("ibs-cclasstrib")}
+    assert de_tabela == {"ibs-cclasstrib-existe"}, achados(xml)
+    existe = [a for a in achados(xml, "erro") if a["id"] == "ibs-cclasstrib-existe"]
+    assert "não existe na tabela" in existe[0]["detalhe"]
+    assert not any("existe, mas não" in a.get("acao", "") for a in achados(xml, "erro"))
+
+
+def test_regra_com_recorte_por_codigo_tem_filtro():
+    """Recorte por código só existe em regra com filtro — que agora não julga existência."""
+    from fiscal_mcp.regras import carrega
+
+    transicao = [r for r in carrega() if r.somente]
+    assert transicao, "esperava ao menos uma regra de transição"
+    for r in transicao:
+        assert r.filtro, f"{r.id}: o recorte por código só faz sentido com filtro"
+
+
+def _sem_irma_de_existencia(regras) -> list[str]:
+    """Regras em_tabela com filtro ou recorte que não têm irmã julgando existência.
+
+    Regra com filtro (ou recorte por código/modelo) não diz nada sobre código
+    inexistente. Quem diz é a irmã sem filtro e sem recorte, no mesmo campo,
+    tabela e coluna. Sem ela, código inexistente passaria calado.
+    """
+    def restrita(r):
+        return bool(r.filtro or r.somente or r.exceto or r.modelos or r.exceto_nos_modelos)
+
+    tabela = [r for r in regras if r.tipo == "em_tabela"]
+    plenas = {(r.campo, r.tabela, r.coluna) for r in tabela if not restrita(r)}
+    return [r.id for r in tabela if restrita(r) and (r.campo, r.tabela, r.coluna) not in plenas]
+
+
+def test_toda_regra_em_tabela_restrita_tem_irma_que_julga_existencia():
+    from fiscal_mcp.regras import carrega
+
+    assert _sem_irma_de_existencia(carrega()) == []
+
+
+def test_o_guarda_acusa_regra_restrita_sem_irma():
+    """Contraprova: sem a ibs-cclasstrib-existe, as duas de modelo ficam órfãs."""
+    from fiscal_mcp.regras import carrega
+
+    sem_existe = [r for r in carrega() if r.id != "ibs-cclasstrib-existe"]
+    assert set(_sem_irma_de_existencia(sem_existe)) == {
+        "ibs-cclasstrib-modelo", "ibs-cclasstrib-modelo-transicao",
+    }
+
+
 # ---- L-04 · cClassTrib permitido no modelo -------------------------------
 
 def test_cclasstrib_nao_permitido_no_modelo_e_reprovado():
