@@ -38,8 +38,15 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
     ainda não publicada (prazo informado de 15/12/2026, não confirmado). A
     regra de 2026 reavalia nessa data.
 
-  Todas continuam **aviso**. Combustíveis do regime específico, excluídos pelos
-  arts. 344 e 347, vão em `gIBSCBSMono` e não passam por estas regras.
+  Todas continuam **aviso**. Combustíveis do regime específico (arts. 172–180):
+  o art. 347 os exclui da CBS de transição; o art. 344, parágrafo único, III,
+  não os exclui do IBS de 2027–2028, apenas aplica os 0,05% sobre o valor da
+  operação. Eles vão em `gIBSCBSMono`, então estas regras não os conferem.
+
+  Borda conhecida, sem mudança de código: o ano é o do `dhEmi` como o emissor o
+  escreveu, sem converter fuso (`dhEmi` em UTC perto da meia-noite cai no ano
+  seguinte), e a lei fala de fato gerador, não de emissão (devolução em
+  janeiro/2027 de operação de 2026 pode receber aviso).
 
   Código: novo bloco `emissao: {de, ate}` no motor de regras (qualquer tipo),
   validado no carregamento; regras e testes em `regras/nfe/ibs-cbs.yaml` e

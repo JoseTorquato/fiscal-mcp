@@ -359,8 +359,11 @@ regras:
   # Continuam AVISO: a promoção a erro é decisão separada.
   #
   # O que estas regras NÃO cobrem, e por quê:
-  # - combustíveis do regime específico (arts. 172–180), que os arts. 344 e 347
-  #   excluem: vão em gIBSCBSMono, fora dos caminhos daqui;
+  # - combustíveis do regime específico (arts. 172–180): o art. 347 os exclui
+  #   da CBS de transição; o art. 344, parágrafo único, III, NÃO os exclui do
+  #   IBS de 2027–2028, só manda aplicar os 0,05% sobre o valor da operação.
+  #   Como vão em gIBSCBSMono, fora dos caminhos daqui, estas regras não os
+  #   conferem;
   # - CBS de 2027 em diante (art. 347): é a alíquota de referência menos 0,1
   #   p.p., e a referência depende de resolução do Senado ainda não publicada.
   #   Sem ela não há número para conferir, e a regra não existe.
@@ -368,6 +371,13 @@ regras:
   #   leiaute leva a redução em gRed (pRedAliq/pAliqEfet) e o percentual nominal
   #   em pIBSUF/pIBSMun — leitura do leiaute, não confirmada em nota real; por
   #   isso também é aviso.
+  #
+  # Borda conhecida, registrada e sem mudança de código (é só aviso): o ano vem
+  # do dhEmi como o emissor o escreveu, sem converter fuso. Emissor que escreva
+  # em UTC perto da meia-noite cai no ano seguinte (2027-01-01T02:30:00+00:00 é
+  # 31/12/2026 23:30 em Brasília). E a lei fala de fato gerador, não de emissão:
+  # devolução ou complementar emitida em janeiro de 2027 sobre operação de 2026
+  # pode receber aviso pela regra de 2027.
 
   - id: ibs-aliquota-uf-2026
     tipo: valor_numerico_em
@@ -387,6 +397,10 @@ regras:
         do art. 344 (01/01/2027): conferir contra notas reais que a troca de
         regra pela data de emissão não gera falso positivo na virada do ano, e
         se os arts. 343–344 foram alterados.
+        Borda conhecida: o ano é o do dhEmi como escrito, sem converter fuso
+        (dhEmi em UTC perto da meia-noite cai no ano seguinte), e a lei fala de
+        fato gerador, não de emissão (devolução em jan/2027 de operação de 2026
+        pode receber aviso). Ver o comentário acima das regras de alíquota.
     acao: >
       Para nota emitida em 2026, o IBS é cobrado pela alíquota estadual de 0,1%
       (pIBSUF = 0,10), conforme o art. 343 da LC 214/2025. Confira o percentual
@@ -411,6 +425,10 @@ regras:
         mês de vigência: conferir contra notas reais de 2027, inclusive em
         regime de alíquota reduzida, que o percentual nominal vai em pIBSUF (a
         redução em gRed) — leitura do leiaute ainda não confirmada em nota real.
+        Borda conhecida: o ano é o do dhEmi como escrito, sem converter fuso
+        (dhEmi em UTC perto da meia-noite cai no ano seguinte), e a lei fala de
+        fato gerador, não de emissão (devolução em jan/2027 de operação de 2026
+        pode receber aviso). Ver o comentário acima das regras de alíquota.
     acao: >
       Para nota emitida em 2027 ou 2028, a alíquota estadual do IBS é 0,05%
       (pIBSUF = 0,05), conforme o art. 344 da LC 214/2025. Confira o
@@ -433,6 +451,10 @@ regras:
       observacao: >
         Mesmo motivo da alíquota estadual de 2027–2028: percentual com fonte
         primária; conferir contra notas reais de 2027 ao fim do primeiro mês.
+        Borda conhecida: o ano é o do dhEmi como escrito, sem converter fuso
+        (dhEmi em UTC perto da meia-noite cai no ano seguinte), e a lei fala de
+        fato gerador, não de emissão (devolução em jan/2027 de operação de 2026
+        pode receber aviso). Ver o comentário acima das regras de alíquota.
     acao: >
       Para nota emitida em 2027 ou 2028, a alíquota municipal do IBS é 0,05%
       (pIBSMun = 0,05), conforme o art. 344 da LC 214/2025. Confira o
@@ -457,6 +479,10 @@ regras:
         pelo Senado — não confirmado). Em 2027 a CBS é a referência menos 0,1
         p.p. (art. 347): publicada a resolução, escrever a regra de 2027; sem
         ela, não há número para conferir.
+        Borda conhecida: o ano é o do dhEmi como escrito, sem converter fuso
+        (dhEmi em UTC perto da meia-noite cai no ano seguinte), e a lei fala de
+        fato gerador, não de emissão (devolução em jan/2027 de operação de 2026
+        pode receber aviso). Ver o comentário acima das regras de alíquota.
     acao: >
       Para nota emitida em 2026, a alíquota da CBS é 0,9% (pCBS = 0,90),
       conforme o art. 346 da LC 214/2025. Confira o percentual e a data de
