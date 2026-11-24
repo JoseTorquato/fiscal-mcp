@@ -68,7 +68,7 @@ jobs:
           r = resumo()
           print(r)
           assert r['disponivel'], 'tabela oficial não foi embarcada no pacote'
-          assert r['cclasstrib'] == 164, 'tabela embarcada veio incompleta'
+          assert r['cclasstrib'] == 173, 'tabela embarcada veio incompleta'
           "
       - name: a CLI funciona?
         run: |

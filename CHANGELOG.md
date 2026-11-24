@@ -19,6 +19,76 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## Não publicado
 
+### Absorvido da legislação
+
+- **Tabela de Classificação Tributária (CST × cClassTrib) atualizada.** A SVRS
+  republicou a tabela duas vezes depois da versão embarcada (22/06/2026): em
+  **01/10/2026** e em **30/10/2026** (maior `DthPublicacao`). Comparando o
+  arquivo embarcado com o que estava no ar em 24/11/2026:
+
+  - **9 cClassTrib novos**, todos com início de vigência em 01/01/2026:
+    `000006`, `200055`, `200056` (autônomo — só NFS-e), `400003`, `400004`
+    (bagagens e remessas internacionais — DIR e DUIMP), `550026` a `550029`
+    (admissão temporária na ZFM, drawback, admissão temporária em
+    aperfeiçoamento e ZPE — valem em NF-e).
+  - **Nenhum CST ou cClassTrib removido.** Os 18 CST continuam os mesmos.
+  - **164 cClassTrib alterados.** Em todos, o campo novo `TipoDoacao`: nos 164
+    alterados, 124 com `0`, 38 com `2` e 2 com `1`; nos 173 da tabela nova
+    (somando os 9 novos), 130 com `0`, 41 com `2` e 2 com `1`. Em 33 dos 164 há
+    mudança além disso:
+    - indicadores de documento: `IndNfe` (5 — passou a valer em NF-e para
+      `410022` a `410025`, deixou de valer para `550002`), `IndDir` (5),
+      `IndDuimp` (4), `PossuiIndDfe` (5), `IndCteos`, `IndNfabi`, `IndNfse` e
+      `IndDere` (1 cada);
+    - indicador de crédito: `IndPermiteCredPres` desligado em `410014`;
+    - texto: `NomeClassTrib` (7), `NomeReduzido` (6), `TexRegIbs` e `TexRegCbs`
+      (5 cada) — doações passam a citar amostras grátis, `410036` passa de
+      "descontos incondicionais" a "descontos financeiros em nota fatura";
+    - `DthPublicacao` (30), sendo 9 só com a data nova.
+  - **Nenhuma vigência (`DthIniVig`/`DthFimVig`) mudou.**
+
+  O que muda no comportamento do validador: os 9 códigos novos deixam de ser
+  "cClassTrib inexistente"; em NF-e, `410022` a `410025` e `550026` a `550029`
+  passam a ser aceitos; `000006`, `200055` e `200056` existem, mas são
+  reprovados em NF-e por serem só de NFS-e.
+
+  Dois efeitos viram **aviso**, não erro:
+
+  - **`550002` em NF-e — decisão de transição.** A tabela desligou o `IndNfe`
+    sem fim de vigência, e o motor não olha a data de emissão: como erro, nota
+    emitida enquanto o código valia seria reprovada hoje, e não há fonte
+    primária de que a SEFAZ rejeite cClassTrib × modelo em produção. Sai pela
+    regra nova `ibs-cclasstrib-modelo-transicao` (aviso, reavaliar em
+    14/12/2026), que diz que o código deixou de ser permitido em NF-e a partir
+    da tabela publicada em 30/10/2026. O recorte vale **só em NF-e**: em NFC-e
+    o `550002` nunca valeu (`IndNfce` falso nas duas tabelas) e continua erro.
+    O resto da `ibs-cclasstrib-modelo` continua erro.
+  - **`410014` com `gCredPresOper`.** O aviso de subgrupos deixa de exigir o
+    grupo e passa a não admiti-lo: nota antiga que o traga recebe aviso novo.
+
+  Código: `regras/tabelas/cst-cclasstrib.json` baixado de novo por
+  `scripts/baixar_tabelas.py`, sha256 e contagens atualizados na
+  `PROCEDENCIA.md`. O tipo `em_tabela` ganhou os recortes `somente`,
+  `exceto`, `exceto_nos_modelos` e `modelos`, para um código em transição ter
+  severidade própria numa regra irmã, por modelo, sem exceção escrita no motor.
+  O carregamento recusa recorte mal escrito: valor que não é lista de textos
+  (`"550002"` solto, `[000006]` sem aspas), código que não existe na tabela e
+  modelo desconhecido. Um teste garante que todo código excluído tem uma regra
+  que o avalia nos mesmos modelos. Testes travam os casos acima.
+
+  Detectado pelo monitor de fontes em **28/09/2026** (4 alterados, ainda sem
+  publicação nova), **05/10/2026** (publicação de 01/10/2026) e **12/10/2026**
+  (campo `TipoDoacao` em todos os 164). A republicação de 30/10/2026 foi
+  encontrada no download de **24/11/2026**. Vigência dos códigos novos declarada
+  pela fonte: desde **01/01/2026**. Suportado na **próxima versão**.
+
+  Documento oficial: **IT 2025.002 v1.71 — Tabelas de Classificação do IBS e da
+  CBS** ([PDF](https://dfe-portal.svrs.rs.gov.br/DFE/DownloadArquivoEstatico/?sistema=DFE&tipoArquivo=16&nomeArquivo=IT%202025.002%20v.1.71%20-%20Tabelas%20de%20Classifica%C3%A7%C3%A3o%20do%20IBS%20e%20da%20CBS.pdf),
+  30/10/2026), §07.09 (v1.70) e §07.10 (v1.71). O IT registra a desativação do
+  `550002` em NF-e na sua v1.60 (§07.08, "Desativação para NFe: 550002"),
+  embora o arquivo de 22/06/2026 ainda o trouxesse ativo. Dado: Tabela de Classificação Tributária do Portal da Conformidade
+  Fácil (SVRS).
+
 ### Corrigido
 
 - **`leiaute_validado_contra` declarava o pacote de schema errado.** Com a
@@ -36,6 +106,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   divergirem.
 
   Detectado em **24/11/2026**, na revisão da camada de schema.
+
 
 ---
 
