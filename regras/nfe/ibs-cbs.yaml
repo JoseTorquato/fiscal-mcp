@@ -348,34 +348,95 @@ regras:
   # morto, e domínio não confirmado é exatamente o que este projeto não publica.
   # Volta quando aparecer num pacote de schema, com o domínio lido do XSD.
 
-  # As alíquotas de 2026 são de transição assistida: 0,1% de IBS e 0,9% de CBS,
-  # sem recolhimento. Fica como AVISO porque uma fonte secundária afirma que a
-  # parcela municipal é 0,00% com preenchimento obrigatório, com os 0,1% inteiros
-  # na parcela estadual — não confirmado em fonte oficial. Enquanto a dúvida
-  # existir, a regra não pode reprovar.
+  # Alíquotas de transição, por ano de emissão (LC 214/2025, arts. 343 a 347).
+  #
+  # Cada regra vale só para nota emitida no seu período, pelo bloco `emissao`,
+  # que lê a data local de ide/dhEmi. Antes elas comparavam só o percentual e,
+  # a partir de 01/01/2027, avisariam toda nota correta. Nota sem dhEmi legível
+  # não gera achado destas regras: melhor não avisar do que avisar pela lei do
+  # ano errado.
+  #
+  # Continuam AVISO: a promoção a erro é decisão separada.
+  #
+  # O que estas regras NÃO cobrem, e por quê:
+  # - combustíveis do regime específico (arts. 172–180), que os arts. 344 e 347
+  #   excluem: vão em gIBSCBSMono, fora dos caminhos daqui;
+  # - CBS de 2027 em diante (art. 347): é a alíquota de referência menos 0,1
+  #   p.p., e a referência depende de resolução do Senado ainda não publicada.
+  #   Sem ela não há número para conferir, e a regra não existe.
+  # - redução proporcional nos regimes de alíquota reduzida (art. 344): o
+  #   leiaute leva a redução em gRed (pRedAliq/pAliqEfet) e o percentual nominal
+  #   em pIBSUF/pIBSMun — leitura do leiaute, não confirmada em nota real; por
+  #   isso também é aviso.
+
   - id: ibs-aliquota-uf-2026
     tipo: valor_numerico_em
     escopo: item
     severidade: aviso
     campo: imposto/IBSCBS/gIBSCBS/gIBSUF/pIBSUF
     valores: ["0.10"]
-    mensagem: Alíquota estadual de IBS diferente da alíquota-teste de 2026
-    referencia: Transição assistida de 2026 · IBS 0,1%
+    emissao: {de: "2026-01-01", ate: "2026-12-31"}
+    mensagem: Alíquota estadual de IBS diferente da prevista para 2026
+    referencia: LC 214/2025, art. 343 · IBS 2026 = alíquota estadual de 0,1%
     vigencia:
-      reavaliar_em: "2026-12-14"
-      fonte: "NT 2025.002-RTC · alíquotas de transição"
+      reavaliar_em: "2027-01-31"
+      fonte: "LC 214/2025, art. 343"
       observacao: >
-        Repartição entre parcela estadual e municipal continua não confirmada em
-        fonte oficial (a pesquisa de 24/11/2026 não a cobriu). A data é antes da
-        virada do ano por um motivo da própria regra: ela não filtra pelo ano
-        de emissão (compara só o percentual, sem olhar dhEmi), então a partir de
-        01/01/2027 avisaria toda nota correta. Até lá é preciso limitá-la a
-        2026 ou retirá-la. 14/12/2026 deixa margem antes de 31/12.
+        O percentual tem fonte primária: o art. 343 cobra o IBS de 2026 pela
+        alíquota estadual de 0,1%. Reavaliar ao fim do primeiro mês do período
+        do art. 344 (01/01/2027): conferir contra notas reais que a troca de
+        regra pela data de emissão não gera falso positivo na virada do ano, e
+        se os arts. 343–344 foram alterados.
     acao: >
-      Em 2026 a alíquota de IBS é 0,1% em regime de transição assistida, sem
-      recolhimento. Confira o percentual com a legislação vigente antes de
-      alterar — este achado é aviso justamente porque a repartição entre estado
-      e município não está confirmada em fonte oficial.
+      Para nota emitida em 2026, o IBS é cobrado pela alíquota estadual de 0,1%
+      (pIBSUF = 0,10), conforme o art. 343 da LC 214/2025. Confira o percentual
+      e a data de emissão da nota.
+
+  - id: ibs-aliquota-uf-2027-2028
+    tipo: valor_numerico_em
+    escopo: item
+    severidade: aviso
+    campo: imposto/IBSCBS/gIBSCBS/gIBSUF/pIBSUF
+    valores: ["0.05"]
+    emissao: {de: "2027-01-01", ate: "2028-12-31"}
+    mensagem: Alíquota estadual de IBS diferente da prevista para 2027–2028
+    referencia: >-
+      LC 214/2025, art. 344 · IBS 2027–2028 = 0,05% estadual + 0,05%
+      municipal
+    vigencia:
+      reavaliar_em: "2027-01-31"
+      fonte: "LC 214/2025, art. 344"
+      observacao: >
+        Percentual com fonte primária (art. 344). Reavaliar ao fim do primeiro
+        mês de vigência: conferir contra notas reais de 2027, inclusive em
+        regime de alíquota reduzida, que o percentual nominal vai em pIBSUF (a
+        redução em gRed) — leitura do leiaute ainda não confirmada em nota real.
+    acao: >
+      Para nota emitida em 2027 ou 2028, a alíquota estadual do IBS é 0,05%
+      (pIBSUF = 0,05), conforme o art. 344 da LC 214/2025. Confira o
+      percentual e a data de emissão da nota.
+
+  - id: ibs-aliquota-mun-2027-2028
+    tipo: valor_numerico_em
+    escopo: item
+    severidade: aviso
+    campo: imposto/IBSCBS/gIBSCBS/gIBSMun/pIBSMun
+    valores: ["0.05"]
+    emissao: {de: "2027-01-01", ate: "2028-12-31"}
+    mensagem: Alíquota municipal de IBS diferente da prevista para 2027–2028
+    referencia: >-
+      LC 214/2025, art. 344 · IBS 2027–2028 = 0,05% estadual + 0,05%
+      municipal
+    vigencia:
+      reavaliar_em: "2027-01-31"
+      fonte: "LC 214/2025, art. 344"
+      observacao: >
+        Mesmo motivo da alíquota estadual de 2027–2028: percentual com fonte
+        primária; conferir contra notas reais de 2027 ao fim do primeiro mês.
+    acao: >
+      Para nota emitida em 2027 ou 2028, a alíquota municipal do IBS é 0,05%
+      (pIBSMun = 0,05), conforme o art. 344 da LC 214/2025. Confira o
+      percentual e a data de emissão da nota.
 
   - id: ibs-aliquota-cbs-2026
     tipo: valor_numerico_em
@@ -383,15 +444,20 @@ regras:
     severidade: aviso
     campo: imposto/IBSCBS/gIBSCBS/gCBS/pCBS
     valores: ["0.90"]
-    mensagem: Alíquota de CBS diferente da alíquota-teste de 2026
-    referencia: Transição assistida de 2026 · CBS 0,9%
+    emissao: {de: "2026-01-01", ate: "2026-12-31"}
+    mensagem: Alíquota de CBS diferente da prevista para 2026
+    referencia: LC 214/2025, art. 346 · CBS 2026 = 0,9%
     vigencia:
-      reavaliar_em: "2026-12-14"
-      fonte: "NT 2025.002-RTC · alíquotas de transição"
+      reavaliar_em: "2026-12-15"
+      fonte: "LC 214/2025, arts. 346 e 347"
       observacao: >
-        Mesmo motivo da alíquota estadual: a regra não filtra pelo ano de
-        emissão e, a partir de 01/01/2027, avisaria toda nota correta. Limitar a
-        2026 ou retirar antes da virada; 14/12/2026 deixa margem.
+        2026 tem fonte primária (art. 346). A data é o prazo para a resolução do
+        Senado que fixa a alíquota de referência da CBS, informado no material
+        da audiência pública da CAE de 17/11/2026 (apresentado pela OAB, não
+        pelo Senado — não confirmado). Em 2027 a CBS é a referência menos 0,1
+        p.p. (art. 347): publicada a resolução, escrever a regra de 2027; sem
+        ela, não há número para conferir.
     acao: >
-      Em 2026 a alíquota de CBS é 0,9% em regime de transição assistida, sem
-      recolhimento.
+      Para nota emitida em 2026, a alíquota da CBS é 0,9% (pCBS = 0,90),
+      conforme o art. 346 da LC 214/2025. Confira o percentual e a data de
+      emissão da nota.
