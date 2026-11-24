@@ -10,7 +10,7 @@ nenhum.
 
 [![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/pyproject.toml)
-[![289 testes](https://img.shields.io/badge/testes-289-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
+[![331 testes](https://img.shields.io/badge/testes-331-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
 
 ```bash
 pip install "fiscal-mcp[xsd]"
@@ -146,7 +146,7 @@ perder a confiança de quem trabalha com fiscal:
 
 | | Camadas | Regras | Testado contra |
 |---|---|---|---|
-| NF-e / NFC-e | schema XSD + regras + chave | 28 | ✅ **duas NF-e reais autorizadas em produção**, 17 amostras públicas e XML sintético |
+| NF-e / NFC-e | schema XSD + regras + chave | 29 | ✅ **duas NF-e reais autorizadas em produção**, 17 amostras públicas e XML sintético |
 | NFS-e nacional | regras + chave | 10 | ✅ uma nota autorizada de verdade |
 
 ### Contra nota real, autorizada em produção
@@ -187,7 +187,7 @@ oficial de propósito, a outra tem valores de preenchimento incoerentes entre si
 (`vIBS = 0` com `vIBSUF = 16`). **Nenhuma regra de tabela acusa nenhuma delas**,
 e há teste que trava isso.
 
-Das 28 regras de NF-e, **17 são da Camada A de IBS/CBS**: CST e `cClassTrib`
+Das 29 regras de NF-e, **18 são da Camada A de IBS/CBS**: CST e `cClassTrib`
 conferidos contra a **tabela oficial embarcada** da SVRS — 18 CST e 173
 classificações, versionadas no repositório com URL de origem, data e sha256
 ([procedência](https://github.com/JoseTorquato/fiscal-mcp/blob/main/regras/tabelas/PROCEDENCIA.md)).
@@ -198,7 +198,8 @@ alíquotas de transição de 2026.
 tabela precisa saber contra qual.
 
 A regra de IBS/CBS emite **aviso**, não erro: a NT 2025.002 v1.51 reclassificou
-a regra de rejeição correspondente (UB12-10) como *implementação futura*, então
+a regra de rejeição correspondente (UB12-10) como *implementação futura*, e a
+v1.53 (30/10/2026) mantém esse status sem data, então
 a nota não é recusada por isso hoje. Ela carrega data de reavaliação, e um teste
 falha quando essa data passa. Acusar errado é pior que não acusar.
 

@@ -7,12 +7,12 @@
     "url": "https://github.com/JoseTorquato/fiscal-mcp",
     "source": "github"
   },
-  "version": "0.2.1",
+  "version": "0.3.0",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "fiscal-mcp",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "transport": {
         "type": "stdio"
       }

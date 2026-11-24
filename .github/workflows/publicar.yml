@@ -97,13 +97,28 @@ jobs:
           /tmp/limpa/bin/pip install --quiet dist/*.whl
           cd /tmp
           /tmp/limpa/bin/python - <<'FIM'
+          import hashlib, pathlib, re
+          import fiscal_mcp
           from fiscal_mcp.regras import carrega
           from fiscal_mcp.tabelas import resumo
           from fiscal_mcp import schema
           assert len(carrega()) >= 25, "as regras não vieram no pacote"
           r = resumo()
-          assert r["disponivel"] and r["cclasstrib"] == 164, f"tabela incompleta: {r}"
+          assert r["disponivel"], f"tabela ausente no pacote: {r}"
+          # Contagem e sha256 comparados com o que a PROCEDENCIA embarcada
+          # declara — não com um número fixo aqui, que envelhece a cada
+          # atualização da tabela (a 0.3.0 quase saiu com `== 164`).
+          tabelas = pathlib.Path(fiscal_mcp.__file__).parent / "regras" / "tabelas"
+          procedencia = (tabelas / "PROCEDENCIA.md").read_text(encoding="utf-8")
+          conteudo = re.search(r"\*\*Conteúdo\*\*\s*\|\s*(\d+) CST · (\d+) cClassTrib", procedencia)
+          sha = re.search(r"\*\*sha256\*\*\s*\|\s*`([0-9a-f]{64})`", procedencia)
+          assert conteudo and sha, "a PROCEDENCIA não veio no pacote ou mudou de formato"
+          assert (r["cst"], r["cclasstrib"]) == (int(conteudo[1]), int(conteudo[2])), (
+              f"tabela incompleta: {r} != PROCEDENCIA {conteudo.groups()}")
+          real = hashlib.sha256((tabelas / "cst-cclasstrib.json").read_bytes()).hexdigest()
+          assert real == sha[1], f"sha256 da tabela no pacote ({real}) != PROCEDENCIA ({sha[1]})"
           assert schema._traducoes(), "as traduções de schema não vieram no pacote"
+          assert schema.pacotes_conhecidos()["pacotes"], "o registro de pacotes de schema não veio"
           print("regras, tabela e traduções conferidas no pacote instalado")
           FIM
 
