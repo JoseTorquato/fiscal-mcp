@@ -111,6 +111,19 @@ def test_filtro_de_modelo_usa_o_indicador_da_tabela():
     assert "não é permitido no modelo 55 (NF-e)" in detalhe(doc, regra(**CLASS_MODELO))
 
 
+def test_filtro_de_modelo_nao_julga_codigo_inexistente():
+    """Existência é da regra sem filtro; a de modelo fica calada."""
+    doc = nota("<IBSCBS><cClassTrib>999999</cClassTrib></IBSCBS>", modelo="55")
+    assert roda(doc, regra(**CLASS_MODELO)) == []
+
+
+def test_sem_filtro_codigo_inexistente_continua_reprovado():
+    doc = nota("<IBSCBS><cClassTrib>999999</cClassTrib></IBSCBS>", modelo="55")
+    r = regra(tipo="em_tabela", campo="imposto/IBSCBS/cClassTrib",
+              tabela="cst-cclasstrib", coluna="cclasstrib")
+    assert "não existe na tabela cst-cclasstrib" in detalhe(doc, r)
+
+
 def test_filtro_de_modelo_aprova_o_que_a_tabela_permite():
     doc = nota("<IBSCBS><cClassTrib>000001</cClassTrib></IBSCBS>", modelo="55")
     assert roda(doc, regra(**CLASS_MODELO)) == []

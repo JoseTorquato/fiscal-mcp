@@ -91,6 +91,34 @@ def test_cclasstrib_inexistente_e_reprovado():
     assert "ibs-cclasstrib-existe" in ids(xml, "erro")
 
 
+@pytest.mark.parametrize("modelo", ["55", "65"])
+def test_cclasstrib_inexistente_gera_so_o_erro_de_existencia(modelo):
+    """Código que não existe não pode ganhar também "existe, mas não para o modelo".
+
+    CST correto e prefixo coerente, para isolar o cClassTrib: o único achado de
+    tabela tem de ser `ibs-cclasstrib-existe`.
+    """
+    xml = quebra(
+        ("<mod>55</mod>", f"<mod>{modelo}</mod>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>000999</cClassTrib>"),
+    )
+    de_tabela = {a["id"] for a in achados(xml) if a["id"].startswith("ibs-cclasstrib")}
+    assert de_tabela == {"ibs-cclasstrib-existe"}, achados(xml)
+    existe = [a for a in achados(xml, "erro") if a["id"] == "ibs-cclasstrib-existe"]
+    assert "não existe na tabela" in existe[0]["detalhe"]
+    assert not any("existe, mas não" in a.get("acao", "") for a in achados(xml, "erro"))
+
+
+def test_regra_com_recorte_por_codigo_tem_filtro():
+    """Recorte por código só existe em regra com filtro — que agora não julga existência."""
+    from fiscal_mcp.regras import carrega
+
+    transicao = [r for r in carrega() if r.somente]
+    assert transicao, "esperava ao menos uma regra de transição"
+    for r in transicao:
+        assert r.filtro, f"{r.id}: o recorte por código só faz sentido com filtro"
+
+
 # ---- L-04 · cClassTrib permitido no modelo -------------------------------
 
 def test_cclasstrib_nao_permitido_no_modelo_e_reprovado():

@@ -566,6 +566,12 @@ def _em_tabela(alvo: Alvo, r: Regra) -> str | None:
     linhas, versao = _linhas(r)
     encontrada = linhas.get(atual)
     if encontrada is None:
+        if r.filtro:
+            # Regra com filtro julga só o filtro. A existência é da regra irmã
+            # sem filtro (ibs-cclasstrib-existe); repetir aqui produzia um
+            # segundo erro para o mesmo código, com a mensagem "este código
+            # existe, mas não para o modelo" — falsa para código inexistente.
+            return None
         return f"{r.campo} = '{atual}' não existe na tabela {r.tabela} {versao}"
 
     if r.filtro == "modelo_do_documento":
