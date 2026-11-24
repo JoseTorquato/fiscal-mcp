@@ -24,10 +24,10 @@ de release (`scriv collect`) — ver CONTRIBUTING.md.
 ### Absorvido da legislação
 
 - **Alíquotas de transição do IBS e da CBS, por ano de emissão.**
-  - **O que mudou:** As regras de
-    alíquota comparavam só o percentual e, a partir de 01/01/2027, avisariam toda
-    nota correta. Agora cada uma vale só para a nota emitida no seu período, pela
-    data local de `ide/dhEmi`; nota sem data legível não recebe aviso de alíquota.
+  - **O que mudou:** as regras de alíquota comparavam só o percentual e, a
+    partir de 01/01/2027, avisariam toda nota correta. Agora cada uma vale só
+    para a nota emitida no seu período, pela data local de `ide/dhEmi`; nota sem
+    data legível não recebe aviso de alíquota.
 
     - **IBS 2026** (`ibs-aliquota-uf-2026`): 0,1% na alíquota estadual
       (`pIBSUF`), **LC 214/2025, art. 343**. Sai a ressalva "repartição entre
