@@ -15,7 +15,7 @@ inesperada.
 | nomes exatos das tags | **Resolvido.** Mapeado na §4 e disponível nos XSD que a `nfelib` empacota |
 | quando o grupo é obrigatório | **Resolvido, e mudou.** Ver §2 |
 | campos por item além dos totais | **Resolvido.** O grosso do leiaute é por item, não nos totais |
-| versão de leiaute | **Parcialmente.** Pacote vigente é o PL 010e v1.02 (10/07/2026), que cobre a NT v1.40 — não a v1.50/1.51 |
+| versão de leiaute | **Resolvido (atualizado em 24/11/2026).** O PL 010f v1.04 (31/08/2026) cobre a NT v1.50, e é ele que a `nfelib` 3.3.0 embarca. O pacote vigente é o PL 010h v1.03 (13/11/2026), que acrescenta `gTribSN` (NT 2026.005) e ainda não está na `nfelib`; o rebaixamento por versão cobre a diferença. Ver spec 06 §5 |
 
 O que continua sem confirmação em fonte primária são os **códigos numéricos de
 rejeição**. Essa separação é a espinha da spec.

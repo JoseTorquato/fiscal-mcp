@@ -48,6 +48,10 @@ generateDS.
 > Pacote conferido: **`PL_009p_NT2024_003_v103`, na `nfelib` 2.5.2** — não o
 > PL 010e v1.02 que a §5 supõe. O `nfelib` 2.5.2 é a versão mais recente no PyPI.
 > Mesmo assim ele **cobre** o leiaute de IBS/CBS por item.
+>
+> **Atualização de 24/11/2026:** a `nfelib` 3.3.0 (05/11/2026) embarca XSDs
+> idênticos aos do **PL 010f v1.04** (31/08/2026) — conferido por diff de
+> `DFeTiposBasicos`, `leiauteNFe` e `tiposBasico`. Ver §5.
 
 ## 3. Contrato
 
@@ -130,6 +134,22 @@ relacionados a `IBSCBS`, `cClassTrib`, `CST` e ao grupo de totais — é onde es
 dor de 2026 e o tráfego de busca. O resto passa cru até alguém reportar.
 
 ## 5. O risco de versão, e como não acusar errado
+
+> **Atualização de 24/11/2026.** O risco que esta seção descrevia — o PL 010e
+> v1.02 não cobrir a NT 2025.002 v1.50 — **ficou para trás**: o PL 010f v1.04
+> (31/08/2026) cobre a v1.50, com a monofasia reestruturada
+> (`gIBSMonoAdRem`, `gMonoPadrao`…), e é exatamente o que a `nfelib` 3.3.0
+> embarca. As v1.52 e v1.53 só mexem em regra de validação de devolução e não
+> têm pacote próprio.
+>
+> O risco agora é o mesmo, um pacote adiante: o **PL 010h v1.03 (13/11/2026)** é
+> o vigente e acrescenta `gTribSN` dentro de `IBSCBS` e em `IBSCBSTot` (NT
+> 2026.005, Simples Nacional, produção em 14/12/2026), mais `vUnComLiq`/
+> `vProdLiq` (NT 2026.008) e `gPgtoVinc` (NT 2026.006). A `nfelib` publicada
+> ainda não o traz. A mitigação abaixo cobre isso, e há teste com `gTribSN`
+> nos três pontos: zero erro, três avisos.
+
+Texto original (25/08/2026), mantido pelo raciocínio:
 
 **O pacote de schemas vigente é o PL 010e v.1.02 (10/07/2026), que cobre a NT
 2025.002 v1.40 — não a v1.50 nem a v1.51.** A v1.50 reestruturou o grupo UB para

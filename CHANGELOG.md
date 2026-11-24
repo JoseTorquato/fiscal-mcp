@@ -89,6 +89,92 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   embora o arquivo de 22/06/2026 ainda o trouxesse ativo. Dado: Tabela de Classificação Tributária do Portal da Conformidade
   Fácil (SVRS).
 
+- **NT 2025.002-RTC v1.52 e v1.53 — UB12-10 continua sem data.** A v1.53
+  ([PDF](https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=BMcHSMEoepU=),
+  publicada em **30/10/2026**) mantém a UB12-10 como "implementação futura para
+  produção", como fazem a v1.51 e a v1.52
+  ([PDF](https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=HXPO8VLbh4o=),
+  publicada em **01/10/2026**). A rejeição por ausência do grupo `IBSCBS`
+  continua **inativa em produção**.
+
+  As regras de validação que mudaram nas duas versões tratam de devolução e
+  referenciamento: a chave pode vir no cabeçalho (`NFref`) **ou** no item
+  (`DFeReferenciado`), e `nItem` passa a ser opcional. Produção em 16/11/2026,
+  sem adiamento. Nenhuma regra do fiscal-mcp trata de devolução, então nada
+  muda no validador por isso.
+
+  A v1.53 também move a **produção da reformulação de monofasia da v1.50** de
+  03/11/2026 para **16/11/2026**. O fiscal-mcp valida a presença do grupo de
+  monofasia (`ibs-cst-620-exige-mono`) e o schema embarcado (PL 010f v1.04) já
+  traz a estrutura da v1.50, então nada muda aqui por isso.
+
+  Código: `ibs-grupo-ausente` segue como **aviso**, agora citando a v1.53. As
+  quatro regras com `reavaliar_em` vencido (`ibs-grupo-ausente`,
+  `ibs-subgrupos-obrigatorios`, `ibs-aliquota-uf-2026`, `ibs-aliquota-cbs-2026`)
+  passam a reavaliar em **14/12/2026**, o próximo marco oficial do cronograma,
+  com a justificativa escrita em cada uma. Nenhuma severidade mudou.
+
+  A v1.52 foi detectada pelo monitor em **05/10/2026**. A v1.53 foi encontrada
+  na conferência de **24/11/2026**. Obrigatório: devolução desde
+  **16/11/2026**; UB12-10 sem data.
+
+- **PL 010h v1.03 — grupo `gTribSN` (Simples Nacional).** O pacote de schemas
+  ([ZIP](https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=YhWikFoTxUo=),
+  publicado em **13/11/2026**) implementa a NT 2026.005 v1.00
+  ([PDF](https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=HInG7WD5Sj8=),
+  30/10/2026). Ele cria `gTribSN` dentro de `IBSCBS`, opcional e fora do choice
+  de regime, e em `IBSCBSTot`. A `nfelib` publicada (3.3.0) ainda não traz esse
+  pacote. Ela embarca o **PL 010f v1.04** (31/08/2026), que já cobre a
+  monofasia da NT 2025.002 v1.50 — o risco "o pacote não cobre a v1.50" das
+  specs 05/06 e do BACKLOG está superado.
+
+  Código: nenhuma mudança no motor. O rebaixamento por versão já transforma
+  `gTribSN` em aviso; um teste novo trava isso com o grupo no item e no total
+  (zero erro, com e sem o extra `[xsd]`). A fixture foi conferida contra o XSD
+  do PL 010h, onde a única queixa é a falta de assinatura.
+
+  Obrigatório desde **14/12/2026** (era 16/11/2026), pelo aviso CGIBS/RFB de
+  12/11/2026 no [Portal da Conformidade Fácil](https://dfe-portal.svrs.rs.gov.br/CFF/Avisos),
+  que adiou também as NT 2026.006 e 2026.008. Detectado na conferência de
+  **24/11/2026**.
+
+- **NT 2026.008 — a regra UB16-10 foi removida.** Quem a removeu foi a v1.00
+  ([PDF](https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=qAoMot6VyiY=),
+  01/10/2026): a UB16-10 tratava da composição da base de cálculo do IBS/CBS.
+  A v1.01
+  ([PDF](https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=PVjdIcA/H2s=),
+  30/10/2026) mantém a remoção e tira o item "composição do valor do produto
+  com IBS e CBS". O fiscal-mcp não valida a base de cálculo, então nada muda. Fica
+  registrado para que a Camada B **não** catalogue essa rejeição. Detectado pelo
+  monitor em **05/10/2026** (v1.00). Produção adiada para **14/12/2026**.
+
+- **Notas técnicas lidas, sem efeito no validador.** Nenhuma toca o grupo
+  `IBSCBS`, CST, cClassTrib ou totais:
+  - **31/08/2026:** NT 2026.006 v1.00 (vinculação ao pagamento; produção
+    adiada para 14/12/2026).
+  - **14/09/2026:** NT 2026.009 v1.00 (CFOP 1.949/2.949, de 09/09/2026).
+  - **05/10/2026:** NT 2026.007 v1.10 (cadastros LCC-RFB e CCC; produção em
+    16/11/2026) e NT 2026.010 v1.00 (DANFE da RTC, só a representação
+    impressa), ambas de 01/10/2026.
+  - **24/11/2026** (conferência): NT 2023.002 v1.02 (NFC-e: fim da autorização
+    assíncrona e da inutilização), de 27/10/2026.
+
+- **Notas técnicas com assunto conferido, sem impacto em IBS/CBS, conteúdo não
+  lido.** O delta de cada uma em relação à versão anterior não foi lido; só o
+  assunto, que não toca IBS/CBS:
+  - **31/08/2026:** NT 2026.002 v1.10a (DANFE Simplificado).
+  - **28/09/2026:** NT 2021.003 v1.50 (GTIN) e NT 2023.003 v1.40 (CFOP na
+    NFC-e), ambas de 25/09/2026.
+  - **05/10/2026:** NT 2026.002 v1.11 (DANFE Simplificado Tipo 2), de
+    01/10/2026.
+
+  Fonte: [lista de Notas Técnicas do Portal da NF-e](https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=04BIflQt1aY=).
+
+### Fontes monitoradas
+
+- `regras/fontes.yaml` foi semeado com as Notas Técnicas no ar em 24/11/2026.
+
+
 ---
 
 ## 0.2.1 — 2026-08-26
