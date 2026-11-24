@@ -1,0 +1,69 @@
+# Pacotes de schema da NF-e (PL) que o fiscal-mcp sabe reconhecer.
+#
+# `leiaute_validado_contra` diz contra qual pacote a nota foi validada. A versão
+# anterior tirava esse nome do texto do `leiauteNFe_v4.00.xsd`, que lista PLs
+# antigos em comentário e não diz qual é o vigente: com a nfelib 3.3.0 o laudo
+# dizia `PL_005d`, quando o conteúdo é o PL 010f v1.04.
+#
+# Agora o pacote é identificado pelo CONTEÚDO: o sha256 de cada XSD instalado é
+# comparado com o do ZIP oficial do Portal da NF-e. Nada aqui é escrito à mão a
+# partir de leitura: os sha256 saem dos arquivos do ZIP baixado, e o ZIP tem o
+# próprio sha256 registrado. Pacote cujo conteúdo não bate com nenhum destes sai
+# como "não identificado", nunca com um nome adivinhado.
+#
+# Para registrar um pacote novo: baixar o ZIP do Portal, calcular o sha256 do
+# ZIP e de cada arquivo listado em `arquivos`, e acrescentar a entrada com
+# origem e data. Lista: https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w=
+
+versao: 1
+
+# Os arquivos que identificam o pacote. São os do leiaute da NF-e que a
+# validação usa (nfe_v4.00.xsd e o que ele importa).
+arquivos:
+  - DFeTiposBasicos_v1.00.xsd
+  - leiauteNFe_v4.00.xsd
+  - nfe_v4.00.xsd
+  - tiposBasico_v4.00.xsd
+  - xmldsig-core-schema_v1.01.xsd
+
+pacotes:
+
+  - nome: PL_010e_v1.02
+    publicacao: 2026-07-10
+    cobre: NT 2025.002 v1.40
+    # link direto do ZIP não registrado; ele está na lista de Esquemas XML
+    zip: https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w=
+    zip_sha256: d44ae5aa6a0d1cabf6235d2d2d47b75be5dd87bc6b90a7ec3dcec99c3d41bda1
+    baixado_em: 2026-11-24
+    sha256:
+      DFeTiposBasicos_v1.00.xsd: 7fe1dbd89a1dd80826c5134c2406b7eb5df4fa7a9177c5aa6e72319caba7c6d2
+      leiauteNFe_v4.00.xsd: 598c71780cbc6b54f170464bd6d5538c2d01a99d987a1666b662d4e166b84bf7
+      nfe_v4.00.xsd: adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df
+      tiposBasico_v4.00.xsd: 772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047
+      xmldsig-core-schema_v1.01.xsd: f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac
+
+  - nome: PL_010f_v1.04
+    publicacao: 2026-08-31
+    cobre: NT 2025.002 v1.50 e NT 2026.007
+    zip: https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=8ITFuBLltXs=
+    zip_sha256: b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998
+    baixado_em: 2026-11-24
+    sha256:
+      DFeTiposBasicos_v1.00.xsd: 173577a4e3a9dc1d0deced85b89b955b6064bb5a4ae5a96f6727d2da8a694d09
+      leiauteNFe_v4.00.xsd: 2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542
+      nfe_v4.00.xsd: adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df
+      tiposBasico_v4.00.xsd: 772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047
+      xmldsig-core-schema_v1.01.xsd: f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac
+
+  - nome: PL_010h_v1.03
+    publicacao: 2026-11-13
+    cobre: NT 2026.005 v1.00, NT 2026.006 v1.00 e NT 2026.008 v1.01
+    zip: https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=YhWikFoTxUo=
+    zip_sha256: bcbf6b277f79a6983d69016dfe0430f09b8a191997a4706a24938acddc18dc81
+    baixado_em: 2026-11-24
+    sha256:
+      DFeTiposBasicos_v1.00.xsd: 22cc19e1bb09808ec475d0ad830303699cbf167d630e57023f7d7f1e7c2cb1cc
+      leiauteNFe_v4.00.xsd: f1bedcdf38e8f6536be2f1a3fb8fb5c27a23364f62a8f7dab0ff884635a000e6
+      nfe_v4.00.xsd: adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df
+      tiposBasico_v4.00.xsd: 772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047
+      xmldsig-core-schema_v1.01.xsd: f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac

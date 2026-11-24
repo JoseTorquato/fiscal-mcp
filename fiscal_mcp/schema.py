@@ -110,11 +110,65 @@ def pacote() -> str:
         raise SchemaIndisponivel("extra [xsd] não instalado") from exc
 
     versao = meta.version("nfelib")
-    caminho = Path(nfelib.__file__).parent / "nfe" / "schemas" / "v4_0" / "leiauteNFe_v4.00.xsd"
-    # o arquivo lista todos os PL já aplicados; o vigente é o maior, não o último
-    # que aparece no texto — a ordem no comentário não é cronológica
-    pls = set(re.findall(r"PL_[0-9A-Za-z_.]+", caminho.read_text(encoding="utf-8", errors="replace")))
-    return f"{max(pls) if pls else 'desconhecido'} (nfelib {versao})"
+    raiz = Path(nfelib.__file__).parent
+    return f"{identifica(raiz / 'nfe' / 'schemas' / 'v4_0', declarado_pela_nfelib(raiz))} (nfelib {versao})"
+
+
+def pacotes_conhecidos() -> dict:
+    """O registro versionado em regras/schema/pacotes.yaml, com procedência."""
+    caminho = RAIZ_SCHEMA / "pacotes.yaml"
+    if not caminho.is_file():
+        return {"arquivos": [], "pacotes": []}
+    return yaml.safe_load(caminho.read_text(encoding="utf-8")) or {"arquivos": [], "pacotes": []}
+
+
+def sha256_dos_xsd(base: Path, arquivos: list[str]) -> dict[str, str | None]:
+    """sha256 de cada XSD instalado; None para o que não existe."""
+    import hashlib
+
+    return {
+        nome: hashlib.sha256((base / nome).read_bytes()).hexdigest() if (base / nome).is_file() else None
+        for nome in arquivos
+    }
+
+
+def declarado_pela_nfelib(raiz_nfelib: Path) -> str | None:
+    """O ZIP que a própria nfelib diz ter embarcado, lido como texto.
+
+    A nfelib (desde a 2.6.0) grava `SCHEMA_PACKAGE` nos bindings gerados. Ler o
+    arquivo em vez de importá-lo evita carregar os bindings inteiros só para
+    saber um nome. Serve de conferência, não de verdade: quem decide é o
+    conteúdo dos XSD.
+    """
+    init = raiz_nfelib / "nfe" / "bindings" / "v4_0" / "__init__.py"
+    if not init.is_file():
+        return None
+    achado = re.search(
+        r"SCHEMA_PACKAGE[^=]*=\s*['\"][^'\"]*?\(zip\s+(PL_[0-9A-Za-z_.]+)\)",
+        init.read_text(encoding="utf-8", errors="replace"),
+    )
+    return achado.group(1) if achado else None
+
+
+def identifica(base: Path, declarado: str | None = None) -> str:
+    """Nome do pacote cujo conteúdo é exatamente o dos XSD em `base`.
+
+    O nome vem do registro versionado, casado por sha256 — não de texto do XSD
+    nem de string fixa no código. Conteúdo que não bate com nenhum pacote
+    registrado diz isso, junto com o que a nfelib declara: um nome adivinhado
+    seria "passou no schema" com o sujeito errado.
+    """
+    registro = pacotes_conhecidos()
+    instalados = sha256_dos_xsd(base, registro.get("arquivos", []))
+    for pacote_ in registro.get("pacotes", []):
+        if instalados and pacote_.get("sha256") == instalados:
+            nome = pacote_["nome"]
+            if declarado and declarado != nome:
+                # o conteúdo manda; a divergência fica à vista em vez de escondida
+                return f"{nome} — a nfelib declara {declarado}, mas o conteúdo é o do {nome}"
+            return nome
+    sufixo = f"; a nfelib declara {declarado}" if declarado else ""
+    return f"pacote não identificado — conteúdo fora de regras/schema/pacotes.yaml{sufixo}"
 
 
 @lru_cache(maxsize=1)

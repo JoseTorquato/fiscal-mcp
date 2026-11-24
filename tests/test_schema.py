@@ -139,6 +139,112 @@ def test_pacote_declara_o_leiaute_em_uso():
     assert "nfelib" in schema.pacote()
 
 
+def _nfelib_instalada() -> Path:
+    import nfelib
+
+    return Path(nfelib.__file__).parent
+
+
+@precisa_do_extra
+def test_declaracao_bate_com_os_xsd_que_a_nfelib_entrega():
+    """O nome declarado no laudo tem de ser o do conteúdo, não de um texto solto.
+
+    A versão anterior lia `PL_` no comentário do leiauteNFe e declarava
+    `PL_005d` para a nfelib 3.3.0, que embarca o PL 010f v1.04. Este teste falha
+    se o pacote declarado e os sha256 dos XSD instalados divergirem.
+    """
+    raiz = _nfelib_instalada()
+    declarado = schema.declarado_pela_nfelib(raiz)
+    registro = schema.pacotes_conhecidos()
+    por_nome = {p["nome"]: p for p in registro["pacotes"]}
+    if declarado not in por_nome:
+        pytest.skip(
+            f"a nfelib instalada declara {declarado!r}, que não está em "
+            "regras/schema/pacotes.yaml: registre o pacote a partir do ZIP oficial"
+        )
+    instalados = schema.sha256_dos_xsd(raiz / "nfe" / "schemas" / "v4_0", registro["arquivos"])
+    assert instalados == por_nome[declarado]["sha256"], (
+        f"a nfelib declara {declarado}, mas os XSD instalados não são os do ZIP oficial"
+    )
+    assert schema.pacote().split(" ")[0] == declarado
+    assert "não identificado" not in schema.pacote()
+
+
+def _xsd_falsos(base: Path, conteudo: dict[str, bytes]) -> Path:
+    base.mkdir(parents=True, exist_ok=True)
+    for nome, dados in conteudo.items():
+        (base / nome).write_bytes(dados)
+    return base
+
+
+def _registro_falso(monkeypatch, pacotes: list[dict]) -> None:
+    monkeypatch.setattr(schema, "pacotes_conhecidos", lambda: {
+        "arquivos": ["a.xsd", "b.xsd"], "pacotes": pacotes,
+    })
+
+
+def test_identifica_pelo_conteudo_e_nao_pelo_texto(tmp_path, monkeypatch):
+    import hashlib
+
+    # o texto cita outro PL de propósito: é o engano que a versão antiga cometia
+    base = _xsd_falsos(tmp_path, {"a.xsd": b"<!-- PL_005d -->", "b.xsd": b"b"})
+    sha = {n: hashlib.sha256((base / n).read_bytes()).hexdigest() for n in ("a.xsd", "b.xsd")}
+    _registro_falso(monkeypatch, [{"nome": "PL_TESTE_v1.00", "sha256": sha}])
+    assert schema.identifica(base) == "PL_TESTE_v1.00"
+
+
+def test_conteudo_fora_do_registro_nao_ganha_nome_adivinhado(tmp_path, monkeypatch):
+    base = _xsd_falsos(tmp_path, {"a.xsd": b"x", "b.xsd": b"y"})
+    _registro_falso(monkeypatch, [{"nome": "PL_TESTE_v1.00", "sha256": {"a.xsd": "0", "b.xsd": "0"}}])
+    saida = schema.identifica(base, declarado="PL_999z_v9.99")
+    assert saida.startswith("pacote não identificado")
+    assert "PL_999z_v9.99" in saida, "o que a nfelib declara precisa aparecer"
+
+
+def test_declaracao_que_diverge_do_conteudo_fica_a_vista(tmp_path, monkeypatch):
+    import hashlib
+
+    base = _xsd_falsos(tmp_path, {"a.xsd": b"a", "b.xsd": b"b"})
+    sha = {n: hashlib.sha256((base / n).read_bytes()).hexdigest() for n in ("a.xsd", "b.xsd")}
+    _registro_falso(monkeypatch, [{"nome": "PL_TESTE_v1.00", "sha256": sha}])
+    saida = schema.identifica(base, declarado="PL_OUTRO_v2.00")
+    assert saida.startswith("PL_TESTE_v1.00")
+    assert "PL_OUTRO_v2.00" in saida
+
+
+def test_le_a_declaracao_da_nfelib_sem_importar(tmp_path):
+    init = tmp_path / "nfe" / "bindings" / "v4_0" / "__init__.py"
+    init.parent.mkdir(parents=True)
+    init.write_text(
+        "SCHEMA_VERSION: str = 'PL_010f'\n"
+        "SCHEMA_PACKAGE: str = 'Pacote de Liberação 010f (zip PL_010f_v1.04)'\n"
+        "raise RuntimeError('não pode ser importado')\n",
+        encoding="utf-8",
+    )
+    assert schema.declarado_pela_nfelib(tmp_path) == "PL_010f_v1.04"
+    assert schema.declarado_pela_nfelib(tmp_path / "nada") is None
+
+
+def test_registro_de_pacotes_tem_procedencia():
+    """Cada pacote registrado diz de onde veio; sha256 é dado, não enfeite."""
+    import re
+
+    registro = schema.pacotes_conhecidos()
+    assert registro["arquivos"], "o registro precisa dizer quais XSD identificam o pacote"
+    nomes, conteudos = set(), set()
+    for p in registro["pacotes"]:
+        assert re.fullmatch(r"PL_\d{3}[a-z]_v\d\.\d{2}", p["nome"]), p["nome"]
+        for chave in ("publicacao", "cobre", "zip", "zip_sha256", "baixado_em"):
+            assert p.get(chave), f"{p['nome']} sem {chave}"
+        assert re.fullmatch(r"[0-9a-f]{64}", p["zip_sha256"])
+        assert set(p["sha256"]) == set(registro["arquivos"]), p["nome"]
+        assert all(re.fullmatch(r"[0-9a-f]{64}", v) for v in p["sha256"].values())
+        nomes.add(p["nome"])
+        conteudos.add(tuple(sorted(p["sha256"].items())))
+    assert len(nomes) == len(registro["pacotes"]), "nome repetido no registro"
+    assert len(conteudos) == len(registro["pacotes"]), "dois pacotes com o mesmo conteúdo"
+
+
 @precisa_do_extra
 def test_elemento_desconhecido_pelo_pacote_e_rebaixado_para_aviso():
     """Documento com leiaute posterior ao pacote não pode ser reprovado.

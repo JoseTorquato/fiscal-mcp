@@ -17,6 +17,28 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ---
 
+## Não publicado
+
+### Corrigido
+
+- **`leiaute_validado_contra` declarava o pacote de schema errado.** Com a
+  `nfelib` 3.3.0 o laudo dizia `PL_005d`, mas o conteúdo embarcado é o **PL
+  010f v1.04**. O nome era tirado do maior `PL_` citado no comentário do
+  `leiauteNFe_v4.00.xsd`, que lista pacotes antigos e não diz qual é o vigente.
+
+  Agora o pacote é identificado **pelo conteúdo**: o sha256 de cada XSD
+  instalado é comparado com o do ZIP oficial do Portal da NF-e, registrado com
+  procedência em `regras/schema/pacotes.yaml` (PL 010e v1.02, PL 010f v1.04 e PL
+  010h v1.03). O que a própria `nfelib` declara (`SCHEMA_PACKAGE`, desde a
+  2.6.0) serve de conferência: se divergir do conteúdo, a saída diz isso.
+  Conteúdo fora do registro sai como "pacote não identificado", nunca com um
+  nome adivinhado. Um teste falha se a declaração e os XSD instalados
+  divergirem.
+
+  Detectado em **24/11/2026**, na revisão da camada de schema.
+
+---
+
 ## 0.2.1 — 2026-08-26
 
 Correção de publicação. Nenhuma mudança de comportamento do validador.

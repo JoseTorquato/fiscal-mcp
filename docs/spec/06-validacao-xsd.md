@@ -84,7 +84,7 @@ validou**:
 ```json
 {
   "ok": false,
-  "leiaute_validado_contra": "PL_010e_v1.02",
+  "leiaute_validado_contra": "PL_010f_v1.04 (nfelib 3.3.0)",
   "schema_disponivel": true,
   "achados": [
     {
@@ -142,6 +142,9 @@ validação de schema é pior que em regra — parece autoritativo.
 ### Mitigação, em três partes
 
 1. **Declarar sempre** o pacote em uso no campo `leiaute_validado_contra`.
+   Desde 24/11/2026 o nome vem do **conteúdo**: sha256 dos XSD instalados
+   contra o registro com procedência em `regras/schema/pacotes.yaml`. Ler o
+   nome no texto do XSD deu `PL_005d` para um PL 010f v1.04.
 2. **Rebaixar para aviso** quando o documento contiver elementos que o pacote não
    conhece e o erro do schema for de elemento inesperado. O texto precisa dizer
    o porquê: *"o pacote de schemas embarcado (PL 010e v1.02) cobre a NT v1.40;
