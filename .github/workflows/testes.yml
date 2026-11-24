@@ -17,8 +17,8 @@ jobs:
       matrix:
         python: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
       - run: pip install -e ".[servidor,xsd]" pytest
@@ -29,8 +29,8 @@ jobs:
     # camada de schema virar dependência escondida passa despercebido.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: pip install -e ".[servidor]" pytest
@@ -51,8 +51,8 @@ jobs:
     # as regras e as tabelas vivem fora do pacote e já quase ficaram de fora do wheel.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: pip install .
@@ -60,16 +60,12 @@ jobs:
         run: |
           cd /tmp
           python -c "from fiscal_mcp.regras import carrega; n=len(carrega()); print(f'{n} regras'); assert n >= 10, 'regras não foram embarcadas no pacote'"
-      - name: a tabela oficial veio junto?
+      - name: a tabela oficial e os dados de schema vieram junto?
+        # Mesmo script do publicar.yml: contagem e sha256 contra a PROCEDENCIA
+        # embarcada, sem número fixo que envelhece a cada atualização da tabela.
         run: |
           cd /tmp
-          python -c "
-          from fiscal_mcp.tabelas import resumo
-          r = resumo()
-          print(r)
-          assert r['disponivel'], 'tabela oficial não foi embarcada no pacote'
-          assert r['cclasstrib'] == 173, 'tabela embarcada veio incompleta'
-          "
+          python -I "$GITHUB_WORKSPACE/scripts/conferir_pacote.py" --instalado
       - name: a CLI funciona?
         run: |
           fiscal-mcp validar exemplos/nfe-valida.xml
