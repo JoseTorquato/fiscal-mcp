@@ -101,6 +101,10 @@ class Regra:
     campo_chave: str = ""
     mapa: tuple[tuple[str, str], ...] = ()
     """Indicador da tabela oficial → caminho XML. Tupla porque a regra é imutável."""
+    somente: tuple[str, ...] = ()
+    """`em_tabela`: a regra só olha estes valores. Vazio = todos."""
+    exceto: tuple[str, ...] = ()
+    """`em_tabela`: a regra ignora estes valores — quem cuida deles é outra regra."""
     referencia: str = ""
     vigencia: Vigencia | None = None
 
@@ -280,6 +284,11 @@ def _confere_configuracao(r: Regra, onde: str) -> None:
             except ArithmeticError as exc:
                 raise ValueError(f"{onde}: valor '{valor}' não é número") from exc
 
+    if (r.somente or r.exceto) and r.tipo != "em_tabela":
+        raise ValueError(f"{onde}: 'somente' e 'exceto' só valem para o tipo 'em_tabela'")
+    if set(r.somente) & set(r.exceto):
+        raise ValueError(f"{onde}: o mesmo valor está em 'somente' e em 'exceto'")
+
     if r.mapa:
         _confere_indicadores(r, onde)
 
@@ -358,6 +367,8 @@ def carrega(raiz: Path | None = None, documento: str = "nfe") -> list[Regra]:
                 filtro=bruto.get("filtro", ""),
                 campo_chave=bruto.get("campo_chave", ""),
                 mapa=_mapa(bruto, f"{arquivo}: {rid}"),
+                somente=tuple(str(v) for v in bruto.get("somente", ()) or ()),
+                exceto=tuple(str(v) for v in bruto.get("exceto", ()) or ()),
                 referencia=bruto.get("referencia", ""),
                 escopo=escopo,
                 vigencia=_vigencia(bruto, f"{arquivo}: {rid}"),
@@ -474,6 +485,10 @@ def _em_tabela(alvo: Alvo, r: Regra) -> str | None:
     """O valor precisa existir na tabela oficial embarcada."""
     atual = alvo.texto(r.campo)
     if atual is None:
+        return None
+    # Recorte por valor, dirigido pela regra: é como um código em transição sai
+    # com severidade própria numa regra irmã sem virar exceção no motor.
+    if (r.somente and atual not in r.somente) or atual in r.exceto:
         return None
     linhas, versao = _linhas(r)
     encontrada = linhas.get(atual)

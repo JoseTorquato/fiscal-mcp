@@ -116,6 +116,38 @@ def test_filtro_de_modelo_aprova_o_que_a_tabela_permite():
     assert roda(doc, regra(**CLASS_MODELO)) == []
 
 
+def test_exceto_tira_o_codigo_da_regra():
+    doc = nota("<IBSCBS><cClassTrib>200001</cClassTrib></IBSCBS>", modelo="55")
+    assert roda(doc, regra(**CLASS_MODELO, exceto=("200001",))) == []
+
+
+def test_somente_restringe_a_regra_aos_codigos_listados():
+    fora = nota("<IBSCBS><cClassTrib>200001</cClassTrib></IBSCBS>", modelo="55")
+    assert roda(fora, regra(**CLASS_MODELO, somente=("550002",))) == []
+    dentro = nota("<IBSCBS><cClassTrib>550002</cClassTrib></IBSCBS>", modelo="55")
+    assert "não é permitido no modelo 55" in detalhe(dentro, regra(**CLASS_MODELO, somente=("550002",)))
+
+
+def _regra_yaml(tmp_path: Path, **campos) -> None:
+    caminho = tmp_path / "nfe" / "t.yaml"
+    caminho.parent.mkdir(parents=True, exist_ok=True)
+    caminho.write_text(yaml.safe_dump({"grupo": "t", "regras": [
+        {"id": "t1", "mensagem": "m", "acao": "a", **campos},
+    ]}), encoding="utf-8")
+
+
+def test_somente_e_exceto_fora_de_em_tabela_e_erro_de_configuracao(tmp_path):
+    _regra_yaml(tmp_path, tipo="existe", campo="ide/nNF", exceto=["1"])
+    with pytest.raises(ValueError, match="só valem para o tipo 'em_tabela'"):
+        carrega(raiz=tmp_path)
+
+
+def test_mesmo_codigo_em_somente_e_exceto_e_erro_de_configuracao(tmp_path):
+    _regra_yaml(tmp_path, **CLASS_MODELO, somente=["550002"], exceto=["550002"])
+    with pytest.raises(ValueError, match="'somente' e em 'exceto'"):
+        carrega(raiz=tmp_path)
+
+
 def test_tabela_ausente_vira_informacao_e_nao_erro(monkeypatch):
     """Defeito de instalação não pode reprovar a nota de ninguém."""
     def sem_tabela(*_a, **_k):

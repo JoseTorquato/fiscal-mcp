@@ -156,13 +156,48 @@ def test_cclasstrib_que_passou_a_valer_em_nfe_e_aceito(cclasstrib):
     assert "ibs-cclasstrib-modelo" not in ids(xml, "erro"), ids(xml, "erro")
 
 
-def test_550002_deixou_de_valer_em_nfe():
-    """A publicação de 01/10/2026 desligou IndNfe no `550002`."""
+def test_550002_em_nfe_e_aviso_de_transicao_e_nao_erro():
+    """A tabela de 30/10/2026 desligou IndNfe no `550002`, sem fim de vigência.
+
+    Nota emitida enquanto o código valia não pode ser reprovada: sem fonte
+    primária de rejeição ativa, a desativação sai como aviso de transição.
+    """
     xml = quebra(
         ("<CST>000</CST>", "<CST>550</CST>"),
         ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>550002</cClassTrib>"),
     )
+    r = valida_nfe(xml)
+    assert r["erros"] == 0, [a["id"] for a in r["achados"] if a["severidade"] == "erro"]
+    transicao = [a for a in r["achados"] if a["id"] == "ibs-cclasstrib-modelo-transicao"]
+    assert len(transicao) == 1, transicao
+    aviso = transicao[0]
+    assert aviso["severidade"] == "aviso"
+    assert "deixou de ser permitido em NF-e" in aviso["problema"]
+    assert "30/10/2026" in aviso["problema"] and "IT 2025.002 v1.71" in aviso["problema"]
+    assert "01/10/2026" not in aviso["problema"] + aviso["acao"], (
+        "01/10/2026 veio do monitor, não da fonte: não é data de desativação"
+    )
+    assert aviso["vigencia"]["reavaliar_em"]
+    assert "IT 2025.002 v1.71" in aviso["vigencia"]["fonte"]
+
+
+def test_codigo_fora_do_modelo_continua_erro_apesar_da_transicao():
+    """O recorte do 550002 não pode afrouxar a L-04 para os outros códigos."""
+    xml = quebra(
+        ("<CST>000</CST>", "<CST>200</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>200001</cClassTrib>"),
+    )
     assert "ibs-cclasstrib-modelo" in ids(xml, "erro")
+    assert "ibs-cclasstrib-modelo-transicao" not in ids(xml)
+
+
+def test_todo_codigo_excluido_tem_regra_que_cuida_dele():
+    """`exceto` sem regra irmã com `somente` seria código caindo no vão."""
+    regras = carrega()
+    cuidados = {(r.campo, c) for r in regras for c in r.somente}
+    for r in regras:
+        for codigo in r.exceto:
+            assert (r.campo, codigo) in cuidados, f"{r.id} exclui {codigo} e ninguém o avalia"
 
 
 def test_410014_deixou_de_exigir_credito_presumido():
@@ -391,7 +426,8 @@ def test_as_regras_da_camada_a_estao_todas_presentes():
     esperadas = {
         "ibs-grupo-ausente",
         "ibs-cst-existe", "ibs-cclasstrib-prefixo-cst", "ibs-cclasstrib-existe",
-        "ibs-cclasstrib-modelo", "ibs-subgrupos-obrigatorios", "ibs-vibs-soma-uf-mun",
+        "ibs-cclasstrib-modelo", "ibs-cclasstrib-modelo-transicao",
+        "ibs-subgrupos-obrigatorios", "ibs-vibs-soma-uf-mun",
         "ibs-totais-conferem-ibs", "ibs-totais-conferem-cbs", "ibs-grupo-exclusivo",
         "ibs-cst-620-exige-mono", "ibs-totais-presentes", "ibs-competapur-formato",
         "ibs-enum-credpres-zfm",
