@@ -104,6 +104,141 @@ def test_cclasstrib_nao_permitido_no_modelo_e_reprovado():
     assert "modelo 55" in achado[0]["detalhe"]
 
 
+# ---- tabela da SVRS publicada em 01/10/2026 e 30/10/2026 ------------------
+#
+# As regras L-01 a L-04 não mudaram: o que muda é o dado que elas consultam.
+# Estes testes travam o comportamento que a tabela nova trouxe, para que uma
+# troca de tabela futura que desfaça algo disso apareça como teste vermelho.
+
+REGRAS_DE_TABELA = {
+    "ibs-cst-existe", "ibs-cclasstrib-prefixo-cst",
+    "ibs-cclasstrib-existe", "ibs-cclasstrib-modelo",
+}
+
+
+@pytest.mark.parametrize("cst,cclasstrib", [
+    ("550", "550026"), ("550", "550027"), ("550", "550028"), ("550", "550029"),
+])
+def test_cclasstrib_novo_com_o_cst_correto_e_aceito_em_nfe(cst, cclasstrib):
+    """Os quatro códigos novos de CST 550 valem em NF-e (IndNfe) desde 01/10/2026."""
+    xml = quebra(
+        ("<CST>000</CST>", f"<CST>{cst}</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", f"<cClassTrib>{cclasstrib}</cClassTrib>"),
+    )
+    assert not ids(xml, "erro") & REGRAS_DE_TABELA, ids(xml, "erro")
+
+
+def test_cclasstrib_novo_com_o_cst_errado_continua_reprovado():
+    xml = quebra(("<cClassTrib>000001</cClassTrib>", "<cClassTrib>550026</cClassTrib>"))
+    assert "ibs-cclasstrib-prefixo-cst" in ids(xml, "erro")
+
+
+def test_000006_existe_mas_so_vale_para_nfse():
+    """`000006` (autônomo) é novo, mas a tabela marca IndNfe e IndNfce falsos.
+
+    Em NF-e ele deixa de ser "código inexistente" e passa a ser "código fora do
+    modelo" — o laudo precisa dizer a coisa certa.
+    """
+    xml = quebra(("<cClassTrib>000001</cClassTrib>", "<cClassTrib>000006</cClassTrib>"))
+    erros = ids(xml, "erro")
+    assert "ibs-cclasstrib-existe" not in erros
+    assert "ibs-cclasstrib-prefixo-cst" not in erros
+    assert "ibs-cclasstrib-modelo" in erros
+
+
+@pytest.mark.parametrize("cclasstrib", ["410022", "410023", "410024", "410025"])
+def test_cclasstrib_que_passou_a_valer_em_nfe_e_aceito(cclasstrib):
+    """A publicação de 01/10/2026 ligou IndNfe nestes quatro códigos de CST 410."""
+    xml = quebra(
+        ("<CST>000</CST>", "<CST>410</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", f"<cClassTrib>{cclasstrib}</cClassTrib>"),
+    )
+    assert "ibs-cclasstrib-modelo" not in ids(xml, "erro"), ids(xml, "erro")
+
+
+def test_550002_em_nfe_e_aviso_de_transicao_e_nao_erro():
+    """A tabela de 30/10/2026 desligou IndNfe no `550002`, sem fim de vigência.
+
+    Nota emitida enquanto o código valia não pode ser reprovada: sem fonte
+    primária de rejeição ativa, a desativação sai como aviso de transição.
+    """
+    xml = quebra(
+        ("<CST>000</CST>", "<CST>550</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>550002</cClassTrib>"),
+    )
+    r = valida_nfe(xml)
+    assert r["erros"] == 0, [a["id"] for a in r["achados"] if a["severidade"] == "erro"]
+    transicao = [a for a in r["achados"] if a["id"] == "ibs-cclasstrib-modelo-transicao"]
+    assert len(transicao) == 1, transicao
+    aviso = transicao[0]
+    assert aviso["severidade"] == "aviso"
+    assert "deixou de ser permitido em NF-e" in aviso["problema"]
+    assert "30/10/2026" in aviso["problema"] and "IT 2025.002 v1.71" in aviso["problema"]
+    assert "01/10/2026" not in aviso["problema"] + aviso["acao"], (
+        "01/10/2026 veio do monitor, não da fonte: não é data de desativação"
+    )
+    assert aviso["vigencia"]["reavaliar_em"]
+    assert "IT 2025.002 v1.71" in aviso["vigencia"]["fonte"]
+
+
+def test_codigo_fora_do_modelo_continua_erro_apesar_da_transicao():
+    """O recorte do 550002 não pode afrouxar a L-04 para os outros códigos."""
+    xml = quebra(
+        ("<CST>000</CST>", "<CST>200</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>200001</cClassTrib>"),
+    )
+    assert "ibs-cclasstrib-modelo" in ids(xml, "erro")
+    assert "ibs-cclasstrib-modelo-transicao" not in ids(xml)
+
+
+def test_550002_em_nfce_continua_erro():
+    """Em NFC-e o 550002 nunca valeu (IndNfce falso nas duas tabelas).
+
+    A transição é só de NF-e: em NFC-e a regra principal continua reprovando,
+    e a de transição — cujo texto fala de NF-e — não pode aparecer.
+    """
+    xml = quebra(
+        ("<mod>55</mod>", "<mod>65</mod>"),
+        ("<CST>000</CST>", "<CST>550</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>550002</cClassTrib>"),
+    )
+    achado = [a for a in achados(xml, "erro") if a["id"] == "ibs-cclasstrib-modelo"]
+    assert achado, ids(xml, "erro")
+    assert "modelo 65" in achado[0]["detalhe"]
+    assert "ibs-cclasstrib-modelo-transicao" not in ids(xml)
+
+
+def test_todo_codigo_excluido_tem_regra_que_cuida_dele():
+    """`exceto` sem regra irmã com `somente` seria código caindo no vão.
+
+    A irmã precisa cobrir os mesmos modelos em que a exclusão vale — senão o
+    código cai no vão justamente no modelo excluído.
+    """
+    regras = carrega()
+    for r in regras:
+        for codigo in r.exceto:
+            irmas = [
+                s for s in regras
+                if s.campo == r.campo and codigo in s.somente
+                and set(s.modelos or ("55", "65")) >= set(r.exceto_nos_modelos or ("55", "65"))
+            ]
+            assert irmas, f"{r.id} exclui {codigo} em {r.exceto_nos_modelos} e ninguém o avalia"
+
+
+def test_410014_deixou_de_exigir_credito_presumido():
+    """A publicação de 01/10/2026 desligou IndPermiteCredPres no `410014`.
+
+    Indicador falso veda o subgrupo: o aviso não pode mais pedir
+    `gCredPresOper` a quem não o tem.
+    """
+    xml = quebra(
+        ("<CST>000</CST>", "<CST>410</CST>"),
+        ("<cClassTrib>000001</cClassTrib>", "<cClassTrib>410014</cClassTrib>"),
+    )
+    detalhes = [a["detalhe"] for a in achados(xml) if a["id"] == "ibs-subgrupos-obrigatorios"]
+    assert not any("gCredPresOper" in d for d in detalhes), detalhes
+
+
 # ---- L-05 · subgrupos exigidos pelos indicadores -------------------------
 
 def test_subgrupo_exigido_pela_classificacao_e_acusado_como_aviso():
@@ -316,7 +451,8 @@ def test_as_regras_da_camada_a_estao_todas_presentes():
     esperadas = {
         "ibs-grupo-ausente",
         "ibs-cst-existe", "ibs-cclasstrib-prefixo-cst", "ibs-cclasstrib-existe",
-        "ibs-cclasstrib-modelo", "ibs-subgrupos-obrigatorios", "ibs-vibs-soma-uf-mun",
+        "ibs-cclasstrib-modelo", "ibs-cclasstrib-modelo-transicao",
+        "ibs-subgrupos-obrigatorios", "ibs-vibs-soma-uf-mun",
         "ibs-totais-conferem-ibs", "ibs-totais-conferem-cbs", "ibs-grupo-exclusivo",
         "ibs-cst-620-exige-mono", "ibs-totais-presentes", "ibs-competapur-formato",
         "ibs-enum-credpres-zfm",

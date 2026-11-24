@@ -94,7 +94,7 @@ def test_em_tabela_reprova_codigo_inexistente():
     doc = nota("<IBSCBS><CST>999</CST></IBSCBS>")
     d = detalhe(doc, regra(**CST_EXISTE))
     assert "imposto/IBSCBS/CST = '999' não existe na tabela cst-cclasstrib" in d
-    assert "2026-06-22" in d, "o achado precisa dizer contra qual versão validou"
+    assert "2026-10-30" in d, "o achado precisa dizer contra qual versão validou"
 
 
 def test_em_tabela_aprova_codigo_oficial():
@@ -114,6 +114,88 @@ def test_filtro_de_modelo_usa_o_indicador_da_tabela():
 def test_filtro_de_modelo_aprova_o_que_a_tabela_permite():
     doc = nota("<IBSCBS><cClassTrib>000001</cClassTrib></IBSCBS>", modelo="55")
     assert roda(doc, regra(**CLASS_MODELO)) == []
+
+
+def test_exceto_tira_o_codigo_da_regra():
+    doc = nota("<IBSCBS><cClassTrib>200001</cClassTrib></IBSCBS>", modelo="55")
+    assert roda(doc, regra(**CLASS_MODELO, exceto=("200001",))) == []
+
+
+def test_somente_restringe_a_regra_aos_codigos_listados():
+    fora = nota("<IBSCBS><cClassTrib>200001</cClassTrib></IBSCBS>", modelo="55")
+    assert roda(fora, regra(**CLASS_MODELO, somente=("550002",))) == []
+    dentro = nota("<IBSCBS><cClassTrib>550002</cClassTrib></IBSCBS>", modelo="55")
+    assert "não é permitido no modelo 55" in detalhe(dentro, regra(**CLASS_MODELO, somente=("550002",)))
+
+
+def _regra_yaml(tmp_path: Path, **campos) -> None:
+    caminho = tmp_path / "nfe" / "t.yaml"
+    caminho.parent.mkdir(parents=True, exist_ok=True)
+    caminho.write_text(yaml.safe_dump({"grupo": "t", "regras": [
+        {"id": "t1", "mensagem": "m", "acao": "a", **campos},
+    ]}), encoding="utf-8")
+
+
+def test_somente_e_exceto_fora_de_em_tabela_e_erro_de_configuracao(tmp_path):
+    _regra_yaml(tmp_path, tipo="existe", campo="ide/nNF", exceto=["1"])
+    with pytest.raises(ValueError, match="só valem para o tipo 'em_tabela'"):
+        carrega(raiz=tmp_path)
+
+
+def test_exceto_nos_modelos_so_tira_o_codigo_naquele_modelo():
+    r = regra(**CLASS_MODELO, exceto=("550002",), exceto_nos_modelos=("55",))
+    nfe = nota("<IBSCBS><cClassTrib>550002</cClassTrib></IBSCBS>", modelo="55")
+    nfce = nota("<IBSCBS><cClassTrib>550002</cClassTrib></IBSCBS>", modelo="65")
+    assert roda(nfe, r) == []
+    assert "não é permitido no modelo 65" in detalhe(nfce, r)
+
+
+def test_modelos_restringe_a_regra_ao_modelo():
+    r = regra(**CLASS_MODELO, somente=("550002",), modelos=("55",))
+    nfce = nota("<IBSCBS><cClassTrib>550002</cClassTrib></IBSCBS>", modelo="65")
+    assert roda(nfce, r) == []
+
+
+@pytest.mark.parametrize("chave,valor,mensagem", [
+    ("exceto", "550002", "lista de textos"),          # string vira caracteres soltos
+    ("somente", "550002", "lista de textos"),         # desligaria a regra inteira
+    ("exceto", [6], "lista de textos"),               # [000006] sem aspas vira 6
+    ("exceto", ["55002"], "não existe"),              # digitação
+    ("somente", ["5500O2"], "não existe"),            # letra O no lugar de zero
+    ("modelos", ["57"], "modelo desconhecido"),
+    ("exceto_nos_modelos", ["55"], "sem 'exceto'"),
+])
+def test_recorte_mal_configurado_falha_no_carregamento(tmp_path, chave, valor, mensagem):
+    _regra_yaml(tmp_path, **CLASS_MODELO, **{chave: valor})
+    with pytest.raises(ValueError, match=mensagem):
+        carrega(raiz=tmp_path)
+
+
+def test_yaml_sem_aspas_com_zero_a_esquerda_e_recusado(tmp_path):
+    """O caso real: `exceto: [000006]` escrito à mão, sem aspas."""
+    caminho = tmp_path / "nfe" / "t.yaml"
+    caminho.parent.mkdir(parents=True, exist_ok=True)
+    caminho.write_text(
+        "grupo: t\n"
+        "regras:\n"
+        "  - id: t1\n"
+        "    tipo: em_tabela\n"
+        "    mensagem: m\n"
+        "    acao: a\n"
+        "    campo: imposto/IBSCBS/cClassTrib\n"
+        "    tabela: cst-cclasstrib\n"
+        "    coluna: cclasstrib\n"
+        "    exceto: [000006]\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="lista de textos"):
+        carrega(raiz=tmp_path)
+
+
+def test_mesmo_codigo_em_somente_e_exceto_e_erro_de_configuracao(tmp_path):
+    _regra_yaml(tmp_path, **CLASS_MODELO, somente=["550002"], exceto=["550002"])
+    with pytest.raises(ValueError, match="'somente' e em 'exceto'"):
+        carrega(raiz=tmp_path)
 
 
 def test_tabela_ausente_vira_informacao_e_nao_erro(monkeypatch):
