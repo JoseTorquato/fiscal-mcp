@@ -1,0 +1,24 @@
+<!--
+Fragmento de changelog deste PR. Ver CONTRIBUTING.md, "Changelog".
+
+1. Tire do comentário a categoria certa (pode haver mais de uma).
+2. Um item por mudança, sempre com os QUATRO campos. tests/test_changelog_d.py
+   reprova fragmento sem eles.
+3. Mudança fiscal vai em "Absorvido da legislação": ali "Documento oficial" cita
+   o documento (nome, versão, link) e "Desde quando vale" traz data DD/MM/AAAA e
+   a data de detecção. Fora dela, os dois campos podem dizer "não se aplica" —
+   mas precisam estar escritos.
+-->
+
+{% for cat in config.categories -%}
+<!--
+### {{ cat }}
+
+- **Título curto da mudança.**
+  - **O que mudou:** o comportamento visto por quem usa.
+  - **Documento oficial:** NT, tabela, ato… com versão e link — ou "não se aplica".
+  - **O que mudou no código:** arquivos, regras, testes.
+  - **Desde quando vale:** DD/MM/AAAA (e detectado em DD/MM/AAAA) — ou "não se aplica".
+
+-->
+{% endfor -%}

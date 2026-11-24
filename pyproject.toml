@@ -47,3 +47,27 @@ packages = ["fiscal_mcp"]
 # `regras/tabelas/` vai junto por estar dentro de `regras/`.
 [tool.hatch.build.targets.wheel.force-include]
 "regras" = "fiscal_mcp/regras"
+
+# Changelog por fragmentos: cada PR deixa um arquivo em changelog.d/, e o PR de
+# release junta tudo com `scriv collect`. Ver CONTRIBUTING.md, "Changelog".
+# As categorias são as que o CHANGELOG.md já usa; "Absorvido da legislação" é a
+# única fiscal, e tests/test_changelog_d.py cobra os quatro campos com mais rigor
+# nela.
+[tool.scriv]
+format = "md"
+fragment_directory = "changelog.d"
+changelog = "CHANGELOG.md"
+version = "literal: fiscal_mcp/__init__.py: __version__"
+md_header_level = "2"
+md_html_anchors = false
+entry_title_template = "{{ version }} — {{ date.strftime('%Y-%m-%d') }}"
+fragment_name_fields = ["created", "branch"]
+new_fragment_template = "file: changelog.d/_modelo.md.j2"
+categories = [
+  "Absorvido da legislação",
+  "Adicionado",
+  "Alterado",
+  "Corrigido",
+  "Removido",
+  "Fontes monitoradas",
+]
