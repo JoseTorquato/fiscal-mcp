@@ -67,6 +67,23 @@ def test_tabela_alterada_falha_pelo_sha256(dados):
     assert any("sha256 da tabela" in p for p in problemas), problemas
 
 
+def test_tabela_com_codigo_trocado_vira_mensagem_clara(dados):
+    """O carregamento confere as regras contra a tabela: um código de recorte que
+    sumiu dela era ValueError cru do carrega(), sem ::error::."""
+    tabela = dados[0] / "cst-cclasstrib.json"
+    texto = tabela.read_text(encoding="utf-8")
+    assert texto.count('"550002"') == 1, "a tabela mudou: ajuste este teste"
+    tabela.write_text(texto.replace('"550002"', '"559999"'), encoding="utf-8")
+    problemas = conferir_pacote.confere(instalado=False)
+    assert any("não carregam contra a tabela" in p and "550002" in p for p in problemas), problemas
+
+
+def test_tabela_ilegivel_vira_mensagem_clara(dados):
+    (dados[0] / "cst-cclasstrib.json").write_text("{ não é json", encoding="utf-8")
+    problemas = conferir_pacote.confere(instalado=False)
+    assert problemas and all("Traceback" not in p for p in problemas), problemas
+
+
 def test_contagem_declarada_diferente_falha(dados):
     """A contagem vem da PROCEDENCIA, não de um número no workflow."""
     procedencia = dados[0] / "PROCEDENCIA.md"

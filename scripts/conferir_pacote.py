@@ -62,6 +62,10 @@ def confere(instalado: bool) -> list[str]:
         n_regras = len(carrega())
     except FileNotFoundError as erro:
         return problemas + [f"as regras não vieram no pacote: {erro}"]
+    except ValueError as erro:
+        # o carregamento confere as regras contra a tabela (códigos de recorte,
+        # indicadores): tabela com código trocado ou regra inconsistente cai aqui
+        return problemas + [f"as regras não carregam contra a tabela embarcada: {erro}"]
     if n_regras < 25:
         problemas.append(f"só {n_regras} regras de NF-e no pacote; esperado ao menos 25")
 
@@ -70,7 +74,10 @@ def confere(instalado: bool) -> list[str]:
     if not conteudo or not sha:
         problemas.append("a PROCEDENCIA.md não declara 'Conteúdo' e 'sha256' no formato esperado")
     else:
-        r = tabelas.resumo()
+        try:
+            r = tabelas.resumo()
+        except (ValueError, KeyError) as erro:
+            return problemas + [f"a tabela embarcada não pôde ser lida: {erro!r}"]
         esperado = (int(conteudo[1]), int(conteudo[2]))
         if not r["disponivel"] or (r["cst"], r["cclasstrib"]) != esperado:
             problemas.append(f"tabela incompleta: {r} != PROCEDENCIA {esperado}")
