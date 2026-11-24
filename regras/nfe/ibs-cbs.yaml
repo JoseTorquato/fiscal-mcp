@@ -12,8 +12,9 @@ grupo: ibs-cbs
 #
 # Sobre a obrigatoriedade do grupo: a NT 2025.002 v1.51, aprovada pelo Ato
 # Técnico Conjunto RFB/CGIBS nº 1 de 31/07/2026, reclassificou a regra UB12-10
-# de data fixa para "implementação futura". A rejeição por ausência do grupo NÃO
-# está ativa em produção para NF-e e NFC-e. É postergação técnica, não jurídica:
+# de data fixa para "implementação futura". As v1.52 (01/10/2026) e v1.53
+# (30/10/2026) mantiveram esse status sem data de produção. A rejeição por
+# ausência do grupo NÃO está ativa em produção para NF-e e NFC-e. É postergação técnica, não jurídica:
 # a obrigação de destacar permanece e condiciona a dispensa de recolhimento do
 # art. 348 da LC 214/2025.
 #
@@ -30,17 +31,19 @@ regras:
     campo: imposto/IBSCBS
     mensagem: Grupo IBSCBS ausente no item
     referencia: >
-      NT 2025.002 v1.51 · UB12-10 reclassificada como implementação futura
+      NT 2025.002 v1.53 · UB12-10 segue como implementação futura desde a v1.51
     vigencia:
-      reavaliar_em: "2026-09-01"
-      fonte: "Ato Técnico Conjunto RFB/CGIBS nº 1, de 31/07/2026"
+      reavaliar_em: "2026-12-14"
+      fonte: "NT 2025.002-RTC v1.53, de 30/10/2026 (UB12-10, Obs. 2)"
       observacao: >
-        Reavaliar quando entrarem as validações de 01/09/2026 (homologação) e
-        05/10/2026 (produção).
+        A v1.53 não dá data de produção para a UB12-10. 14/12/2026 é o próximo
+        marco oficial que mexe no grupo IBSCBS: entrada em produção da NT
+        2026.005 (grupo gTribSN), adiada para essa data pelo aviso CGIBS/RFB de
+        12/11/2026. Conferir ali se a UB12-10 ganhou data.
     acao: >
       Inclua o grupo IBSCBS com CST e cClassTrib no item. A rejeição
-      correspondente foi postergada para implementação futura pela NT 2025.002
-      v1.51, então a nota não é recusada por isso hoje — mas o destaque continua
+      correspondente segue postergada para implementação futura na NT 2025.002
+      v1.53 (desde a v1.51), então a nota não é recusada por isso hoje — mas o destaque continua
       legalmente obrigatório e condiciona a dispensa de recolhimento do art. 348
       da LC 214/2025.
 
@@ -131,10 +134,12 @@ regras:
     mensagem: Subgrupo de IBS/CBS incompatível com a classificação tributária
     referencia: Indicadores da tabela oficial, nos níveis CST e cClassTrib
     vigencia:
-      reavaliar_em: "2026-11-01"
-      fonte: "Tabela de Classificação Tributária (SVRS), publicação de 22/06/2026"
+      reavaliar_em: "2026-12-14"
+      fonte: "Tabela de Classificação Tributária (SVRS) — versão embarcada, ver regras/tabelas/PROCEDENCIA.md"
       observacao: >
-        Entra como aviso. Promover a erro só depois de três XMLs reais distintos
+        Reavaliar em 14/12/2026, quando a NT 2026.005 entra em produção (aviso
+        CGIBS/RFB de 12/11/2026) e o grupo gTribSN passa a existir no IBSCBS —
+        o mapa de subgrupos precisa ser conferido contra ela. Entra como aviso. Promover a erro só depois de três XMLs reais distintos
         sem falso positivo, com a promoção registrada no CHANGELOG.
     acao: >
       A classificação tributária escolhida determina quais subgrupos o item
@@ -307,11 +312,14 @@ regras:
     mensagem: Alíquota estadual de IBS diferente da alíquota-teste de 2026
     referencia: Transição assistida de 2026 · IBS 0,1%
     vigencia:
-      reavaliar_em: "2026-10-05"
+      reavaliar_em: "2026-12-14"
       fonte: "NT 2025.002-RTC · alíquotas de transição"
       observacao: >
-        Repartição entre parcela estadual e municipal não confirmada em fonte
-        oficial. Reavaliar junto com as validações de produção de 05/10/2026.
+        Repartição entre parcela estadual e municipal continua não confirmada em
+        fonte oficial (a pesquisa de 24/11/2026 não a cobriu). Reavaliar em
+        14/12/2026, próximo marco oficial do cronograma (aviso CGIBS/RFB de
+        12/11/2026) e antes de 2027, ano a que a alíquota-teste de 2026 não se
+        aplica.
     acao: >
       Em 2026 a alíquota de IBS é 0,1% em regime de transição assistida, sem
       recolhimento. Confira o percentual com a legislação vigente antes de
@@ -327,8 +335,11 @@ regras:
     mensagem: Alíquota de CBS diferente da alíquota-teste de 2026
     referencia: Transição assistida de 2026 · CBS 0,9%
     vigencia:
-      reavaliar_em: "2026-10-05"
+      reavaliar_em: "2026-12-14"
       fonte: "NT 2025.002-RTC · alíquotas de transição"
+      observacao: >
+        Mesma data da alíquota estadual: próximo marco oficial (14/12/2026) e
+        antes de 2027, ano a que a alíquota-teste de 2026 não se aplica.
     acao: >
       Em 2026 a alíquota de CBS é 0,9% em regime de transição assistida, sem
       recolhimento.

@@ -49,14 +49,21 @@ fontes:
       Documentos vigentes: vigentes
       Documentos não vigentes: nao_vigentes
     documentos_conhecidos:
-      conferido_em: 2026-08-25
+      conferido_em: 2026-11-24
       vigentes:
+        - Nota Técnica 2026.008 v1.01 - Publicada em 30/10/2026
+        - Nota Técnica 2026.007 v1.11 - Publicada em 30/10/2026
+        - Nota Técnica 2026.006 v1.01 - Publicada em 30/10/2026
+        - Nota Técnica 2026.005 v1.00 - Publicada em 30/10/2026
+        - Nota Técnica 2025.002 v1.53 - Publicada em 30/10/2026
+        - Nota Técnica NT2023.002_v1.02 - Publicada em 27/10/2026
+        - Nota Técnica 2026.002 v.1.11 - Publicada em 01/10/2026
+        - Nota Técnica 2026.010 v.1.00 - Publicada em 01/10/2026
+        - Nota Técnica 2021.003 - v.1.50 - Publicada em 25/09/2026
+        - Nota Técnica 2023.003 v.1.40 - Publicada em 25/09/2026
+        - Nota Técnica 2026.009 v.1.00 - Publicada em 09/09/2026
         - Nota Técnica 2014.001 v.1.41 - Publicada em 04/08/2026
-        - Nota Técnica 2026.007 v.1.00 - Publicada em 04/08/2026
-        - Nota Técnica 2026.002 v.1.10 - Publicada em 04/08/2026
-        - Nota Técnica 2025.002 v.1.51 - Publicada em 04/08/2026
         - Nota Técnica 2026.001 v.1.02b - Publicada em 31/07/2026
-        - Nota Técnica 2023.003 v.1.30 - Publicada em 29/07/2026
         - Nota Técnica 2014.002 - v.1.40 - Publicada em 03/07/2026
         - Nota Técnica 2026.004 v.1.01 - Publicada em 08/06/2026
         - Nota Técnica 2026.003 v.1.00 - Publicada em 25/05/2026
@@ -69,7 +76,6 @@ fontes:
         - Nota Técnica 2018.005 v.1.52 - Publicada em 10/07/2025
         - Nota Técnica 2023.001 v.1.60 - Publicada em 09/06/2025
         - Nota Técnica Conjunta 2025.001 - Publicada em 08/05/2025
-        - Nota Técnica 2021.003 - v.1.40 - Publicada em 26/02/2025
         - Nota Técnica 2021.002 v.1.12 - Publicada em 28/01/2025
         - Nota Técnica 2015.001 v.1.30 - Publicada em 06/12/2024
         - Nota Técnica 2022.005 v.1.11 - Publicada em 11/10/2024
@@ -155,6 +161,15 @@ fontes:
         - Nota Técnica 2010.004 - Publicada em 06/07/2010
         - Nota Técnica 2010.005 - Publicada em 06/07/2010
       nao_vigentes:
+        - Nota Técnica 2026.007 v.1.10 - Publicada em 01/10/2026
+        - Nota Técnica 2026.008 v.1.00 - Publicada em 01/10/2026
+        - Nota Técnica 2025.002 v.1.52 - Publicada em 01/10/2026
+        - Nota Técnica 2026.002 v.1.10a - Publicada em 25/08/2026
+        - Nota Técnica 2026.006 v.1.00 - Publicada em 25/08/2026
+        - Nota Técnica 2026.007 v.1.00 - Publicada em 04/08/2026
+        - Nota Técnica 2026.002 v.1.10 - Publicada em 04/08/2026
+        - Nota Técnica 2025.002 v.1.51 - Publicada em 04/08/2026
+        - Nota Técnica 2023.003 v.1.30 - Publicada em 29/07/2026
         - Nota Técnica 2014.001 v.1.40 - Publicada em 15/07/2026
         - Nota Técnica 2026.001 v.1.02a - Publicada em 23/06/2026
         - Nota Técnica 2026.001 v.1.02 - Publicada em 09/06/2026
@@ -187,6 +202,7 @@ fontes:
         - Nota Técnica 2025.002.v.1.00 - Publicada em 28/03/2025
         - Nota Técnica 2025.001 v.1.00 - Publicada em 25/03/2025
         - Nota Técnica 2018.005 - v.1.51 - Publicada em 13/03/2025
+        - Nota Técnica 2021.003 - v.1.40 - Publicada em 26/02/2025
         - Nota Técnica 2018.005 - v.1.50 - Publicada em 25/02/2025
         - Nota Técnica 2024.003 v.1.03 - Publicada em 24/02/2025
         - RT - Nota Técnica 2024.002 v.1.10 - IBS/CBS - Publicada em 06/12/2024
