@@ -81,7 +81,7 @@ def test_indicadores_de_documento_existem():
 
 def test_resumo_diz_contra_o_que_se_valida():
     r = tabelas.resumo()
-    assert r["disponivel"] and r["cst"] == 18 and r["cclasstrib"] == 164
+    assert r["disponivel"] and r["cst"] == 18 and r["cclasstrib"] == 173
     assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", r["publicacao_declarada_pela_fonte"])
 
 
@@ -103,7 +103,7 @@ def test_o_carregador_nao_toca_a_rede(monkeypatch):
     monkeypatch.setattr(socket.socket, "connect", proibido)
     monkeypatch.setattr(socket, "create_connection", proibido)
     tabelas.cst_cclasstrib.cache_clear()
-    assert len(tabelas.cst_cclasstrib()) == 164
+    assert len(tabelas.cst_cclasstrib()) == 173
 
 
 def test_indicadores_vem_dos_dois_niveis():

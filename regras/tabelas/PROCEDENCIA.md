@@ -17,10 +17,11 @@ python scripts/baixar_tabelas.py     # confere o diff, atualiza o sha256 aqui, a
 | | |
 |---|---|
 | **Origem** | Portal da Conformidade Fácil (SVRS) — <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> |
-| **Baixado em** | 25/08/2026 |
-| **Publicação declarada pela fonte** | 22/06/2026 (maior `DthPublicacao` do conjunto) |
-| **sha256** | `89acd2b3229a0d16acbdeed65741fb26dd52108857d6f86ba01002d13b92f4df` |
-| **Conteúdo** | 18 CST · 164 cClassTrib |
+| **Baixado em** | 24/11/2026 |
+| **Publicação declarada pela fonte** | 30/10/2026 (maior `DthPublicacao` do conjunto) |
+| **Informe oficial da publicação** | IT 2025.002 v1.71 — Tabelas de Classificação do IBS e da CBS, de 30/10/2026 (§07.09 e §07.10), em <https://dfe-portal.svrs.rs.gov.br/CFF/Documentos> |
+| **sha256** | `3b410f7cf2dad5e86912b482087557992e1cbaffc86749f03b83e7f32b1c2605` |
+| **Conteúdo** | 18 CST · 173 cClassTrib |
 | **Extraído de** | variável `dadosOriginais` da própria página — a mesma que alimenta a exportação CSV/Excel do portal |
 
 ### Conferência contra fonte secundária
@@ -33,7 +34,7 @@ independentes citadas na [spec 05 §7](../../docs/spec/05-camada-a-ibs-cbs.md):
 
 ### Campos descartados na normalização
 
-O portal serve ~4 MB; o arquivo embarcado tem ~380 KB. A diferença é isto, e
+O portal serve ~4 MB; o arquivo embarcado tem ~400 KB. A diferença é isto, e
 nada além disto:
 
 | Campo | Por que saiu |
@@ -45,6 +46,18 @@ nada além disto:
 Nenhum indicador (`Ind*`), percentual de redução, vigência ou nome foi alterado.
 Datas `DthPublicacao`/`DthIniVig`/`DthFimVig` foram truncadas de
 `AAAA-MM-DDT00:00:00` para `AAAA-MM-DD` — hora não significa nada aqui.
+
+Desde a publicação de 01/10/2026 a fonte traz o campo `TipoDoacao` em toda
+classificação. Ele é mantido como veio: nenhuma regra o consulta ainda.
+
+### Histórico do arquivo embarcado
+
+| Baixado em | Publicação declarada | Conteúdo | sha256 (abreviado) |
+|---|---|---|---|
+| 25/08/2026 | 22/06/2026 | 18 CST · 164 cClassTrib | `89acd2b3…b92f4df` |
+| 24/11/2026 | 30/10/2026 | 18 CST · 173 cClassTrib | `3b410f7c…b1c2605` |
+
+O que mudou entre uma versão e outra está no [CHANGELOG](../../CHANGELOG.md).
 
 ### O que muda quando a tabela mudar
 

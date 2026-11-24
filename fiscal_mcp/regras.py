@@ -101,6 +101,14 @@ class Regra:
     campo_chave: str = ""
     mapa: tuple[tuple[str, str], ...] = ()
     """Indicador da tabela oficial → caminho XML. Tupla porque a regra é imutável."""
+    somente: tuple[str, ...] = ()
+    """`em_tabela`: a regra só olha estes valores. Vazio = todos."""
+    exceto: tuple[str, ...] = ()
+    """`em_tabela`: a regra ignora estes valores — quem cuida deles é outra regra."""
+    exceto_nos_modelos: tuple[str, ...] = ()
+    """Modelos (`ide/mod`) em que `exceto` vale. Vazio = todos."""
+    modelos: tuple[str, ...] = ()
+    """`em_tabela`: a regra só é avaliada nestes modelos (`ide/mod`). Vazio = todos."""
     referencia: str = ""
     vigencia: Vigencia | None = None
 
@@ -280,8 +288,64 @@ def _confere_configuracao(r: Regra, onde: str) -> None:
             except ArithmeticError as exc:
                 raise ValueError(f"{onde}: valor '{valor}' não é número") from exc
 
+    if (r.somente or r.exceto or r.modelos or r.exceto_nos_modelos) and r.tipo != "em_tabela":
+        raise ValueError(
+            f"{onde}: 'somente', 'exceto', 'modelos' e 'exceto_nos_modelos' só valem "
+            f"para o tipo 'em_tabela'"
+        )
+    if set(r.somente) & set(r.exceto):
+        raise ValueError(f"{onde}: o mesmo valor está em 'somente' e em 'exceto'")
+    if r.exceto_nos_modelos and not r.exceto:
+        raise ValueError(f"{onde}: 'exceto_nos_modelos' sem 'exceto' não recorta nada")
+    for chave in ("modelos", "exceto_nos_modelos"):
+        desconhecidos = set(getattr(r, chave)) - set(MODELOS)
+        if desconhecidos:
+            raise ValueError(
+                f"{onde}: {chave} com modelo desconhecido {sorted(desconhecidos)} — há {sorted(MODELOS)}"
+            )
+    if r.somente or r.exceto:
+        _confere_valores_na_tabela(r, onde)
+
     if r.mapa:
         _confere_indicadores(r, onde)
+
+
+# Modelos de documento que a tabela oficial descreve por indicador (IndNfe/IndNfce).
+MODELOS = {"55": "NF-e", "65": "NFC-e"}
+
+
+def _lista_de_textos(bruto: dict, chave: str, onde: str) -> tuple[str, ...]:
+    """Lista de strings, ou erro de configuração.
+
+    Sem isto, `exceto: "550002"` viraria seis caracteres soltos e `[000006]` sem
+    aspas viraria o número 6 — um recorte que não recorta nada, em silêncio.
+    """
+    valor = bruto.get(chave)
+    if valor is None:
+        return ()
+    if not isinstance(valor, list) or not all(isinstance(v, str) for v in valor):
+        raise ValueError(
+            f"{onde}: '{chave}' precisa ser uma lista de textos entre aspas, "
+            f"ex.: {chave}: [\"550002\"] — veio {valor!r}"
+        )
+    return tuple(valor)
+
+
+def _confere_valores_na_tabela(r: Regra, onde: str) -> None:
+    """Valor de recorte que não existe na tabela é erro de digitação da regra."""
+    from . import tabelas as mod_tabelas
+
+    try:
+        tabela = mod_tabelas.cst_cclasstrib()
+    except mod_tabelas.TabelaAusente:
+        return  # sem tabela não há o que conferir; a regra vira `informacao` em runtime
+    linhas = {"cst": tabela.cst, "cclasstrib": tabela.classificacoes}.get(r.coluna, {})
+    inexistentes = sorted((set(r.somente) | set(r.exceto)) - set(linhas))
+    if inexistentes:
+        raise ValueError(
+            f"{onde}: {inexistentes} não existe(m) na coluna '{r.coluna}' da tabela "
+            f"{r.tabela}. Confira contra regras/tabelas/{r.tabela}.json"
+        )
 
 
 def _confere_indicadores(r: Regra, onde: str) -> None:
@@ -358,6 +422,10 @@ def carrega(raiz: Path | None = None, documento: str = "nfe") -> list[Regra]:
                 filtro=bruto.get("filtro", ""),
                 campo_chave=bruto.get("campo_chave", ""),
                 mapa=_mapa(bruto, f"{arquivo}: {rid}"),
+                somente=_lista_de_textos(bruto, "somente", f"{arquivo}: {rid}"),
+                exceto=_lista_de_textos(bruto, "exceto", f"{arquivo}: {rid}"),
+                exceto_nos_modelos=_lista_de_textos(bruto, "exceto_nos_modelos", f"{arquivo}: {rid}"),
+                modelos=_lista_de_textos(bruto, "modelos", f"{arquivo}: {rid}"),
                 referencia=bruto.get("referencia", ""),
                 escopo=escopo,
                 vigencia=_vigencia(bruto, f"{arquivo}: {rid}"),
@@ -474,6 +542,15 @@ def _em_tabela(alvo: Alvo, r: Regra) -> str | None:
     """O valor precisa existir na tabela oficial embarcada."""
     atual = alvo.texto(r.campo)
     if atual is None:
+        return None
+    # Recorte por valor, dirigido pela regra: é como um código em transição sai
+    # com severidade própria numa regra irmã sem virar exceção no motor.
+    modelo = alvo.doc.texto("ide/mod")
+    if r.modelos and modelo not in r.modelos:
+        return None
+    if r.somente and atual not in r.somente:
+        return None
+    if atual in r.exceto and (not r.exceto_nos_modelos or modelo in r.exceto_nos_modelos):
         return None
     linhas, versao = _linhas(r)
     encontrada = linhas.get(atual)
