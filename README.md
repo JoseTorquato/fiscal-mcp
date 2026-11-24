@@ -10,7 +10,7 @@ nenhum.
 
 [![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/pyproject.toml)
-[![331 testes](https://img.shields.io/badge/testes-331-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
+[![350 testes](https://img.shields.io/badge/testes-350-22C55E)](https://github.com/JoseTorquato/fiscal-mcp/blob/main/tests/)
 
 ```bash
 pip install "fiscal-mcp[xsd]"
@@ -146,7 +146,7 @@ perder a confiança de quem trabalha com fiscal:
 
 | | Camadas | Regras | Testado contra |
 |---|---|---|---|
-| NF-e / NFC-e | schema XSD + regras + chave | 29 | ✅ **duas NF-e reais autorizadas em produção**, 17 amostras públicas e XML sintético |
+| NF-e / NFC-e | schema XSD + regras + chave | 31 | ✅ **duas NF-e reais autorizadas em produção**, 17 amostras públicas e XML sintético |
 | NFS-e nacional | regras + chave | 10 | ✅ uma nota autorizada de verdade |
 
 ### Contra nota real, autorizada em produção
@@ -187,12 +187,13 @@ oficial de propósito, a outra tem valores de preenchimento incoerentes entre si
 (`vIBS = 0` com `vIBSUF = 16`). **Nenhuma regra de tabela acusa nenhuma delas**,
 e há teste que trava isso.
 
-Das 29 regras de NF-e, **18 são da Camada A de IBS/CBS**: CST e `cClassTrib`
+Das 31 regras de NF-e, **20 são da Camada A de IBS/CBS**: CST e `cClassTrib`
 conferidos contra a **tabela oficial embarcada** da SVRS — 18 CST e 173
 classificações, versionadas no repositório com URL de origem, data e sha256
 ([procedência](https://github.com/JoseTorquato/fiscal-mcp/blob/main/regras/tabelas/PROCEDENCIA.md)).
 Mais aritmética por item, exclusividade de regime, presença condicional e as
-alíquotas de transição de 2026.
+alíquotas de transição por ano de emissão (IBS de 2026 a 2028 e CBS de
+2026, LC 214/2025, arts. 343, 344 e 346).
 
 `fiscal-mcp tabelas` diz qual versão da tabela está embarcada. Quem valida contra
 tabela precisa saber contra qual.

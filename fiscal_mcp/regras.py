@@ -111,6 +111,9 @@ class Regra:
     """`em_tabela`: a regra só é avaliada nestes modelos (`ide/mod`). Vazio = todos."""
     referencia: str = ""
     vigencia: Vigencia | None = None
+    emissao: tuple[str, str] = ()
+    """(de, até), datas ISO inclusivas: a regra só vale para documento emitido no
+    intervalo, pela data local de `ide/dhEmi`. Vazio = qualquer data."""
 
 
 @dataclass
@@ -227,6 +230,37 @@ def _vigencia(bruto: dict, onde: str) -> Vigencia | None:
         fonte=str(dados.get("fonte", "") or ""),
         observacao=str(dados.get("observacao", "") or ""),
     )
+
+
+def _emissao(bruto: dict, onde: str) -> tuple[str, str]:
+    """`emissao: {de: AAAA-MM-DD, ate: AAAA-MM-DD}` — as duas pontas obrigatórias."""
+    dados = bruto.get("emissao")
+    if dados is None:
+        return ()
+    if not isinstance(dados, dict) or set(dados) != {"de", "ate"}:
+        raise ValueError(f"{onde}: emissao precisa ser um bloco com 'de' e 'ate', não {dados!r}")
+    de = _data(dados["de"], f"{onde}: emissao.de")
+    ate = _data(dados["ate"], f"{onde}: emissao.ate")
+    if not de or not ate or de > ate:
+        raise ValueError(f"{onde}: emissao de {de!r} até {ate!r} não é um intervalo válido")
+    return (de, ate)
+
+
+def _data_de_emissao(doc: Documento) -> str | None:
+    """Data local de emissão (AAAA-MM-DD), lida de `ide/dhEmi`.
+
+    Fica a data como o emissor a escreveu, sem converter fuso: a lei fala do
+    dia da operação no local dela. Sem data legível devolve None — e regra com
+    `emissao` não roda: melhor não avisar do que avisar pela lei do ano errado.
+    """
+    texto = doc.texto("ide/dhEmi")
+    casou = re.match(r"^\s*(\d{4}-\d{2}-\d{2})T", texto or "")
+    if not casou:
+        return None
+    try:
+        return date.fromisoformat(casou.group(1)).isoformat()
+    except ValueError:
+        return None
 
 
 def _mapa(bruto: dict, onde: str) -> tuple[tuple[str, str], ...]:
@@ -440,6 +474,7 @@ def carrega(raiz: Path | None = None, documento: str = "nfe") -> list[Regra]:
                 referencia=bruto.get("referencia", ""),
                 escopo=escopo,
                 vigencia=_vigencia(bruto, f"{arquivo}: {rid}"),
+                emissao=_emissao(bruto, f"{arquivo}: {rid}"),
             ))
             _confere_configuracao(regras[-1], f"{arquivo}: {rid}")
     return regras
@@ -707,7 +742,12 @@ def aplica(doc: Documento, regras: list[Regra]) -> list[Achado]:
     que a viola. Quem conta achados conta achados, não regras.
     """
     achados: list[Achado] = []
+    emitido_em = _data_de_emissao(doc)
     for regra in regras:
+        if regra.emissao:
+            de, ate = regra.emissao
+            if emitido_em is None or not de <= emitido_em <= ate:
+                continue
         executor = EXECUTORES.get(regra.tipo)
         if executor is None:
             raise ValueError(f"tipo de regra desconhecido: '{regra.tipo}' em {regra.id}")

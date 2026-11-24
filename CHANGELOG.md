@@ -21,6 +21,47 @@ de release (`scriv collect`) — ver CONTRIBUTING.md.
 
 ---
 
+## Não publicado
+
+### Absorvido da legislação
+
+- **Alíquotas de transição do IBS e da CBS, por ano de emissão.** As regras de
+  alíquota comparavam só o percentual e, a partir de 01/01/2027, avisariam toda
+  nota correta. Agora cada uma vale só para a nota emitida no seu período, pela
+  data local de `ide/dhEmi`; nota sem data legível não recebe aviso de alíquota.
+
+  - **IBS 2026** (`ibs-aliquota-uf-2026`): 0,1% na alíquota estadual
+    (`pIBSUF`), **LC 214/2025, art. 343**. Sai a ressalva "repartição entre
+    estado e município não confirmada": o art. 343 a resolve.
+  - **IBS 2027–2028** (regras novas `ibs-aliquota-uf-2027-2028` e
+    `ibs-aliquota-mun-2027-2028`): 0,05% estadual e 0,05% municipal, **art.
+    344**.
+  - **CBS 2026** (`ibs-aliquota-cbs-2026`): 0,9%, **art. 346**.
+  - **CBS 2027 em diante não tem regra.** O art. 347 fixa a alíquota em
+    referência menos 0,1 p.p., e a referência depende de resolução do Senado
+    ainda não publicada (prazo informado de 15/12/2026, não confirmado). A
+    regra de 2026 reavalia nessa data.
+
+  Todas continuam **aviso**. Combustíveis do regime específico (arts. 172–180):
+  o art. 347 os exclui da CBS de transição; o art. 344, parágrafo único, III,
+  não os exclui do IBS de 2027–2028, apenas aplica os 0,05% sobre o valor da
+  operação. Eles vão em `gIBSCBSMono`, então estas regras não os conferem.
+
+  Borda conhecida, sem mudança de código: o ano é o do `dhEmi` como o emissor o
+  escreveu, sem converter fuso (`dhEmi` em UTC perto da meia-noite cai no ano
+  seguinte), e a lei fala de fato gerador, não de emissão (devolução em
+  janeiro/2027 de operação de 2026 pode receber aviso).
+
+  Código: novo bloco `emissao: {de, ate}` no motor de regras (qualquer tipo),
+  validado no carregamento; regras e testes em `regras/nfe/ibs-cbs.yaml` e
+  `tests/test_ibs_cbs.py`.
+
+  Documento oficial: [LC 214/2025](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm),
+  arts. 343, 344, 346 e 347, de 16/01/2025. Lido em **24/11/2026**. Vale desde
+  **01/01/2026** (2026) e **01/01/2027** (2027–2028).
+
+---
+
 ## 0.3.0 — 2026-11-24
 
 ### Absorvido da legislação

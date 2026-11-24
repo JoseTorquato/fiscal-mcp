@@ -457,15 +457,13 @@ def test_dois_creditos_presumidos_no_mesmo_item_e_reprovado():
     assert "ibs-credito-presumido-exclusivo" in ids(xml, "erro")
 
 
-# ---- L-14 · alíquotas de 2026 (aviso) ------------------------------------
+# ---- L-14 · alíquotas de transição por ano de emissão (aviso) ------------
 
 def test_aliquota_estadual_diferente_vira_aviso():
     xml = quebra(("<pIBSUF>0.10</pIBSUF>", "<pIBSUF>0.15</pIBSUF>"))
     achado = [a for a in achados(xml) if a["id"] == "ibs-aliquota-uf-2026"]
-    assert achado and achado[0]["severidade"] == "aviso", (
-        "a repartição entre parcela estadual e municipal não está confirmada em "
-        "fonte oficial — enquanto não estiver, esta regra não pode reprovar"
-    )
+    assert achado and achado[0]["severidade"] == "aviso", "promoção a erro é decisão separada"
+    assert "art. 343" in achado[0]["referencia"]
 
 
 def test_aliquota_de_cbs_diferente_vira_aviso():
@@ -478,6 +476,90 @@ def test_aliquota_de_cbs_diferente_vira_aviso():
 def test_mesma_aliquota_em_outra_escala_nao_gera_aviso(escrito):
     xml = quebra(("<pIBSUF>0.10</pIBSUF>", f"<pIBSUF>{escrito}</pIBSUF>"))
     assert "ibs-aliquota-uf-2026" not in ids(xml)
+
+
+REGRAS_DE_ALIQUOTA = {
+    "ibs-aliquota-uf-2026", "ibs-aliquota-cbs-2026",
+    "ibs-aliquota-uf-2027-2028", "ibs-aliquota-mun-2027-2028",
+}
+
+DHEMI_2026 = "<dhEmi>2026-08-08T10:00:00-03:00</dhEmi>"
+
+
+def nota_de(dhemi: str | None, uf: str = "0.10", mun: str = "0.00", cbs: str = "0.90") -> str:
+    """A nota correta com data e alíquotas trocadas em TODOS os itens."""
+    assert CORRETA.count(DHEMI_2026) == 1, "a fixture mudou: ajuste DHEMI_2026"
+    xml = CORRETA.replace(DHEMI_2026, f"<dhEmi>{dhemi}</dhEmi>" if dhemi is not None else "")
+    for de, para in (("<pIBSUF>0.10</pIBSUF>", f"<pIBSUF>{uf}</pIBSUF>"),
+                     ("<pIBSMun>0.00</pIBSMun>", f"<pIBSMun>{mun}</pIBSMun>"),
+                     ("<pCBS>0.90</pCBS>", f"<pCBS>{cbs}</pCBS>")):
+        assert de in xml, f"a fixture mudou: '{de}' não está mais no XML"
+        xml = xml.replace(de, para)
+    return xml
+
+
+def aliquota(xml: str) -> list[dict]:
+    return [a for a in achados(xml) if a["id"] in REGRAS_DE_ALIQUOTA]
+
+
+def test_nota_de_2026_com_0_10_passa():
+    assert aliquota(nota_de("2026-08-08T10:00:00-03:00")) == []
+
+
+def test_nota_de_2027_com_0_05_e_0_05_passa():
+    """A nota de 2027 não pode receber aviso pela lei de 2026 — o defeito original."""
+    xml = nota_de("2027-02-10T09:00:00-03:00", uf="0.05", mun="0.05")
+    assert aliquota(xml) == []
+    assert valida_nfe(xml)["erros"] == 0
+
+
+def test_nota_de_2027_com_0_10_estadual_gera_aviso():
+    xml = nota_de("2027-02-10T09:00:00-03:00", uf="0.10", mun="0.05")
+    achado = aliquota(xml)
+    assert {a["id"] for a in achado} == {"ibs-aliquota-uf-2027-2028"}, achado
+    assert all(a["severidade"] == "aviso" for a in achado)
+    assert len(achado) == 2, "um por item"
+    assert "art. 344" in achado[0]["referencia"]
+
+
+def test_nota_de_2027_sem_parcela_municipal_gera_aviso():
+    xml = nota_de("2027-02-10T09:00:00-03:00", uf="0.05", mun="0.00")
+    assert {a["id"] for a in aliquota(xml)} == {"ibs-aliquota-mun-2027-2028"}
+
+
+def test_cbs_de_2027_nao_e_conferida():
+    """Art. 347 depende de resolução do Senado ainda não publicada: sem regra."""
+    xml = nota_de("2027-02-10T09:00:00-03:00", uf="0.05", mun="0.05", cbs="8.80")
+    assert aliquota(xml) == []
+
+
+@pytest.mark.parametrize("dhemi,uf", [
+    ("2026-12-31T23:59:59-03:00", "0.10"),   # último dia de 2026: lei de 2026
+    ("2027-01-01T00:00:00-03:00", "0.05"),   # primeiro dia de 2027: lei de 2027
+    ("2028-12-31T12:00:00-03:00", "0.05"),
+])
+def test_virada_de_ano_usa_a_data_local_de_emissao(dhemi, uf):
+    """A data é a que o emissor escreveu, sem converter fuso: 31/12 23:59 -03:00
+    é 2026, mesmo sendo 2027 em UTC."""
+    assert aliquota(nota_de(dhemi, uf=uf, mun="0.00" if uf == "0.10" else "0.05")) == []
+
+
+def test_2029_fica_sem_regra_de_aliquota():
+    """Art. 345 em diante não foi lido: nenhuma regra fala de 2029."""
+    assert aliquota(nota_de("2029-03-01T10:00:00-03:00", uf="0.99", mun="0.99")) == []
+
+
+@pytest.mark.parametrize("dhemi", [None, "", "08/08/2026 10:00", "2026-13-40T10:00:00-03:00"])
+def test_nota_sem_data_de_emissao_legivel_nao_gera_achado_de_aliquota(dhemi):
+    """Falha aberta: sem data não se sabe qual lei vale, então não se avisa."""
+    xml = nota_de(dhemi, uf="0.77", mun="0.77", cbs="7.70")
+    assert aliquota(xml) == []
+
+
+def test_regras_de_aliquota_tem_periodo_de_emissao():
+    for r in carrega():
+        if r.id in REGRAS_DE_ALIQUOTA:
+            assert r.emissao, f"{r.id} sem período de emissão avisaria a nota do ano errado"
 
 
 # ---- integridade do conjunto ---------------------------------------------
@@ -517,5 +599,6 @@ def test_as_regras_da_camada_a_estao_todas_presentes():
         "ibs-enum-credpres-zfm",
         "ibs-credito-presumido-exclusivo",
         "ibs-aliquota-uf-2026", "ibs-aliquota-cbs-2026",
+        "ibs-aliquota-uf-2027-2028", "ibs-aliquota-mun-2027-2028",
     }
     assert {r.id for r in carrega() if r.id.startswith("ibs-")} == esperadas

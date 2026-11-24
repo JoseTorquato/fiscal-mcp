@@ -219,6 +219,24 @@ def test_yaml_sem_aspas_com_zero_a_esquerda_e_recusado(tmp_path):
         carrega(raiz=tmp_path)
 
 
+@pytest.mark.parametrize("emissao,mensagem", [
+    ({"de": "2027-01-01"}, "'de' e 'ate'"),
+    ({"de": "2027-01-01", "ate": "2026-12-31"}, "intervalo válido"),
+    ({"de": "2027-01-01", "ate": "31/12/2028"}, "data ISO"),
+    ("2027", "'de' e 'ate'"),
+])
+def test_emissao_mal_configurada_falha_no_carregamento(tmp_path, emissao, mensagem):
+    _regra_yaml(tmp_path, tipo="existe", campo="ide/nNF", emissao=emissao)
+    with pytest.raises(ValueError, match=mensagem):
+        carrega(raiz=tmp_path)
+
+
+def test_emissao_vale_para_qualquer_tipo(tmp_path):
+    _regra_yaml(tmp_path, tipo="existe", campo="ide/nNF",
+                emissao={"de": "2027-01-01", "ate": "2028-12-31"})
+    assert carrega(raiz=tmp_path)[0].emissao == ("2027-01-01", "2028-12-31")
+
+
 def test_mesmo_codigo_em_somente_e_exceto_e_erro_de_configuracao(tmp_path):
     _regra_yaml(tmp_path, **CLASS_MODELO, somente=["550002"], exceto=["550002"])
     with pytest.raises(ValueError, match="'somente' e em 'exceto'"):
