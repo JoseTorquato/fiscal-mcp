@@ -126,7 +126,7 @@ registre a data de detecção num fragmento de changelog (abaixo).
 não brigam pela mesma seção.
 
 ```bash
-pip install scriv
+pip install scriv==1.8.2        # versão fixa: o fluxo e as armadilhas abaixo foram conferidos nela
 PYTHONUTF8=1 scriv create      # cria changelog.d/AAAAMMDD_HHMMSS_<branch>.md
 ```
 
@@ -160,14 +160,31 @@ anterior a essa linha).
 
 ### No PR de release
 
-```bash
-PYTHONUTF8=1 scriv collect --version X.Y.Z
-```
+1. Junte os fragmentos:
 
-Isso junta os fragmentos no topo do `CHANGELOG.md` sob `## X.Y.Z — data` e
-apaga os arquivos coletados. O scriv não põe a régua `---` entre versões, que o
-arquivo sempre usou: acrescente-a à mão logo antes da versão anterior. Um teste
-falha se ela faltar.
+   ```bash
+   pip install scriv==1.8.2
+   PYTHONUTF8=1 scriv collect --version X.Y.Z
+   ```
+
+   Isso põe as entradas no topo do `CHANGELOG.md`, sob `## X.Y.Z — data`, e
+   apaga os fragmentos coletados (o `_modelo.md.j2` e o README ficam).
+
+2. **Insira a régua `---` à mão.** O scriv não a põe entre versões, e o arquivo
+   sempre a usou. Logo antes da linha `## <versão anterior>`, deixe:
+
+   ```markdown
+   - …último item da X.Y.Z…
+
+   ---
+
+   ## <versão anterior> — AAAA-MM-DD
+   ```
+
+   `tests/test_changelog_d.py::test_versoes_separadas_por_regua` falha se ela
+   faltar.
+
+3. Rode `pytest -q` e confira o diff do `CHANGELOG.md` antes de commitar.
 
 ## Estilo
 
