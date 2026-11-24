@@ -116,7 +116,58 @@ python scripts/baixar_tabelas.py   # confere o diff, atualiza o sha256, abre PR
 ```
 
 Dado oficial mudando é notícia, não rotina: leia o diff antes de commitar e
-registre a data de detecção no `CHANGELOG.md`.
+registre a data de detecção num fragmento de changelog (abaixo).
+
+## Changelog
+
+**Não edite o `CHANGELOG.md` no seu PR.** Cada PR deixa um *fragmento* em
+`changelog.d/`, e o PR de release junta todos com o
+[scriv](https://scriv.readthedocs.io/). Assim dois PRs abertos ao mesmo tempo
+não brigam pela mesma seção.
+
+```bash
+pip install scriv
+PYTHONUTF8=1 scriv create      # cria changelog.d/AAAAMMDD_HHMMSS_<branch>.md
+```
+
+> **No Windows, use `PYTHONUTF8=1`** (PowerShell: `$env:PYTHONUTF8 = "1"`). O
+> scriv lê e grava os fragmentos na codificação do sistema; sem isso, a
+> categoria "Absorvido da legislação" sai em cp1252 e o teste reprova o arquivo.
+
+Abra o arquivo, tire do comentário a categoria certa e escreva um item por
+mudança, sempre com os **quatro campos** do formato do projeto:
+
+```markdown
+### Absorvido da legislação
+
+- **NT 2025.002 v1.53 — UB12-10 continua sem data.**
+  - **O que mudou:** o que quem usa vê de diferente.
+  - **Documento oficial:** NT 2025.002-RTC v1.53, de 30/10/2026 (link).
+  - **O que mudou no código:** regra, tabela, teste.
+  - **Desde quando vale:** 16/11/2026; detectado em 24/11/2026.
+```
+
+| Categoria | Quando | Documento oficial | Desde quando vale |
+|---|---|---|---|
+| **Absorvido da legislação** | mudança fiscal: NT, tabela, ato, lei | **obrigatório** — nome, versão, link | **obrigatório** — data DD/MM/AAAA, e a data de detecção |
+| Adicionado, Alterado, Corrigido, Removido, Fontes monitoradas | mudança não fiscal | pode ser "não se aplica" | pode ser "não se aplica" |
+
+Fora da categoria fiscal os dois campos ainda precisam estar **escritos**: a
+ausência vira dúvida, "não se aplica" é uma resposta. `tests/test_changelog_d.py`
+reprova fragmento sem os quatro campos, com categoria desconhecida, com acento
+quebrado ou que cite o marcador de inserção do scriv (ele descartaria o texto
+anterior a essa linha).
+
+### No PR de release
+
+```bash
+PYTHONUTF8=1 scriv collect --version X.Y.Z
+```
+
+Isso junta os fragmentos no topo do `CHANGELOG.md` sob `## X.Y.Z — data` e
+apaga os arquivos coletados. O scriv não põe a régua `---` entre versões, que o
+arquivo sempre usou: acrescente-a à mão logo antes da versão anterior. Um teste
+falha se ela faltar.
 
 ## Estilo
 

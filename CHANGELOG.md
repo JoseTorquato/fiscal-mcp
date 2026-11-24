@@ -14,6 +14,10 @@ de um fato observável. Sem histórico, manutenção é promessa; com histórico
 produto.
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
+As entradas nascem como fragmentos em `changelog.d/` e são juntadas aqui no PR
+de release (`scriv collect`) — ver CONTRIBUTING.md.
+
+<!-- scriv-insert-here -->
 
 ---
 
