@@ -127,7 +127,8 @@ junto com o ADR-0003, se o gatilho disparar.
 | Item | Risco | Mitigação |
 |---|---|---|
 | Falso positivo em nota real | destrói confiança de forma irreversível | regra vira aviso no mesmo dia do relato; L-05 nasce como aviso por padrão |
-| Pacote XSD não cobrir a v1.50/1.51 | reprova nota válida com monofasia | declarar a versão na saída e rebaixar por versão (A18) |
+| ~~Pacote XSD não cobrir a v1.50/1.51~~ | **Superado em 24/11/2026 para quem tem a `nfelib` 3.3.0**, que embarca o PL 010f v1.04 e cobre a v1.50. O `pyproject` ainda aceita `nfelib>=2.5`, que não cobre | subir o mínimo do extra `[xsd]` é decisão de release, fora deste registro |
+| Pacote XSD não cobrir o PL 010h v1.03 (`gTribSN`, NT 2026.005) | reprova nota válida do Simples Nacional | rebaixamento por versão (A18), com teste de `gTribSN` no item e no total; subir a `nfelib` quando ela trouxer o PL 010h |
 | Códigos de rejeição não confirmados | citar número errado é pior que não citar | nenhum número entra sem leitura humana da NT (C5) |
 | Tabela da SVRS mudar ou sair do ar | quebra build de terceiro | tabela versionada no repo; CI nunca baixa |
 | Concorrente fechar as lacunas | perda do diferencial técnico | a vantagem defensável é o catálogo com ação, que é acúmulo |

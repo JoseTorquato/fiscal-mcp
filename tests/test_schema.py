@@ -261,6 +261,74 @@ def test_elemento_desconhecido_pelo_pacote_e_rebaixado_para_aviso():
     assert "não conhece" in achados[0]["acao"]
 
 
+# ---- gTribSN (Simples Nacional) · PL 010h v1.03 / NT 2026.005 ---------------
+#
+# O PL 010h v1.03 (13/11/2026) cria `gTribSN` dentro de IBSCBS, opcional e
+# depois do choice de regime, e `IBSCBSTot/gTribSN`. A nota abaixo é a fixture
+# de IBS/CBS com os dois grupos; ela foi conferida contra o XSD do PL 010h, onde
+# a única queixa é a falta de assinatura. A nfelib publicada não traz o PL 010h
+# ainda, então o pacote embarcado não conhece o grupo: o rebaixamento por
+# versão precisa transformar isso em aviso, nunca em erro.
+#
+# Valores fictícios. Só a estrutura importa aqui: as regras de validação da
+# NT 2026.005 não foram lidas e nenhuma regra do projeto depende delas.
+
+_GTRIBSN_ITEM = (
+    "          </gIBSCBS>\n"
+    "          <gTribSN>\n"
+    "            <gIBSSN>\n"
+    "              <pIBSSN>0.10</pIBSSN>\n"
+    "              <vIBSSN>0.00</vIBSSN>\n"
+    "            </gIBSSN>\n"
+    "            <gCBSSN>\n"
+    "              <pCBSSN>0.90</pCBSSN>\n"
+    "              <vCBSSN>0.00</vCBSSN>\n"
+    "            </gCBSSN>\n"
+    "          </gTribSN>\n"
+    "        </IBSCBS>"
+)
+_GTRIBSN_TOTAL = (
+    "        </gCBS>\n"
+    "        <gTribSN>\n"
+    "          <vIBSSN>0.00</vIBSSN>\n"
+    "          <vCBSSN>0.00</vCBSSN>\n"
+    "        </gTribSN>\n"
+    "      </IBSCBSTot>"
+)
+
+
+def _com_gtribsn() -> str:
+    fim_item = "          </gIBSCBS>\n        </IBSCBS>"
+    fim_total = "        </gCBS>\n      </IBSCBSTot>"
+    assert COM_IBS.count(fim_item) == 2, "a fixture mudou: esperava dois itens com gIBSCBS"
+    assert COM_IBS.count(fim_total) == 1, "a fixture mudou: esperava um IBSCBSTot"
+    return COM_IBS.replace(fim_item, _GTRIBSN_ITEM).replace(fim_total, _GTRIBSN_TOTAL)
+
+
+COM_GTRIBSN = _com_gtribsn()
+
+
+def test_nota_com_gtribsn_passa_com_zero_erros():
+    """Zero falso positivo, com ou sem o extra [xsd]."""
+    r = valida_nfe(COM_GTRIBSN)
+    assert r["erros"] == 0, [a for a in r["achados"] if a["severidade"] == "erro"]
+
+
+@precisa_do_extra
+def test_gtribsn_desconhecido_pelo_pacote_vira_aviso():
+    """Item 1, item 2 e total: os três pontos onde o grupo aparece."""
+    achados = schema.valida(COM_GTRIBSN)
+    assert not [a for a in achados if a["severidade"] == "erro"], achados
+    if "gTribSN" in schema._nomes_conhecidos():
+        # o dia em que a nfelib trouxer o PL 010h: o grupo deixa de ser novidade
+        assert not [a for a in achados if "nao_coberto_pelo_pacote" in a], achados
+        return
+    citam = [a for a in achados if "gTribSN" in a.get("nao_coberto_pelo_pacote", [])]
+    assert len(citam) == 3, achados
+    assert all(a["severidade"] == "aviso" for a in citam)
+    assert {a.get("item") for a in citam} == {"1", "2", None}
+
+
 # ---- integração com o laudo ----------------------------------------------
 
 @precisa_do_extra
