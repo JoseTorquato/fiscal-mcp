@@ -19,46 +19,88 @@ de release (`scriv collect`) — ver CONTRIBUTING.md.
 
 <!-- scriv-insert-here -->
 
----
-
-## Não publicado
+## 0.3.1 — 2026-11-24
 
 ### Absorvido da legislação
 
-- **Alíquotas de transição do IBS e da CBS, por ano de emissão.** As regras de
-  alíquota comparavam só o percentual e, a partir de 01/01/2027, avisariam toda
-  nota correta. Agora cada uma vale só para a nota emitida no seu período, pela
-  data local de `ide/dhEmi`; nota sem data legível não recebe aviso de alíquota.
+- **Alíquotas de transição do IBS e da CBS, por ano de emissão.**
+  - **O que mudou:** As regras de
+    alíquota comparavam só o percentual e, a partir de 01/01/2027, avisariam toda
+    nota correta. Agora cada uma vale só para a nota emitida no seu período, pela
+    data local de `ide/dhEmi`; nota sem data legível não recebe aviso de alíquota.
 
-  - **IBS 2026** (`ibs-aliquota-uf-2026`): 0,1% na alíquota estadual
-    (`pIBSUF`), **LC 214/2025, art. 343**. Sai a ressalva "repartição entre
-    estado e município não confirmada": o art. 343 a resolve.
-  - **IBS 2027–2028** (regras novas `ibs-aliquota-uf-2027-2028` e
-    `ibs-aliquota-mun-2027-2028`): 0,05% estadual e 0,05% municipal, **art.
-    344**.
-  - **CBS 2026** (`ibs-aliquota-cbs-2026`): 0,9%, **art. 346**.
-  - **CBS 2027 em diante não tem regra.** O art. 347 fixa a alíquota em
-    referência menos 0,1 p.p., e a referência depende de resolução do Senado
-    ainda não publicada (prazo informado de 15/12/2026, não confirmado). A
-    regra de 2026 reavalia nessa data.
+    - **IBS 2026** (`ibs-aliquota-uf-2026`): 0,1% na alíquota estadual
+      (`pIBSUF`), **LC 214/2025, art. 343**. Sai a ressalva "repartição entre
+      estado e município não confirmada": o art. 343 a resolve.
+    - **IBS 2027–2028** (regras novas `ibs-aliquota-uf-2027-2028` e
+      `ibs-aliquota-mun-2027-2028`): 0,05% estadual e 0,05% municipal, **art.
+      344**.
+    - **CBS 2026** (`ibs-aliquota-cbs-2026`): 0,9%, **art. 346**.
+    - **CBS 2027 em diante não tem regra.** O art. 347 fixa a alíquota em
+      referência menos 0,1 p.p., e a referência depende de resolução do Senado
+      ainda não publicada (prazo informado de 15/12/2026, não confirmado). A
+      regra de 2026 reavalia nessa data.
 
-  Todas continuam **aviso**. Combustíveis do regime específico (arts. 172–180):
-  o art. 347 os exclui da CBS de transição; o art. 344, parágrafo único, III,
-  não os exclui do IBS de 2027–2028, apenas aplica os 0,05% sobre o valor da
-  operação. Eles vão em `gIBSCBSMono`, então estas regras não os conferem.
+    Todas continuam **aviso**. Combustíveis do regime específico (arts. 172–180):
+    o art. 347 os exclui da CBS de transição; o art. 344, parágrafo único, III,
+    não os exclui do IBS de 2027–2028, apenas aplica os 0,05% sobre o valor da
+    operação. Eles vão em `gIBSCBSMono`, então estas regras não os conferem.
 
-  Borda conhecida, sem mudança de código: o ano é o do `dhEmi` como o emissor o
-  escreveu, sem converter fuso (`dhEmi` em UTC perto da meia-noite cai no ano
-  seguinte), e a lei fala de fato gerador, não de emissão (devolução em
-  janeiro/2027 de operação de 2026 pode receber aviso).
+    Borda conhecida, sem mudança de código: o ano é o do `dhEmi` como o emissor o
+    escreveu, sem converter fuso (`dhEmi` em UTC perto da meia-noite cai no ano
+    seguinte), e a lei fala de fato gerador, não de emissão (devolução em
+    janeiro/2027 de operação de 2026 pode receber aviso).
+  - **Documento oficial:** [LC 214/2025](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm),
+    arts. 343, 344, 346 e 347, de 16/01/2025.
+  - **O que mudou no código:** novo bloco `emissao: {de, ate}` no motor de regras (qualquer tipo),
+    validado no carregamento; regras e testes em `regras/nfe/ibs-cbs.yaml` e
+    `tests/test_ibs_cbs.py`.
+  - **Desde quando vale:** **01/01/2026** (2026) e **01/01/2027** (2027–2028). Lido em **24/11/2026**.
 
-  Código: novo bloco `emissao: {de, ate}` no motor de regras (qualquer tipo),
-  validado no carregamento; regras e testes em `regras/nfe/ibs-cbs.yaml` e
-  `tests/test_ibs_cbs.py`.
+### Alterado
 
-  Documento oficial: [LC 214/2025](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm),
-  arts. 343, 344, 346 e 347, de 16/01/2025. Lido em **24/11/2026**. Vale desde
-  **01/01/2026** (2026) e **01/01/2027** (2027–2028).
+- **O changelog passa a nascer em fragmentos, um por PR.**
+  - **O que mudou:** quem contribui deixa um arquivo em `changelog.d/` em vez
+    de editar o `CHANGELOG.md`, e acaba o conflito em "Não publicado" entre PRs
+    abertos ao mesmo tempo. Quem lê o CHANGELOG vê o formato mudar a partir da
+    próxima versão: cada item deixa de ser um parágrafo corrido e passa a ter
+    uma sublista com os quatro rótulos (o que mudou, documento oficial, o que
+    mudou no código, desde quando vale).
+  - **Documento oficial:** não se aplica (mudança de processo, não fiscal).
+  - **O que mudou no código:** configuração do scriv em `pyproject.toml`
+    (`[tool.scriv]`), modelo em `changelog.d/_modelo.md.j2`, marcador de
+    inserção no `CHANGELOG.md`, `tests/test_changelog_d.py` cobrando
+    os quatro campos de cada item, e a seção "Changelog" no CONTRIBUTING.md.
+  - **Desde quando vale:** não se aplica — vale para os PRs abertos a partir
+    deste.
+
+- **A conferência do pacote antes de publicar virou um script só, com erro claro.**
+  - **O que mudou:** nada muda para quem usa o pacote. Para quem publica: o
+    workflow de publicação e o de PR conferem o wheel com o mesmo script, e
+    arquivo faltando, tabela ilegível ou tabela com código trocado saem como
+    `::error::` com a causa, em vez de exceção crua.
+  - **Documento oficial:** não se aplica (mudança de CI, não fiscal).
+  - **O que mudou no código:** `scripts/conferir_pacote.py`, usado por
+    `publicar.yml` e pelo job `instalacao-limpa` do `testes.yml` (sai o
+    `== 173` fixo); actions `checkout` v7, `setup-python` v7,
+    `upload-artifact` v7 e `download-artifact` v8, em Node 24; espelho
+    `.docker-mcp-registry` no commit da v0.3.0; `tests/test_conferir_pacote.py`.
+  - **Desde quando vale:** não se aplica — próxima versão.
+
+### Corrigido
+
+- **cClassTrib inexistente gerava dois erros, um deles com mensagem falsa.**
+  - **O que mudou:** um código que não está na tabela oficial agora gera só
+    `ibs-cclasstrib-existe`. Antes gerava também `ibs-cclasstrib-modelo`, cuja
+    ação dizia "este código existe, mas não para o modelo desta nota".
+  - **Documento oficial:** não se aplica (correção de mensagem; nenhuma regra
+    fiscal mudou).
+  - **O que mudou no código:** `fiscal_mcp/regras.py`, tipo `em_tabela`: regra
+    com filtro (a de modelo) não julga mais existência, que fica com a regra
+    irmã sem filtro. Testes em `tests/test_ibs_cbs.py` e
+    `tests/test_tipos_de_regra.py`. Varredura dos 173 códigos da tabela em NF-e
+    e NFC-e: nenhum achado mudou para código existente.
+  - **Desde quando vale:** não se aplica — próxima versão.
 
 ---
 
